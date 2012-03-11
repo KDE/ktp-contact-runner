@@ -33,6 +33,7 @@
 #include <TelepathyQt/PendingReady>
 #include <TelepathyQt/Types>
 #include <TelepathyQt/Constants>
+#include <TelepathyQt/ContactCapabilities>
 
 #include <KTp/Models/accounts-model-item.h>
 #include <KTp/Models/contact-model-item.h>
@@ -116,24 +117,32 @@ void ContactRunner::accountManagerReady(Tp::PendingOperation* operation)
 QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch& match)
 {
     QList< QAction* > actions;
+    /* Remove the ID prefix added by Krunner */
+    QString id = match.id().remove("KRunnerKTPContacts_");
 
-    QModelIndex index = match.data().value< QModelIndex >();
-    if (!index.isValid())
+    QStringList ids = id.split(",", QString::SkipEmptyParts);
+    if (ids.count() != 2) {
+        kWarning() << "Received invalid ID" << ids;
+        return actions;
+    }
+
+    ContactModelItem *contactItem = qobject_cast< ContactModelItem* >(m_accountsModel->contactItemForId(ids.first(), ids.at(1)));
+    if (!contactItem)
         return actions;
 
-    if (index.data(AccountsModel::TextChatCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::TextChatCapabilityRole).toBool())
         actions.append(action("start-text-chat"));
 
-    if (index.data(AccountsModel::AudioCallCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::AudioCallCapabilityRole).toBool())
         actions.append(action("start-audio-call"));
 
-    if (index.data(AccountsModel::VideoCallCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::VideoCallCapabilityRole).toBool())
         actions.append(action("start-video-call"));
 
-    if (index.data(AccountsModel::FileTransferCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::FileTransferCapabilityRole).toBool())
         actions.append(action("start-file-transfer"));
 
-    if (index.data(AccountsModel::DesktopSharingCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::DesktopSharingCapabilityRole).toBool())
         actions.append(action("start-desktop-sharing"));
 
     return actions;
@@ -252,7 +261,6 @@ void ContactRunner::match(Plasma::RunnerContext& context)
                 match.setSubtext(status.replace(0, 1, status.left(1).toUpper()));
 
             match.setSelectedAction(defaultAction);
-            match.setData(qVariantFromValue(contactIndex));
             match.setRelevance(relevance);
 
             context.addMatch(term, match);
