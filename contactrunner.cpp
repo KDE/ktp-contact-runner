@@ -194,6 +194,7 @@ void ContactRunner::match(Plasma::RunnerContext& context)
         for (int j = 0; (j < contactsCount) && context.isValid(); j++) {
 
             Plasma::QueryMatch match(this);
+            qreal relevance = 0.1;
 
             QModelIndex contactIndex = m_proxyModel->index(j, 0, accountIndex);
 
@@ -213,22 +214,28 @@ void ContactRunner::match(Plasma::RunnerContext& context)
                 switch (contactIndex.data(AccountsModel::PresenceTypeRole).toInt()) {
                     case Tp::ConnectionPresenceTypeAvailable:
                         iconName = "im-user";
+                        relevance *= 10;
                         break;
                     case Tp::ConnectionPresenceTypeBusy:
                         iconName = "im-user-busy";
+                        relevance *= 8;
                         break;
                     case Tp::ConnectionPresenceTypeAway:
                     case Tp::ConnectionPresenceTypeExtendedAway:
                         iconName = "im-user-away";
+                        relevance *= 6;
                         break;
                     case Tp::ConnectionPresenceTypeHidden:
                         iconName = "im-invisible-user";
+                        relevance *= 4;
                         break;
                     case Tp::ConnectionPresenceTypeOffline:
                         iconName = "im-user-offline";
+                        relevance *= 1;
                         break;
                     default:
                         iconName = "im-user-offline";
+                        relevance *= 1;
                         break;
                 }
 
@@ -246,8 +253,8 @@ void ContactRunner::match(Plasma::RunnerContext& context)
                 match.setSubtext(status.replace(0, 1, status.left(1).toUpper()));
 
             match.setSelectedAction(defaultAction);
-
             match.setData(qVariantFromValue(contactIndex));
+            match.setRelevance(relevance);
 
             context.addMatch(term, match);
         }
