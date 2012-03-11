@@ -52,10 +52,10 @@ ContactRunner::ContactRunner(QObject* parent, const QVariantList& args):
     setObjectName("IM Contacts Runner");
 
     addSyntax(Plasma::RunnerSyntax(":q:", i18n("Finds all IM contacts matching :q:.")));
-    addSyntax(Plasma::RunnerSyntax("chat :q:", i18n("Finds all contacts matching :q: that are capable of text chat (default behaviour)")));
-    addSyntax(Plasma::RunnerSyntax("audiocall :q:", i18n("Finds all contacts matching :q: that are capable of audio call and uses audio call as default action.")));
-    addSyntax(Plasma::RunnerSyntax("videocall :q:", i18n("Finds all contacts matching :q: that are capable of video call and uses video call as default action.")));
-    addSyntax(Plasma::RunnerSyntax("sendfile :q:", i18n("Finds all contacts matching :q: that are capable of receiving files and sens file as default action.")));
+    addSyntax(Plasma::RunnerSyntax("chat :q:", i18n("Finds all contacts matching :q: that are capable of text chats (default behavior)")));
+    addSyntax(Plasma::RunnerSyntax("audiocall :q:", i18n("Finds all contacts matching :q: that are capable of audio call and uses audio calls as default action.")));
+    addSyntax(Plasma::RunnerSyntax("videocall :q:", i18n("Finds all contacts matching :q: that are capable of video call and uses video calls as default action.")));
+    addSyntax(Plasma::RunnerSyntax("sendfile :q:", i18n("Finds all contacts matching :q: that are capable of receiving files and sends file as default action.")));
     addSyntax(Plasma::RunnerSyntax("sharedesktop :q:", i18n("Finds all contacts matching :q: that are capable of sharing desktop and sets desktop sharing as default action.")));
 
     addAction("start-text-chat", QIcon::fromTheme("text-x-generic"), i18n("Start Chat"));
