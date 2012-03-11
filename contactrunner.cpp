@@ -19,6 +19,9 @@
 
 #include <KDebug>
 #include <KIcon>
+#include <KFileDialog>
+#include <KMimeType>
+
 #include <TelepathyQt/ContactManager>
 #include <TelepathyQt/Contact>
 #include <TelepathyQt/AvatarData>
@@ -34,6 +37,10 @@
 #include <KTp/Models/accounts-model-item.h>
 #include <KTp/Models/contact-model-item.h>
 
+#include <QAction>
+
+Q_DECLARE_METATYPE(QModelIndex);
+
 ContactRunner::ContactRunner(QObject* parent, const QVariantList& args):
     Plasma::AbstractRunner(parent, args),
     m_accountsModel(0),
@@ -45,22 +52,24 @@ ContactRunner::ContactRunner(QObject* parent, const QVariantList& args):
 
     addSyntax(Plasma::RunnerSyntax(":q:", i18n("Finds all IM contacts matching :q:.")));
 
+    addAction("start-text-chat", QIcon::fromTheme("text-x-generic"), i18n("Start Chat"));
+    addAction("start-audio-call", QIcon::fromTheme("voicecall"), i18n("Start Audio Call"));
+    addAction("start-video-call", QIcon::fromTheme("webcamsend"), i18n("Start Video Call"));
+    addAction("start-file-transfer", QIcon::fromTheme("mail-attachment"), i18n("Start Video Call"));
+    addAction("start-desktop-sharing", QIcon::fromTheme("krfb"), i18n("Share My Desktop"));
+    setHasRunOptions(true);
+
     Tp::registerTypes();
 
     Tp::AccountFactoryPtr  accountFactory = Tp::AccountFactory::create(
                                                 QDBusConnection::sessionBus(),
-                                                Tp::Features() << Tp::Account::FeatureCore
-                                                    << Tp::Account::FeatureAvatar
-                                                    << Tp::Account::FeatureCapabilities
-                                                    << Tp::Account::FeatureProtocolInfo
-                                                    << Tp::Account::FeatureProfile);
+                                                Tp::Features() << Tp::Account::FeatureCore);
 
      Tp::ConnectionFactoryPtr connectionFactory = Tp::ConnectionFactory::create(
                                                 QDBusConnection::sessionBus(),
                                                 Tp::Features() << Tp::Connection::FeatureCore
-                                                    << Tp::Connection::FeatureRosterGroups
-                                                    << Tp::Connection::FeatureRoster
-                                                    << Tp::Connection::FeatureSelfContact);
+                                                    << Tp::Connection::FeatureSelfContact
+                                                    << Tp::Connection::FeatureRoster);
 
      Tp::ContactFactoryPtr contactFactory = Tp::ContactFactory::create(
                                                 Tp::Features()  << Tp::Contact::FeatureAlias
@@ -100,6 +109,33 @@ void ContactRunner::accountManagerReady(Tp::PendingOperation* operation)
     m_proxyModel->setDisplayNameFilterMatchFlags(Qt::MatchContains | Qt::MatchRecursive);
     m_proxyModel->setPresenceTypeFilterFlags(AccountsFilterModel::ShowAll);
 }
+
+QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch& match)
+{
+    QList< QAction* > actions;
+
+    QModelIndex index = match.data().value< QModelIndex >();
+    if (!index.isValid())
+        return actions;
+
+    if (index.data(AccountsModel::TextChatCapabilityRole).toBool())
+        actions.append(action("start-text-chat"));
+
+    if (index.data(AccountsModel::AudioCallCapabilityRole).toBool())
+        actions.append(action("start-audio-call"));
+
+    if (index.data(AccountsModel::VideoCallCapabilityRole).toBool())
+        actions.append(action("start-video-call"));
+
+    if (index.data(AccountsModel::FileTransferCapabilityRole).toBool())
+        actions.append(action("start-file-transfer"));
+
+    if (index.data(AccountsModel::DesktopSharingCapabilityRole).toBool())
+        actions.append(action("start-desktop-sharing"));
+
+    return actions;
+}
+
 
 
 void ContactRunner::match(Plasma::RunnerContext& context)
@@ -173,6 +209,10 @@ void ContactRunner::match(Plasma::RunnerContext& context)
             else if (!status.isEmpty() && statusMessage.isEmpty())
                 match.setSubtext(status.replace(0, 1, status.left(1).toUpper()));
 
+            match.setSelectedAction(action("start-text-chat"));
+
+            match.setData(qVariantFromValue(contactIndex));
+
             context.addMatch(term, match);
         }
     }
@@ -206,7 +246,54 @@ void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::Quer
 
     Tp::ChannelRequestHints hints;
     hints.setHint("org.freedesktop.Telepathy.ChannelRequest","DelegateToPreferredHandler", QVariant(true));
-    account->ensureTextChat(contact, QDateTime::currentDateTime(), "org.freedesktop.Telepathy.Client.KDE.TextUi", hints);
+
+    if (match.selectedAction() == action("start-text-chat")) {
+
+        account->ensureTextChat(contact,
+                                QDateTime::currentDateTime(),
+                                "org.freedesktop.Telepathy.Client.KDE.TextUi",
+                                hints);
+
+    } else if (match.selectedAction() == action("start-audio-call")) {
+
+        account->ensureStreamedMediaAudioCall(contact,
+                                              QDateTime::currentDateTime(),
+                                              "org.freedesktop.Telepathy.Client.KDE.CallUi");
+
+    } else if (match.selectedAction() == action("start-video-call")) {
+
+        account->ensureStreamedMediaVideoCall(contact,
+                                              true,
+                                              QDateTime::currentDateTime(),
+                                              "org.freedesktop.Telepathy.Client.KDE.CallUi");
+
+    } else if (match.selectedAction() == action("start-file-transfer")) {
+
+        QStringList filenames = KFileDialog::getOpenFileNames(
+            KUrl("kfiledialog:///FileTransferLastDirectory"),
+            QString(),
+            0,
+            i18n("Choose files to send to %1", contact->alias()));
+
+        if (filenames.isEmpty()) { // User hit cancel button
+            return;
+        }
+
+        foreach (const QString &filename, filenames) {
+            Tp::FileTransferChannelCreationProperties properties(
+                filename, KMimeType::findByFileContent(filename)->name());
+
+            account->createFileTransfer(contact, properties, QDateTime::currentDateTime(), "bla");
+        }
+
+    } else if (match.selectedAction() == action("start-desktop-sharing")) {
+
+        account->createStreamTube(contact, 
+                                  QLatin1String("rfb"),
+                                  QDateTime::currentDateTime(),
+                                  "org.freedesktop.Telepathy.Client.krfb_rfb_handler");
+
+    }
 }
 
 #include "contactrunner.moc"

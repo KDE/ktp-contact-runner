@@ -27,6 +27,8 @@
 #include <KTp/Models/flat-model-proxy.h>
 #include <TelepathyQt/AccountManager>
 
+class QAction;
+
 namespace Tp {
     class PendingOperation;
 }
@@ -41,6 +43,9 @@ class ContactRunner : public Plasma::AbstractRunner
 
     void match(Plasma::RunnerContext &context);
     void run(const Plasma::RunnerContext &context, const Plasma::QueryMatch &match);
+
+  protected:
+    QList< QAction* > actionsForMatch(const Plasma::QueryMatch &match);
 
   private Q_SLOTS:
     void accountManagerReady(Tp::PendingOperation *operation);
