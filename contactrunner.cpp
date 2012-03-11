@@ -205,40 +205,39 @@ void ContactRunner::match(Plasma::RunnerContext& context)
                         contactIndex.data(AccountsModel::IdRole).toString());
             match.setType(Plasma::QueryMatch::ExactMatch);
 
+            QString iconName;
+            switch (contactIndex.data(AccountsModel::PresenceTypeRole).toInt()) {
+                case Tp::ConnectionPresenceTypeAvailable:
+                    iconName = "im-user";
+                    relevance *= 10;
+                    break;
+                case Tp::ConnectionPresenceTypeBusy:
+                    iconName = "im-user-busy";
+                    relevance *= 8;
+                    break;
+                case Tp::ConnectionPresenceTypeAway:
+                case Tp::ConnectionPresenceTypeExtendedAway:
+                    iconName = "im-user-away";
+                    relevance *= 6;
+                    break;
+                case Tp::ConnectionPresenceTypeHidden:
+                    iconName = "im-invisible-user";
+                    relevance *= 4;
+                    break;
+                case Tp::ConnectionPresenceTypeOffline:
+                    iconName = "im-user-offline";
+                    relevance *= 1;
+                    break;
+                default:
+                    iconName = "im-user-offline";
+                    relevance *= 1;
+                    break;
+            }
+
             QString iconFile = contactIndex.data(AccountsModel::AvatarRole).toString();
             if (!iconFile.isEmpty() && QFile::exists(iconFile)) {
                 match.setIcon(QIcon(iconFile));
             } else {
-                QString iconName;
-
-                switch (contactIndex.data(AccountsModel::PresenceTypeRole).toInt()) {
-                    case Tp::ConnectionPresenceTypeAvailable:
-                        iconName = "im-user";
-                        relevance *= 10;
-                        break;
-                    case Tp::ConnectionPresenceTypeBusy:
-                        iconName = "im-user-busy";
-                        relevance *= 8;
-                        break;
-                    case Tp::ConnectionPresenceTypeAway:
-                    case Tp::ConnectionPresenceTypeExtendedAway:
-                        iconName = "im-user-away";
-                        relevance *= 6;
-                        break;
-                    case Tp::ConnectionPresenceTypeHidden:
-                        iconName = "im-invisible-user";
-                        relevance *= 4;
-                        break;
-                    case Tp::ConnectionPresenceTypeOffline:
-                        iconName = "im-user-offline";
-                        relevance *= 1;
-                        break;
-                    default:
-                        iconName = "im-user-offline";
-                        relevance *= 1;
-                        break;
-                }
-
                 match.setIcon(QIcon::fromTheme(iconName));
             }
 
