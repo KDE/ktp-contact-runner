@@ -220,6 +220,8 @@ void ContactRunner::match(Plasma::RunnerContext& context)
 
 void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::QueryMatch& match)
 {
+    Q_UNUSED(context)
+
     /* Remove the ID prefix added by Krunner */
     QString id = match.id().remove("KRunnerKTPContacts_");
 
@@ -283,7 +285,10 @@ void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::Quer
             Tp::FileTransferChannelCreationProperties properties(
                 filename, KMimeType::findByFileContent(filename)->name());
 
-            account->createFileTransfer(contact, properties, QDateTime::currentDateTime(), "bla");
+            account->createFileTransfer(contact,
+                                        properties,
+                                        QDateTime::currentDateTime(),
+                                        "org.freedesktop.Telepathy.Client.KDE.FileTransfer");
         }
 
     } else if (match.selectedAction() == action("start-desktop-sharing")) {
