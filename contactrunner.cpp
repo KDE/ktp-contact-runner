@@ -51,33 +51,36 @@ ContactRunner::ContactRunner(QObject* parent, const QVariantList& args):
     setObjectName("IM Contacts Runner");
 
     addSyntax(Plasma::RunnerSyntax(":q:", i18n("Finds all IM contacts matching :q:.")));
+    addSyntax(Plasma::RunnerSyntax("chat :q:", i18n("Finds all contacts matching :q: that are capable of text chat (default behaviour)")));
+    addSyntax(Plasma::RunnerSyntax("audiocall :q:", i18n("Finds all contacts matching :q: that are capable of audio call and uses audio call as default action.")));
+    addSyntax(Plasma::RunnerSyntax("videocall :q:", i18n("Finds all contacts matching :q: that are capable of video call and uses video call as default action.")));
+    addSyntax(Plasma::RunnerSyntax("sendfile :q:", i18n("Finds all contacts matching :q: that are capable of receiving files and sens file as default action.")));
+    addSyntax(Plasma::RunnerSyntax("sharedesktop :q:", i18n("Finds all contacts matching :q: that are capable of sharing desktop and sets desktop sharing as default action.")));
 
     addAction("start-text-chat", QIcon::fromTheme("text-x-generic"), i18n("Start Chat"));
     addAction("start-audio-call", QIcon::fromTheme("voicecall"), i18n("Start Audio Call"));
     addAction("start-video-call", QIcon::fromTheme("webcamsend"), i18n("Start Video Call"));
     addAction("start-file-transfer", QIcon::fromTheme("mail-attachment"), i18n("Start Video Call"));
     addAction("start-desktop-sharing", QIcon::fromTheme("krfb"), i18n("Share My Desktop"));
-    setHasRunOptions(true);
 
     Tp::registerTypes();
-
     Tp::AccountFactoryPtr  accountFactory = Tp::AccountFactory::create(
                                                 QDBusConnection::sessionBus(),
                                                 Tp::Features() << Tp::Account::FeatureCore);
 
-     Tp::ConnectionFactoryPtr connectionFactory = Tp::ConnectionFactory::create(
+    Tp::ConnectionFactoryPtr connectionFactory = Tp::ConnectionFactory::create(
                                                 QDBusConnection::sessionBus(),
                                                 Tp::Features() << Tp::Connection::FeatureCore
                                                     << Tp::Connection::FeatureSelfContact
                                                     << Tp::Connection::FeatureRoster);
 
-     Tp::ContactFactoryPtr contactFactory = Tp::ContactFactory::create(
+    Tp::ContactFactoryPtr contactFactory = Tp::ContactFactory::create(
                                                 Tp::Features()  << Tp::Contact::FeatureAlias
                                                     << Tp::Contact::FeatureAvatarData
                                                     << Tp::Contact::FeatureSimplePresence
                                                     << Tp::Contact::FeatureCapabilities);
 
-     Tp::ChannelFactoryPtr channelFactory = Tp::ChannelFactory::create(QDBusConnection::sessionBus());
+    Tp::ChannelFactoryPtr channelFactory = Tp::ChannelFactory::create(QDBusConnection::sessionBus());
 
     m_accountManager = Tp::AccountManager::create(accountFactory, connectionFactory, channelFactory, contactFactory);
     connect(m_accountManager->becomeReady(Tp::AccountManager::FeatureCore),
@@ -141,6 +144,7 @@ QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch& match
 void ContactRunner::match(Plasma::RunnerContext& context)
 {
     const QString term = context.query();
+
     if ((term.length() < 3) || !context.isValid()) {
         return;
     }
@@ -148,7 +152,35 @@ void ContactRunner::match(Plasma::RunnerContext& context)
     if (!m_accountsModel || !m_proxyModel || !m_accountManager->isReady())
         return;
 
-    m_proxyModel->setDisplayNameFilterString(term);
+    QAction *defaultAction;
+    QString contactName;
+    if (term.startsWith("chat ", Qt::CaseInsensitive)) {
+        defaultAction = action("start-text-chat");
+        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByTextChatCapability);
+        contactName = term.mid(5).trimmed();
+    } else if (term.startsWith("audiocall ", Qt::CaseInsensitive)) {
+        defaultAction = action("start-audio-call");
+        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByAudioCallCapability);
+        contactName = term.mid(10).trimmed();
+    } else if (term.startsWith("videocall ", Qt::CaseInsensitive)) {
+        defaultAction = action("start-video-call");
+        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByVideoCallCapability);
+        contactName = term.mid(10).trimmed();
+    } else if (term.startsWith("sendfile ", Qt::CaseInsensitive)) {
+        defaultAction = action("start-file-transfer");
+        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByFileTransferCapability);
+        contactName = term.mid(9).trimmed();
+    } else if (term.startsWith("sharedesktop ", Qt::CaseInsensitive)) {
+        defaultAction = action("start-desktop-sharing");
+        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByDesktopSharingCapability);
+        contactName = term.mid(13).trimmed();
+    } else {
+        defaultAction = action("start-text-chat");
+        m_proxyModel->clearCapabilityFilterFlags();
+        contactName = term;
+    }
+
+    m_proxyModel->setDisplayNameFilterString(contactName);
 
     int accountsCnt = m_proxyModel->rowCount();
     kDebug() << "Matching result in" << accountsCnt <<"accounts";
