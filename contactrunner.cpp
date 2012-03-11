@@ -37,6 +37,7 @@
 
 #include <KTp/Models/accounts-model-item.h>
 #include <KTp/Models/contact-model-item.h>
+#include <KTp/presence.h>
 
 #include <QAction>
 
@@ -214,31 +215,25 @@ void ContactRunner::match(Plasma::RunnerContext& context)
                         contactIndex.data(AccountsModel::IdRole).toString());
             match.setType(Plasma::QueryMatch::ExactMatch);
 
-            QString iconName;
-            switch (contactIndex.data(AccountsModel::PresenceTypeRole).toInt()) {
+            KTp::Presence presence = contactIndex.data(AccountsModel::PresenceRole).value< KTp::Presence >();
+            switch (presence.type()) {
                 case Tp::ConnectionPresenceTypeAvailable:
-                    iconName = "im-user";
                     relevance *= 10;
                     break;
                 case Tp::ConnectionPresenceTypeBusy:
-                    iconName = "im-user-busy";
                     relevance *= 8;
                     break;
                 case Tp::ConnectionPresenceTypeAway:
                 case Tp::ConnectionPresenceTypeExtendedAway:
-                    iconName = "im-user-away";
                     relevance *= 6;
                     break;
                 case Tp::ConnectionPresenceTypeHidden:
-                    iconName = "im-invisible-user";
                     relevance *= 4;
                     break;
                 case Tp::ConnectionPresenceTypeOffline:
-                    iconName = "im-user-offline";
                     relevance *= 1;
                     break;
                 default:
-                    iconName = "im-user-offline";
                     relevance *= 1;
                     break;
             }
@@ -247,18 +242,13 @@ void ContactRunner::match(Plasma::RunnerContext& context)
             if (!iconFile.isEmpty() && QFile::exists(iconFile)) {
                 match.setIcon(QIcon(iconFile));
             } else {
-                match.setIcon(QIcon::fromTheme(iconName));
+                match.setIcon(presence.icon());
             }
 
-            QString status = contactIndex.data(AccountsModel::PresenceStatusRole).toString();
-            QString statusMessage = contactIndex.data(AccountsModel::PresenceMessageRole).toString();
-
-            if (status.isEmpty() && !statusMessage.isEmpty())
-                match.setSubtext(statusMessage);
-            else if (!status.isEmpty() && !statusMessage.isEmpty())
-                match.setSubtext(status.replace(0, 1, status.left(1).toUpper()) + " | " + statusMessage);
-            else if (!status.isEmpty() && statusMessage.isEmpty())
-                match.setSubtext(status.replace(0, 1, status.left(1).toUpper()));
+            if (!presence.statusMessage().isEmpty())
+                match.setSubtext(presence.displayString() + " | " + presence.statusMessage());
+            else
+                match.setSubtext(presence.displayString());
 
             match.setSelectedAction(defaultAction);
             match.setRelevance(relevance);

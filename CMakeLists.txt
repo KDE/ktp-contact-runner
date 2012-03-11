@@ -31,7 +31,8 @@ target_link_libraries(krunner_ktp_contacts
                       ${KDE4_KDEUI_LIBS}
                       ${KDE4_KIO_LIBS}
                       ${TELEPATHY_QT4_LIBRARIES}
-                      ${KTP_MODELS_LIBRARIES})
+                      ${KTP_MODELS_LIBRARIES}
+                      ${KTP_LIBRARIES})
 
 install(TARGETS krunner_ktp_contacts
         DESTINATION ${PLUGIN_INSTALL_DIR})
