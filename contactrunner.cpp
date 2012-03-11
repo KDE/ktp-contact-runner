@@ -173,7 +173,7 @@ void ContactRunner::match(Plasma::RunnerContext& context)
             match.setType(Plasma::QueryMatch::ExactMatch);
 
             QString iconFile = contactIndex.data(AccountsModel::AvatarRole).toString();
-            if (QFile::exists(iconFile)) {
+            if (!iconFile.isEmpty() && QFile::exists(iconFile)) {
                 match.setIcon(QIcon(iconFile));
             } else {
                 QString iconName;
@@ -183,20 +183,24 @@ void ContactRunner::match(Plasma::RunnerContext& context)
                         iconName = "im-user";
                         break;
                     case Tp::ConnectionPresenceTypeBusy:
-                        iconName = "im-busy";
+                        iconName = "im-user-busy";
                         break;
                     case Tp::ConnectionPresenceTypeAway:
                     case Tp::ConnectionPresenceTypeExtendedAway:
-                        iconName = "im-away";
+                        iconName = "im-user-away";
                         break;
                     case Tp::ConnectionPresenceTypeHidden:
+                        iconName = "im-invisible-user";
+                        break;
                     case Tp::ConnectionPresenceTypeOffline:
-                        iconName = "im-offline";
+                        iconName = "im-user-offline";
                         break;
                     default:
-                        iconName = "im-offline";
+                        iconName = "im-user-offline";
+                        break;
                 }
-                match.setIcon(QIcon::fromTheme("im-user"));
+
+                match.setIcon(QIcon::fromTheme(iconName));
             }
 
             QString status = contactIndex.data(AccountsModel::PresenceStatusRole).toString();
@@ -209,7 +213,7 @@ void ContactRunner::match(Plasma::RunnerContext& context)
             else if (!status.isEmpty() && statusMessage.isEmpty())
                 match.setSubtext(status.replace(0, 1, status.left(1).toUpper()));
 
-            match.setSelectedAction(action("start-text-chat"));
+            match.setSelectedAction(defaultAction);
 
             match.setData(qVariantFromValue(contactIndex));
 
