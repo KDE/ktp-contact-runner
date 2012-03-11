@@ -193,14 +193,14 @@ void ContactRunner::match(Plasma::RunnerContext& context)
 
         for (int j = 0; (j < contactsCount) && context.isValid(); j++) {
 
+            Plasma::QueryMatch match(this);
+
             QModelIndex contactIndex = m_proxyModel->index(j, 0, accountIndex);
 
             QString name = contactIndex.data(AccountsModel::AliasRole).toString();
 
-            Plasma::QueryMatch match(this);
-
             match.setText(name.append(" (%1)").arg(accountIndex.data(AccountsModel::DisplayNameRole).toString()));
-            match.setId(accountIndex.data(AccountsModel::IdRole).toString() + "," + 
+            match.setId(accountIndex.data(AccountsModel::IdRole).toString() + "," +
                         contactIndex.data(AccountsModel::IdRole).toString());
             match.setType(Plasma::QueryMatch::ExactMatch);
 
