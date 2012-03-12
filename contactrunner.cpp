@@ -43,7 +43,7 @@
 
 Q_DECLARE_METATYPE(QModelIndex);
 
-ContactRunner::ContactRunner(QObject* parent, const QVariantList& args):
+ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     Plasma::AbstractRunner(parent, args),
     m_accountsModel(0),
     m_proxyModel(0)
@@ -86,8 +86,8 @@ ContactRunner::ContactRunner(QObject* parent, const QVariantList& args):
 
     m_accountManager = Tp::AccountManager::create(accountFactory, connectionFactory, channelFactory, contactFactory);
     connect(m_accountManager->becomeReady(Tp::AccountManager::FeatureCore),
-            SIGNAL(finished(Tp::PendingOperation*)),
-            this, SLOT(accountManagerReady(Tp::PendingOperation*)));
+            SIGNAL(finished(Tp::PendingOperation *)),
+            this, SLOT(accountManagerReady(Tp::PendingOperation *)));
 }
 
 ContactRunner::~ContactRunner()
@@ -95,7 +95,7 @@ ContactRunner::~ContactRunner()
     delete m_accountsModel;
 }
 
-void ContactRunner::accountManagerReady(Tp::PendingOperation* operation)
+void ContactRunner::accountManagerReady(Tp::PendingOperation *operation)
 {
     if (operation->isError()) {
         kWarning() << operation->errorMessage();
@@ -115,7 +115,7 @@ void ContactRunner::accountManagerReady(Tp::PendingOperation* operation)
     m_proxyModel->setPresenceTypeFilterFlags(AccountsFilterModel::ShowAll);
 }
 
-QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch& match)
+QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch &match)
 {
     QList< QAction* > actions;
     /* Remove the ID prefix added by Krunner */
@@ -157,7 +157,7 @@ QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch& match
 
 
 
-void ContactRunner::match(Plasma::RunnerContext& context)
+void ContactRunner::match(Plasma::RunnerContext &context)
 {
     const QString term = context.query();
 
@@ -200,7 +200,7 @@ void ContactRunner::match(Plasma::RunnerContext& context)
     m_proxyModel->setDisplayNameFilterString(contactName);
 
     int accountsCnt = m_proxyModel->rowCount();
-    kDebug() << "Matching result in" << accountsCnt <<"accounts";
+    kDebug() << "Matching result in" << accountsCnt << "accounts";
     for (int i = 0; (i < accountsCnt) && context.isValid(); i++) {
 
         QModelIndex accountIndex = m_proxyModel->index(i, 0);
@@ -266,7 +266,7 @@ void ContactRunner::match(Plasma::RunnerContext& context)
     }
 }
 
-void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::QueryMatch& match)
+void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::QueryMatch &match)
 {
     Q_UNUSED(context)
 
@@ -295,7 +295,7 @@ void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::Quer
     Tp::ContactPtr contact = item->contact();
 
     Tp::ChannelRequestHints hints;
-    hints.setHint("org.freedesktop.Telepathy.ChannelRequest","DelegateToPreferredHandler", QVariant(true));
+    hints.setHint("org.freedesktop.Telepathy.ChannelRequest", "DelegateToPreferredHandler", QVariant(true));
 
     if (match.selectedAction() == action("start-text-chat")) {
 
@@ -320,10 +320,10 @@ void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::Quer
     } else if (match.selectedAction() == action("start-file-transfer")) {
 
         QStringList filenames = KFileDialog::getOpenFileNames(
-            KUrl("kfiledialog:///FileTransferLastDirectory"),
-            QString(),
-            0,
-            i18n("Choose files to send to %1", contact->alias()));
+                                    KUrl("kfiledialog:///FileTransferLastDirectory"),
+                                    QString(),
+                                    0,
+                                    i18n("Choose files to send to %1", contact->alias()));
 
         if (filenames.isEmpty()) { // User hit cancel button
             return;
@@ -341,7 +341,7 @@ void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::Quer
 
     } else if (match.selectedAction() == action("start-desktop-sharing")) {
 
-        account->createStreamTube(contact, 
+        account->createStreamTube(contact,
                                   QLatin1String("rfb"),
                                   QDateTime::currentDateTime(),
                                   "org.freedesktop.Telepathy.Client.krfb_rfb_handler");
