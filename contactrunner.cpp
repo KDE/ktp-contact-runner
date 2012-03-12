@@ -301,21 +301,21 @@ void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::Quer
 
         account->ensureTextChat(contact,
                                 QDateTime::currentDateTime(),
-                                "org.freedesktop.Telepathy.Client.KDE.TextUi",
+                                "org.freedesktop.Telepathy.Client.KTp.TextUi",
                                 hints);
 
     } else if (match.selectedAction() == action("start-audio-call")) {
 
         account->ensureStreamedMediaAudioCall(contact,
                                               QDateTime::currentDateTime(),
-                                              "org.freedesktop.Telepathy.Client.KDE.CallUi");
+                                              "org.freedesktop.Telepathy.Client.KTp.CallUi");
 
     } else if (match.selectedAction() == action("start-video-call")) {
 
         account->ensureStreamedMediaVideoCall(contact,
                                               true,
                                               QDateTime::currentDateTime(),
-                                              "org.freedesktop.Telepathy.Client.KDE.CallUi");
+                                              "org.freedesktop.Telepathy.Client.KTp.CallUi");
 
     } else if (match.selectedAction() == action("start-file-transfer")) {
 
@@ -336,7 +336,7 @@ void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::Quer
             account->createFileTransfer(contact,
                                         properties,
                                         QDateTime::currentDateTime(),
-                                        "org.freedesktop.Telepathy.Client.KDE.FileTransfer");
+                                        "org.freedesktop.Telepathy.Client.KTp.FileTransfer");
         }
 
     } else if (match.selectedAction() == action("start-desktop-sharing")) {
