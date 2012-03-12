@@ -119,7 +119,7 @@ QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch& match
 {
     QList< QAction* > actions;
     /* Remove the ID prefix added by Krunner */
-    QString id = match.id().remove("KRunnerKTPContacts_");
+    QString id = match.id().remove("KRunnerKTpContacts_");
 
     QStringList ids = id.split(",", QString::SkipEmptyParts);
     if (ids.count() != 2) {
@@ -271,7 +271,7 @@ void ContactRunner::run(const Plasma::RunnerContext& context, const Plasma::Quer
     Q_UNUSED(context)
 
     /* Remove the ID prefix added by Krunner */
-    QString id = match.id().remove("KRunnerKTPContacts_");
+    QString id = match.id().remove("KRunnerKTpContacts_");
 
     QStringList ids = id.split(",", QString::SkipEmptyParts);
     if (ids.count() != 2) {
