@@ -222,25 +222,32 @@ void ContactRunner::match(Plasma::RunnerContext &context)
                         contactIndex.data(AccountsModel::IdRole).toString());
             match.setType(Plasma::QueryMatch::ExactMatch);
 
+            QString iconName;
             KTp::Presence presence = contactIndex.data(AccountsModel::PresenceRole).value< KTp::Presence >();
             switch (presence.type()) {
             case Tp::ConnectionPresenceTypeAvailable:
+                iconName = "im-user";
                 relevance *= 10;
                 break;
             case Tp::ConnectionPresenceTypeBusy:
+                iconName = "im-user-busy";
                 relevance *= 8;
                 break;
             case Tp::ConnectionPresenceTypeAway:
             case Tp::ConnectionPresenceTypeExtendedAway:
+                iconName = "im-user-away";
                 relevance *= 6;
                 break;
             case Tp::ConnectionPresenceTypeHidden:
+                iconName = "im-invisible-user";
                 relevance *= 4;
                 break;
             case Tp::ConnectionPresenceTypeOffline:
+                iconName = "im-user-offline";
                 relevance *= 1;
                 break;
             default:
+                iconName = "im-user-offline";
                 relevance *= 1;
                 break;
             }
@@ -249,7 +256,7 @@ void ContactRunner::match(Plasma::RunnerContext &context)
             if (!iconFile.isEmpty() && QFile::exists(iconFile)) {
                 match.setIcon(QIcon(iconFile));
             } else {
-                match.setIcon(presence.icon());
+                match.setIcon(QIcon::fromTheme(iconName));
             }
 
             if (!presence.statusMessage().isEmpty()) {
