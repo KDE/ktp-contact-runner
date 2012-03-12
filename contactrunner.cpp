@@ -128,23 +128,29 @@ QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch& match
     }
 
     ContactModelItem *contactItem = qobject_cast< ContactModelItem* >(m_accountsModel->contactItemForId(ids.first(), ids.at(1)));
-    if (!contactItem)
+    if (!contactItem) {
         return actions;
+    }
 
-    if (contactItem->data(AccountsModel::TextChatCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::TextChatCapabilityRole).toBool()) {
         actions.append(action("start-text-chat"));
+    }
 
-    if (contactItem->data(AccountsModel::AudioCallCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::AudioCallCapabilityRole).toBool()) {
         actions.append(action("start-audio-call"));
+    }
 
-    if (contactItem->data(AccountsModel::VideoCallCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::VideoCallCapabilityRole).toBool()) {
         actions.append(action("start-video-call"));
+    }
 
-    if (contactItem->data(AccountsModel::FileTransferCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::FileTransferCapabilityRole).toBool()) {
         actions.append(action("start-file-transfer"));
+    }
 
-    if (contactItem->data(AccountsModel::DesktopSharingCapabilityRole).toBool())
+    if (contactItem->data(AccountsModel::DesktopSharingCapabilityRole).toBool()) {
         actions.append(action("start-desktop-sharing"));
+    }
 
     return actions;
 }
@@ -159,8 +165,9 @@ void ContactRunner::match(Plasma::RunnerContext& context)
         return;
     }
 
-    if (!m_accountsModel || !m_proxyModel || !m_accountManager->isReady())
+    if (!m_accountsModel || !m_proxyModel || !m_accountManager->isReady()) {
         return;
+    }
 
     QAction *defaultAction;
     QString contactName;
@@ -217,25 +224,25 @@ void ContactRunner::match(Plasma::RunnerContext& context)
 
             KTp::Presence presence = contactIndex.data(AccountsModel::PresenceRole).value< KTp::Presence >();
             switch (presence.type()) {
-                case Tp::ConnectionPresenceTypeAvailable:
-                    relevance *= 10;
-                    break;
-                case Tp::ConnectionPresenceTypeBusy:
-                    relevance *= 8;
-                    break;
-                case Tp::ConnectionPresenceTypeAway:
-                case Tp::ConnectionPresenceTypeExtendedAway:
-                    relevance *= 6;
-                    break;
-                case Tp::ConnectionPresenceTypeHidden:
-                    relevance *= 4;
-                    break;
-                case Tp::ConnectionPresenceTypeOffline:
-                    relevance *= 1;
-                    break;
-                default:
-                    relevance *= 1;
-                    break;
+            case Tp::ConnectionPresenceTypeAvailable:
+                relevance *= 10;
+                break;
+            case Tp::ConnectionPresenceTypeBusy:
+                relevance *= 8;
+                break;
+            case Tp::ConnectionPresenceTypeAway:
+            case Tp::ConnectionPresenceTypeExtendedAway:
+                relevance *= 6;
+                break;
+            case Tp::ConnectionPresenceTypeHidden:
+                relevance *= 4;
+                break;
+            case Tp::ConnectionPresenceTypeOffline:
+                relevance *= 1;
+                break;
+            default:
+                relevance *= 1;
+                break;
             }
 
             QString iconFile = contactIndex.data(AccountsModel::AvatarRole).toString();
@@ -245,10 +252,11 @@ void ContactRunner::match(Plasma::RunnerContext& context)
                 match.setIcon(presence.icon());
             }
 
-            if (!presence.statusMessage().isEmpty())
+            if (!presence.statusMessage().isEmpty()) {
                 match.setSubtext(presence.displayString() + " | " + presence.statusMessage());
-            else
+            } else {
                 match.setSubtext(presence.displayString());
+            }
 
             match.setSelectedAction(defaultAction);
             match.setRelevance(relevance);
