@@ -23,7 +23,7 @@ include_directories(
    )
 
 # We add our source code here
-set(runner_SRCS contactrunner.cpp)
+set(runner_SRCS src/contactrunner.cpp)
 
 kde4_add_plugin(krunner_ktp_contacts ${runner_SRCS})
 target_link_libraries(krunner_ktp_contacts
