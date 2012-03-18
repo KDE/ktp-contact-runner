@@ -1,6 +1,20 @@
 [Desktop Entry]
 Name=Instant Messaging Contacts
+Name[da]=Instant messaging-kontakter
+Name[hu]=Azonnali üzenetküldési partnerek
+Name[it]=Contatti di messaggistica istantanea
+Name[pt]=Contactos das Mensagens Instantâneas
+Name[pt_BR]=Contatos de mensagens instantâneas
+Name[uk]=Контакти миттєвого обміну повідомленнями
+Name[x-test]=xxInstant Messaging Contactsxx
 Comment=Start chat with any of your IM contacts
+Comment[da]=Start chat med en af dine IM-kontakter
+Comment[hu]=Csevegjen az azonnali üzenetküldési partnereivel
+Comment[it]=Avvia una chat con un tuo contatto di messaggistica istantanea
+Comment[pt]=Iniciar uma conversa com qualquer um dos seus contactos MI
+Comment[pt_BR]=Inicia um bate-papo com qualquer um dos seus contatos de MI
+Comment[uk]=Почати спілкування з будь-яким з ваших контактів у системах обміну повідомленнями
+Comment[x-test]=xxStart chat with any of your IM contactsxx
 Icon=user-online
 
 X-KDE-ServiceTypes=Plasma/Runner
