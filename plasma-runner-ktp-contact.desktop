@@ -2,6 +2,7 @@
 Name=Instant Messaging Contacts
 Name[da]=Instant messaging-kontakter
 Name[el]=Επαφές στγμιαίων μηνυμάτων
+Name[gl]=Contactos de mensaxaría instantánea
 Name[hu]=Azonnali üzenetküldési partnerek
 Name[it]=Contatti di messaggistica istantanea
 Name[nl]=Contactpersonen van Instant Messaging
@@ -19,6 +20,7 @@ Name[x-test]=xxInstant Messaging Contactsxx
 Comment=Start chat with any of your IM contacts
 Comment[da]=Start chat med en af dine IM-kontakter
 Comment[el]=Έναρξη συνομιλίας με οποιαδήποτε επαφή στιγμιαίων μηνυμάτων
+Comment[gl]=Inicie unha conversa con calquera dos seus contactos
 Comment[hu]=Csevegjen az azonnali üzenetküldési partnereivel
 Comment[it]=Avvia una chat con un tuo contatto di messaggistica istantanea
 Comment[nl]=Begin een chat met een van uw IM-contactpersonen
