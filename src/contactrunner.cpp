@@ -36,6 +36,7 @@
 #include <TelepathyQt/ContactCapabilities>
 
 #include <KTp/Models/accounts-model-item.h>
+#include <KTp/Models/accounts-filter-model.h>
 #include <KTp/Models/contact-model-item.h>
 #include <KTp/presence.h>
 
@@ -45,8 +46,7 @@ Q_DECLARE_METATYPE(QModelIndex);
 
 ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     Plasma::AbstractRunner(parent, args),
-    m_accountsModel(0),
-    m_proxyModel(0)
+    m_accountsModel(0)
 {
     Q_UNUSED(args);
 
@@ -106,13 +106,6 @@ void ContactRunner::accountManagerReady(Tp::PendingOperation *operation)
 
     m_accountsModel = new AccountsModel(this);
     m_accountsModel->setAccountManager(m_accountManager);
-
-    m_proxyModel = new AccountsFilterModel(this);
-    m_proxyModel->setSourceModel(m_accountsModel);
-    m_proxyModel->setSortMode(AccountsFilterModel::DoNotSort);
-    m_proxyModel->setFilterKeyColumn(0);
-    m_proxyModel->setDisplayNameFilterMatchFlags(Qt::MatchContains | Qt::MatchRecursive);
-    m_proxyModel->setPresenceTypeFilterFlags(AccountsFilterModel::ShowAll);
 }
 
 QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch &match)
@@ -165,57 +158,60 @@ void ContactRunner::match(Plasma::RunnerContext &context)
         return;
     }
 
-    if (!m_accountsModel || !m_proxyModel || !m_accountManager->isReady()) {
+    if (!m_accountsModel || !m_accountManager->isReady()) {
         return;
     }
 
     QAction *defaultAction;
-    QString contactName;
+    QString contactQuery;
+    AccountsFilterModel::CapabilityFilterFlag filterFlag;
     if (term.startsWith("chat ", Qt::CaseInsensitive)) {
         defaultAction = action("start-text-chat");
-        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByTextChatCapability);
-        contactName = term.mid(5).trimmed();
+        filterFlag = AccountsFilterModel::FilterByTextChatCapability;
+        contactQuery = term.mid(5).trimmed();
     } else if (term.startsWith("audiocall ", Qt::CaseInsensitive)) {
         defaultAction = action("start-audio-call");
-        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByAudioCallCapability);
-        contactName = term.mid(10).trimmed();
+        filterFlag = AccountsFilterModel::FilterByAudioCallCapability;
+        contactQuery = term.mid(10).trimmed();
     } else if (term.startsWith("videocall ", Qt::CaseInsensitive)) {
         defaultAction = action("start-video-call");
-        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByVideoCallCapability);
-        contactName = term.mid(10).trimmed();
+        filterFlag = AccountsFilterModel::FilterByVideoCallCapability;
+        contactQuery = term.mid(10).trimmed();
     } else if (term.startsWith("sendfile ", Qt::CaseInsensitive)) {
         defaultAction = action("start-file-transfer");
-        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByFileTransferCapability);
-        contactName = term.mid(9).trimmed();
+        filterFlag = AccountsFilterModel::FilterByFileTransferCapability;
+        contactQuery = term.mid(9).trimmed();
     } else if (term.startsWith("sharedesktop ", Qt::CaseInsensitive)) {
         defaultAction = action("start-desktop-sharing");
-        m_proxyModel->setCapabilityFilterFlags(AccountsFilterModel::FilterByDesktopSharingCapability);
-        contactName = term.mid(13).trimmed();
+        filterFlag = AccountsFilterModel::FilterByDesktopSharingCapability;
+        contactQuery = term.mid(13).trimmed();
     } else {
         defaultAction = action("start-text-chat");
-        m_proxyModel->clearCapabilityFilterFlags();
-        contactName = term;
+        filterFlag = AccountsFilterModel::DoNotFilterByCapability;
+        contactQuery = term;
     }
 
-    m_proxyModel->setDisplayNameFilterString(contactName);
-
-    int accountsCnt = m_proxyModel->rowCount();
-    kDebug() << "Matching result in" << accountsCnt << "accounts";
+    int accountsCnt = m_accountsModel->rowCount();
     for (int i = 0; (i < accountsCnt) && context.isValid(); i++) {
 
-        QModelIndex accountIndex = m_proxyModel->index(i, 0);
+        QModelIndex accountIndex = m_accountsModel->index(i, 0);
 
-        int contactsCount = m_proxyModel->rowCount(accountIndex);
-        kDebug() << "Matching results in" << accountIndex.data(AccountsModel::DisplayNameRole).toString() << ":" << contactsCount;
-
+        int contactsCount = m_accountsModel->rowCount(accountIndex);
         for (int j = 0; (j < contactsCount) && context.isValid(); j++) {
 
             Plasma::QueryMatch match(this);
             qreal relevance = 0.1;
 
-            QModelIndex contactIndex = m_proxyModel->index(j, 0, accountIndex);
+            QModelIndex contactIndex = m_accountsModel->index(j, 0, accountIndex);
+
+            if (!hasCapability(contactIndex, filterFlag)) {
+                continue;
+            }
 
             QString name = contactIndex.data(AccountsModel::AliasRole).toString();
+            if (!name.contains(contactQuery, Qt::CaseInsensitive)) {
+                continue;
+            }
 
             match.setText(name.append(" (%1)").arg(accountIndex.data(AccountsModel::DisplayNameRole).toString()));
             match.setId(accountIndex.data(AccountsModel::IdRole).toString() + "," +
@@ -355,5 +351,40 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
 
     }
 }
+
+bool ContactRunner::hasCapability(const QModelIndex &contact, AccountsFilterModel::CapabilityFilterFlag capability) const
+{
+    if (capability == AccountsFilterModel::DoNotFilterByCapability) {
+        return true;
+    }
+
+    if ((capability == AccountsFilterModel::FilterByTextChatCapability) &&
+        contact.data(AccountsModel::TextChatCapabilityRole).toBool()) {
+        return true;
+    }
+
+    if ((capability == AccountsFilterModel::FilterByAudioCallCapability) &&
+        contact.data(AccountsModel::AudioCallCapabilityRole).toBool()) {
+        return true;
+    }
+
+    if ((capability == AccountsFilterModel::FilterByVideoCallCapability) &&
+        contact.data(AccountsModel::VideoCallCapabilityRole).toBool()) {
+        return true;
+    }
+
+    if ((capability == AccountsFilterModel::FilterByFileTransferCapability) &&
+        contact.data(AccountsModel::FileTransferCapabilityRole).toBool()) {
+        return true;
+    }
+
+    if ((capability == AccountsFilterModel::FilterByDesktopSharingCapability) &&
+        contact.data(AccountsModel::DesktopSharingCapabilityRole).toBool()) {
+        return true;
+    }
+
+    return false;
+}
+
 
 #include "contactrunner.moc"

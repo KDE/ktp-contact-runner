@@ -18,13 +18,15 @@
 #ifndef KTPCONTACTRUNNER_H
 #define KTPCONTACTRUNNER_H
 
+#include <QtCore/QModelIndex>
+
 #include <Plasma/AbstractRunner>
 #include <KIcon>
 
 #include <KTp/Models/accounts-model.h>
-#include <KTp/Models/accounts-filter-model.h>
 #include <KTp/Models/groups-model.h>
-#include <KTp/Models/flat-model-proxy.h>
+#include <KTp/Models/accounts-filter-model.h>
+
 #include <TelepathyQt/AccountManager>
 
 class QAction;
@@ -51,9 +53,9 @@ class ContactRunner : public Plasma::AbstractRunner
     void accountManagerReady(Tp::PendingOperation *operation);
 
   private:
+    bool hasCapability(const QModelIndex &contact, AccountsFilterModel::CapabilityFilterFlag capability) const;
+
     AccountsModel *m_accountsModel;
-    FlatModelProxy *m_flatModelProxy;
-    AccountsFilterModel *m_proxyModel;
     Tp::AccountManagerPtr m_accountManager;
 };
 
