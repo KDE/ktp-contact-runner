@@ -62,7 +62,7 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     addAction("start-text-chat", QIcon::fromTheme("text-x-generic"), i18n("Start Chat"));
     addAction("start-audio-call", QIcon::fromTheme("voicecall"), i18n("Start Audio Call"));
     addAction("start-video-call", QIcon::fromTheme("webcamsend"), i18n("Start Video Call"));
-    addAction("start-file-transfer", QIcon::fromTheme("mail-attachment"), i18n("Start Video Call"));
+    addAction("start-file-transfer", QIcon::fromTheme("mail-attachment"), i18n("Send file(s)"));
     addAction("start-desktop-sharing", QIcon::fromTheme("krfb"), i18n("Share My Desktop"));
 
     Tp::registerTypes();
