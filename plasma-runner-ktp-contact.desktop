@@ -18,6 +18,7 @@ Name[sr@latin]=Brzoglasnički kontakti
 Name[sv]=Direktmeddelandekontakter
 Name[uk]=Контакти миттєвого обміну повідомленнями
 Name[x-test]=xxInstant Messaging Contactsxx
+Name[zh_CN]=即时通讯联系人
 Comment=Start chat with any of your IM contacts
 Comment[da]=Start chat med en af dine IM-kontakter
 Comment[de]=Chats mit ihren Kontakten starten
@@ -37,6 +38,7 @@ Comment[sr@latin]=Započnite ćaskanje preko IM kontakta
 Comment[sv]=Börja chatta med någon direktmeddelandekontakt
 Comment[uk]=Почати спілкування з будь-яким з ваших контактів у системах обміну повідомленнями
 Comment[x-test]=xxStart chat with any of your IM contactsxx
+Comment[zh_CN]=与任意您的即时通讯联系人开始聊天
 Icon=user-online
 
 X-KDE-ServiceTypes=Plasma/Runner
