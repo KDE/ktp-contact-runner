@@ -165,23 +165,23 @@ void ContactRunner::match(Plasma::RunnerContext &context)
     QAction *defaultAction;
     QString contactQuery;
     AccountsFilterModel::CapabilityFilterFlag filterFlag;
-    if (term.startsWith("chat ", Qt::CaseInsensitive)) {
+    if (term.startsWith(QLatin1String("chat "), Qt::CaseInsensitive)) {
         defaultAction = action("start-text-chat");
         filterFlag = AccountsFilterModel::FilterByTextChatCapability;
         contactQuery = term.mid(5).trimmed();
-    } else if (term.startsWith("audiocall ", Qt::CaseInsensitive)) {
+    } else if (term.startsWith(QLatin1String("audiocall "), Qt::CaseInsensitive)) {
         defaultAction = action("start-audio-call");
         filterFlag = AccountsFilterModel::FilterByAudioCallCapability;
         contactQuery = term.mid(10).trimmed();
-    } else if (term.startsWith("videocall ", Qt::CaseInsensitive)) {
+    } else if (term.startsWith(QLatin1String("videocall "), Qt::CaseInsensitive)) {
         defaultAction = action("start-video-call");
         filterFlag = AccountsFilterModel::FilterByVideoCallCapability;
         contactQuery = term.mid(10).trimmed();
-    } else if (term.startsWith("sendfile ", Qt::CaseInsensitive)) {
+    } else if (term.startsWith(QLatin1String("sendfile "), Qt::CaseInsensitive)) {
         defaultAction = action("start-file-transfer");
         filterFlag = AccountsFilterModel::FilterByFileTransferCapability;
         contactQuery = term.mid(9).trimmed();
-    } else if (term.startsWith("sharedesktop ", Qt::CaseInsensitive)) {
+    } else if (term.startsWith(QLatin1String("sharedesktop "), Qt::CaseInsensitive)) {
         defaultAction = action("start-desktop-sharing");
         filterFlag = AccountsFilterModel::FilterByDesktopSharingCapability;
         contactQuery = term.mid(13).trimmed();
