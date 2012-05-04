@@ -114,7 +114,7 @@ QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch &match
     /* Remove the ID prefix added by Krunner */
     QString id = match.id().remove("KRunnerKTpContacts_");
 
-    QStringList ids = id.split(",", QString::SkipEmptyParts);
+    QStringList ids = id.split(',', QString::SkipEmptyParts);
     if (ids.count() != 2) {
         kWarning() << "Received invalid ID" << ids;
         return actions;
@@ -214,7 +214,7 @@ void ContactRunner::match(Plasma::RunnerContext &context)
             }
 
             match.setText(name.append(" (%1)").arg(accountIndex.data(AccountsModel::DisplayNameRole).toString()));
-            match.setId(accountIndex.data(AccountsModel::IdRole).toString() + "," +
+            match.setId(accountIndex.data(AccountsModel::IdRole).toString() + ',' +
                         contactIndex.data(AccountsModel::IdRole).toString());
             match.setType(Plasma::QueryMatch::ExactMatch);
 
@@ -276,7 +276,7 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
     /* Remove the ID prefix added by Krunner */
     QString id = match.id().remove("KRunnerKTpContacts_");
 
-    QStringList ids = id.split(",", QString::SkipEmptyParts);
+    QStringList ids = id.split(',', QString::SkipEmptyParts);
     if (ids.count() != 2) {
         kWarning() << "Received invalid ID" << ids;
         return;
