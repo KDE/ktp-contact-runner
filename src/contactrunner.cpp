@@ -86,8 +86,8 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
 
     m_accountManager = Tp::AccountManager::create(accountFactory, connectionFactory, channelFactory, contactFactory);
     connect(m_accountManager->becomeReady(Tp::AccountManager::FeatureCore),
-            SIGNAL(finished(Tp::PendingOperation *)),
-            this, SLOT(accountManagerReady(Tp::PendingOperation *)));
+            SIGNAL(finished(Tp::PendingOperation*)),
+            this, SLOT(accountManagerReady(Tp::PendingOperation*)));
 }
 
 ContactRunner::~ContactRunner()
