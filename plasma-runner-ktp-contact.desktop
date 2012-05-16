@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Instant Messaging Contacts
+Name[ca]=Contactes de missatgeria instantània
 Name[da]=Instant messaging-kontakter
 Name[de]=Instant-Messenger-Kontakte
 Name[el]=Επαφές στγμιαίων μηνυμάτων
@@ -24,6 +25,7 @@ Name[x-test]=xxInstant Messaging Contactsxx
 Name[zh_CN]=即时通讯联系人
 Name[zh_TW]=即時訊息聯絡人
 Comment=Start chat with any of your IM contacts
+Comment[ca]=Inicia un xat amb qualsevol dels vostres contactes de MI
 Comment[da]=Start chat med en af dine IM-kontakter
 Comment[de]=Chats mit ihren Kontakten starten
 Comment[el]=Έναρξη συνομιλίας με οποιαδήποτε επαφή στιγμιαίων μηνυμάτων
