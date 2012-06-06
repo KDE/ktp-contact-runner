@@ -59,6 +59,6 @@ class ContactRunner : public Plasma::AbstractRunner
     Tp::AccountManagerPtr m_accountManager;
 };
 
-K_EXPORT_PLASMA_RUNNER(KRunnerKTPContacts, ContactRunner)
+K_EXPORT_PLASMA_RUNNER(ktp_contacts, ContactRunner)
 
 #endif /* KTPCONTACTRUNNER_H */
