@@ -309,16 +309,17 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
 
     } else if (match.selectedAction() == action("start-audio-call")) {
 
-        account->ensureStreamedMediaAudioCall(contact,
-                                              QDateTime::currentDateTime(),
-                                              "org.freedesktop.Telepathy.Client.KTp.CallUi");
+        account->ensureAudioCall(contact,
+                QLatin1String("audio"),
+                QDateTime::currentDateTime(),
+                QLatin1String("org.freedesktop.Telepathy.Client.KTp.CallUi"));
 
     } else if (match.selectedAction() == action("start-video-call")) {
 
-        account->ensureStreamedMediaVideoCall(contact,
-                                              true,
-                                              QDateTime::currentDateTime(),
-                                              "org.freedesktop.Telepathy.Client.KTp.CallUi");
+        account->ensureAudioVideoCall(contact,
+                QLatin1String("audio"), QLatin1String("video"),
+                QDateTime::currentDateTime(),
+                QLatin1String("org.freedesktop.Telepathy.Client.KTp.CallUi"));
 
     } else if (match.selectedAction() == action("start-file-transfer")) {
 

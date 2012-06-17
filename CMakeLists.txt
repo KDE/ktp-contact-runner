@@ -8,7 +8,7 @@ set(CMAKE_MODULE_PATH
 
 # Find the required Libaries
 find_package(KDE4 REQUIRED)
-find_package(TelepathyQt4 REQUIRED)
+find_package(TelepathyQt4 0.9.1 REQUIRED)
 find_package(KTp REQUIRED)
 include(KDE4Defaults)
 
