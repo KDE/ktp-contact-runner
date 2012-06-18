@@ -60,8 +60,8 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     addSyntax(Plasma::RunnerSyntax("sharedesktop :q:", i18n("Finds all contacts matching :q: that are capable of sharing desktop and sets desktop sharing as default action.")));
 
     addAction("start-text-chat", QIcon::fromTheme("text-x-generic"), i18n("Start Chat"));
-    addAction("start-audio-call", QIcon::fromTheme("voicecall"), i18n("Start Audio Call"));
-    addAction("start-video-call", QIcon::fromTheme("webcamsend"), i18n("Start Video Call"));
+    addAction("start-audio-call", QIcon::fromTheme("audio-headset"), i18n("Start Audio Call"));
+    addAction("start-video-call", QIcon::fromTheme("camera-web"), i18n("Start Video Call"));
     addAction("start-file-transfer", QIcon::fromTheme("mail-attachment"), i18n("Send file(s)"));
     addAction("start-desktop-sharing", QIcon::fromTheme("krfb"), i18n("Share My Desktop"));
 
