@@ -42,7 +42,13 @@
 
 #include <QAction>
 
+struct ContactInfo {
+    Tp::AccountPtr account;
+    Tp::ContactPtr contact;
+};
+
 Q_DECLARE_METATYPE(QModelIndex);
+Q_DECLARE_METATYPE(ContactInfo);
 
 ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     Plasma::AbstractRunner(parent, args),
@@ -111,37 +117,31 @@ void ContactRunner::accountManagerReady(Tp::PendingOperation *operation)
 QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch &match)
 {
     QList< QAction* > actions;
-    /* Remove the ID prefix added by Krunner */
-    QString id = match.id().remove("KRunnerKTpContacts_");
 
-    QStringList ids = id.split(',', QString::SkipEmptyParts);
-    if (ids.count() != 2) {
-        kWarning() << "Received invalid ID" << ids;
+    ContactInfo data = match.data().value< ContactInfo >();
+    if (!data.contact) {
         return actions;
     }
 
-    ContactModelItem *contactItem = qobject_cast< ContactModelItem* >(m_accountsModel->contactItemForId(ids.first(), ids.at(1)));
-    if (!contactItem) {
-        return actions;
-    }
+    Tp::ContactCapabilities capabilities = data.contact->capabilities();
 
-    if (contactItem->data(AccountsModel::TextChatCapabilityRole).toBool()) {
+    if (capabilities.textChats()) {
         actions.append(action("start-text-chat"));
     }
 
-    if (contactItem->data(AccountsModel::AudioCallCapabilityRole).toBool()) {
+    if (capabilities.audioCalls()) {
         actions.append(action("start-audio-call"));
     }
 
-    if (contactItem->data(AccountsModel::VideoCallCapabilityRole).toBool()) {
+    if (capabilities.videoCallsWithAudio()) {
         actions.append(action("start-video-call"));
     }
 
-    if (contactItem->data(AccountsModel::FileTransferCapabilityRole).toBool()) {
+    if (capabilities.fileTransfers()) {
         actions.append(action("start-file-transfer"));
     }
 
-    if (contactItem->data(AccountsModel::DesktopSharingCapabilityRole).toBool()) {
+    if (capabilities.streamTubes("rfb")) {
         actions.append(action("start-desktop-sharing"));
     }
 
@@ -213,9 +213,20 @@ void ContactRunner::match(Plasma::RunnerContext &context)
                 continue;
             }
 
+            AccountsModelItem *accountItem = accountIndex.data(AccountsModel::ItemRole).value< AccountsModelItem* >();
+            ContactModelItem *contactItem = contactIndex.data(AccountsModel::ItemRole).value< ContactModelItem* >();
+            if (!accountItem || !contactItem) {
+                continue;
+            }
+
+            /* Store AccountsModelItem and ContactsModelItem as the data of match so that it can
+             * be retrieved quickly later */
+            ContactInfo data;
+            data.account = accountIndex.data(AccountsModel::ItemRole).value< AccountsModelItem* >()->account();
+            data.contact = contactIndex.data(AccountsModel::ItemRole).value< ContactModelItem* >()->contact();
+            match.setData(qVariantFromValue(data));
+
             match.setText(name.append(" (%1)").arg(accountIndex.data(AccountsModel::DisplayNameRole).toString()));
-            match.setId(accountIndex.data(AccountsModel::IdRole).toString() + ',' +
-                        contactIndex.data(AccountsModel::IdRole).toString());
             match.setType(Plasma::QueryMatch::ExactMatch);
 
             QString iconName;
@@ -273,29 +284,14 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
 {
     Q_UNUSED(context)
 
-    /* Remove the ID prefix added by Krunner */
-    QString id = match.id().remove("KRunnerKTpContacts_");
-
-    QStringList ids = id.split(',', QString::SkipEmptyParts);
-    if (ids.count() != 2) {
-        kWarning() << "Received invalid ID" << ids;
+    ContactInfo data = match.data().value< ContactInfo >();
+    if (!data.account || !data.contact) {
+        kWarning() << "Running invalid contact info";
         return;
     }
 
-    AccountsModelItem *accountItem = qobject_cast< AccountsModelItem* >(m_accountsModel->accountItemForId(ids.first()));
-    if (!accountItem) {
-        kWarning() << "Account" << ids.first() << "not found in the model!";
-        return;
-    }
-
-    ContactModelItem *item = qobject_cast< ContactModelItem* >(m_accountsModel->contactItemForId(ids.first(), ids.at(1)));
-    if (!item) {
-        kWarning() << "Item" << match.id() << "not found in the model!";
-        return;
-    }
-
-    Tp::AccountPtr account = accountItem->account();
-    Tp::ContactPtr contact = item->contact();
+    Tp::AccountPtr account = data.account;
+    Tp::ContactPtr contact = data.contact;
 
     Tp::ChannelRequestHints hints;
     hints.setHint("org.freedesktop.Telepathy.ChannelRequest", "DelegateToPreferredHandler", QVariant(true));
