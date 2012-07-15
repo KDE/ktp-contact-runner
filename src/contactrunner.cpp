@@ -21,6 +21,8 @@
 #include <KIcon>
 #include <KFileDialog>
 #include <KMimeType>
+#include <KToolInvocation>
+#include <KStandardDirs>
 
 #include <TelepathyQt/ContactManager>
 #include <TelepathyQt/Contact>
@@ -58,6 +60,8 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
 
     setObjectName("IM Contacts Runner");
 
+    m_loggerDisabled = KStandardDirs::findExe("ktp-log-viewer").isEmpty();
+
     addSyntax(Plasma::RunnerSyntax(":q:", i18n("Finds all IM contacts matching :q:.")));
     addSyntax(Plasma::RunnerSyntax("chat :q:", i18n("Finds all contacts matching :q: that are capable of text chats (default behavior)")));
     addSyntax(Plasma::RunnerSyntax("audiocall :q:", i18n("Finds all contacts matching :q: that are capable of audio call and uses audio calls as default action.")));
@@ -65,11 +69,18 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     addSyntax(Plasma::RunnerSyntax("sendfile :q:", i18n("Finds all contacts matching :q: that are capable of receiving files and sends file as default action.")));
     addSyntax(Plasma::RunnerSyntax("sharedesktop :q:", i18n("Finds all contacts matching :q: that are capable of sharing desktop and sets desktop sharing as default action.")));
 
+    if (!m_loggerDisabled)
+        addSyntax(Plasma::RunnerSyntax("log :q:", i18n("Open the log viewer for :q:")));
+
+
     addAction("start-text-chat", QIcon::fromTheme("text-x-generic"), i18n("Start Chat"));
     addAction("start-audio-call", QIcon::fromTheme("audio-headset"), i18n("Start Audio Call"));
     addAction("start-video-call", QIcon::fromTheme("camera-web"), i18n("Start Video Call"));
     addAction("start-file-transfer", QIcon::fromTheme("mail-attachment"), i18n("Send file(s)"));
     addAction("start-desktop-sharing", QIcon::fromTheme("krfb"), i18n("Share My Desktop"));
+
+    if (!m_loggerDisabled)
+        addAction("show-log-viewer", QIcon::fromTheme("view-pim-journal"), i18n("Open the log viewer"));
 
     Tp::registerTypes();
     Tp::AccountFactoryPtr  accountFactory = Tp::AccountFactory::create(
@@ -127,6 +138,9 @@ QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch &match
 
     if (capabilities.textChats()) {
         actions.append(action("start-text-chat"));
+
+        if (!m_loggerDisabled)
+            actions.append(action("show-log-viewer"));
     }
 
     if (capabilities.audioCalls()) {
@@ -185,6 +199,10 @@ void ContactRunner::match(Plasma::RunnerContext &context)
         defaultAction = action("start-desktop-sharing");
         filterFlag = AccountsFilterModel::FilterByDesktopSharingCapability;
         contactQuery = term.mid(13).trimmed();
+    } else if (term.startsWith(QLatin1String("log "), Qt::CaseInsensitive)) {
+        defaultAction = action("show-log-viewer");
+        filterFlag = AccountsFilterModel::DoNotFilterByCapability;
+        contactQuery = term.mid(4).trimmed();
     } else {
         defaultAction = action("start-text-chat");
         filterFlag = AccountsFilterModel::DoNotFilterByCapability;
@@ -345,6 +363,11 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
                                   QLatin1String("rfb"),
                                   QDateTime::currentDateTime(),
                                   "org.freedesktop.Telepathy.Client.krfb_rfb_handler");
+
+    } else if (match.selectedAction() == action("show-log-viewer")) {
+
+        KToolInvocation::kdeinitExec(QLatin1String("ktp-log-viewer"),
+                                     QStringList() << account->uniqueIdentifier() << contact->id());
 
     }
 }

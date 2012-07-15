@@ -57,6 +57,8 @@ class ContactRunner : public Plasma::AbstractRunner
 
     AccountsModel *m_accountsModel;
     Tp::AccountManagerPtr m_accountManager;
+
+    bool m_loggerDisabled;
 };
 
 K_EXPORT_PLASMA_RUNNER(ktp_contacts, ContactRunner)
