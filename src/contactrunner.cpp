@@ -20,7 +20,6 @@
 #include "contactrunner.h"
 
 #include <KDebug>
-#include <KIcon>
 #include <KFileDialog>
 #include <KMimeType>
 #include <KToolInvocation>
@@ -43,46 +42,66 @@
 #include <KTp/Models/accounts-filter-model.h>
 #include <KTp/Models/contact-model-item.h>
 #include <KTp/presence.h>
+#include <KTp/global-presence.h>
 
-#include <QAction>
-
-struct ContactInfo {
+struct MatchInfo {
     Tp::AccountPtr account;
     Tp::ContactPtr contact;
+    KTp::Presence presence;
 };
 
 Q_DECLARE_METATYPE(QModelIndex);
-Q_DECLARE_METATYPE(ContactInfo);
+Q_DECLARE_METATYPE(MatchInfo);
 
 ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     Plasma::AbstractRunner(parent, args),
-    m_accountsModel(0)
+    m_accountsModel(new AccountsModel(this)),
+    m_globalPresence(new KTp::GlobalPresence(this))
 {
     Q_UNUSED(args);
 
-    setObjectName("IM Contacts Runner");
+    setObjectName(QLatin1String("IM Contacts Runner"));
 
-    m_loggerDisabled = KStandardDirs::findExe("ktp-log-viewer").isEmpty();
+    m_loggerDisabled = KStandardDirs::findExe(QLatin1String("ktp-log-viewer")).isEmpty();
 
-    addSyntax(Plasma::RunnerSyntax(":q:", i18n("Finds all IM contacts matching :q:.")));
-    addSyntax(Plasma::RunnerSyntax("chat :q:", i18n("Finds all contacts matching :q: that are capable of text chats (default behavior)")));
-    addSyntax(Plasma::RunnerSyntax("audiocall :q:", i18n("Finds all contacts matching :q: that are capable of audio call and uses audio calls as default action.")));
-    addSyntax(Plasma::RunnerSyntax("videocall :q:", i18n("Finds all contacts matching :q: that are capable of video call and uses video calls as default action.")));
-    addSyntax(Plasma::RunnerSyntax("sendfile :q:", i18n("Finds all contacts matching :q: that are capable of receiving files and sends file as default action.")));
-    addSyntax(Plasma::RunnerSyntax("sharedesktop :q:", i18n("Finds all contacts matching :q: that are capable of sharing desktop and sets desktop sharing as default action.")));
+    addSyntax(Plasma::RunnerSyntax(QLatin1String(":q:"), i18n("Finds all IM contacts matching :q:.")));
+    addSyntax(Plasma::RunnerSyntax(QLatin1String("chat :q:"), i18n("Finds all contacts matching :q: that are capable of text chats (default behavior)")));
+    addSyntax(Plasma::RunnerSyntax(QLatin1String("audiocall :q:"), i18n("Finds all contacts matching :q: that are capable of audio call and uses audio calls as default action.")));
+    addSyntax(Plasma::RunnerSyntax(QLatin1String("videocall :q:"), i18n("Finds all contacts matching :q: that are capable of video call and uses video calls as default action.")));
+    addSyntax(Plasma::RunnerSyntax(QLatin1String("sendfile :q:"), i18n("Finds all contacts matching :q: that are capable of receiving files and sends file as default action.")));
+    addSyntax(Plasma::RunnerSyntax(QLatin1String("sharedesktop :q:"), i18n("Finds all contacts matching :q: that are capable of sharing desktop and sets desktop sharing as default action.")));
 
-    if (!m_loggerDisabled)
-        addSyntax(Plasma::RunnerSyntax("log :q:", i18n("Open the log viewer for :q:")));
+    if (!m_loggerDisabled) {
+        addSyntax(Plasma::RunnerSyntax(QLatin1String("log :q:"), i18n("Open the log viewer for :q:")));
+    }
 
+    QString imKeyword = i18nc("A keyword to change IM status", "im") + QLatin1String(" :q:");
+    QString statusKeyword = i18n("A keyword to change IM status", "status") + QLatin1String(" :q:");
+    Plasma::RunnerSyntax presenceSyntax(imKeyword, i18n("Change IM status"));
+    presenceSyntax.addExampleQuery(statusKeyword);
+    presenceSyntax.setSearchTermDescription(i18nc("Search term description", "status"));
+    addSyntax(presenceSyntax);
 
-    addAction("start-text-chat", QIcon::fromTheme("text-x-generic"), i18n("Start Chat"));
-    addAction("start-audio-call", QIcon::fromTheme("audio-headset"), i18n("Start Audio Call"));
-    addAction("start-video-call", QIcon::fromTheme("camera-web"), i18n("Start Video Call"));
-    addAction("start-file-transfer", QIcon::fromTheme("mail-attachment"), i18n("Send file(s)"));
-    addAction("start-desktop-sharing", QIcon::fromTheme("krfb"), i18n("Share My Desktop"));
+    Plasma::RunnerSyntax presenceMsgSyntax(imKeyword + ' ' + i18nc("Description of a search term, please keep the brackets", "<status message>"),
+                                           i18n("Change IM status and set status message."));
+    presenceMsgSyntax.addExampleQuery(statusKeyword + ' ' + i18nc("Description of a search term, please keep the brackets", "<status message>"));
+    presenceMsgSyntax.setSearchTermDescription(i18nc("Search term description", "status"));
+    addSyntax(presenceMsgSyntax);
 
-    if (!m_loggerDisabled)
-        addAction("show-log-viewer", QIcon::fromTheme("view-pim-journal"), i18n("Open the log viewer"));
+    addSyntax(Plasma::RunnerSyntax(i18nc("A command to connect all IM accounts", "connect"),
+                                   i18n("Connect all IM accounts")));
+    addSyntax(Plasma::RunnerSyntax(i18nc("A command to disconnect all IM accounts", "disconnect"),
+                                   i18n("Disconnect al IM accounts")));;
+
+    addAction(QLatin1String("start-text-chat"), QIcon::fromTheme(QLatin1String("text-x-generic")), i18n("Start Chat"));
+    addAction(QLatin1String("start-audio-call"), QIcon::fromTheme(QLatin1String("audio-headset")), i18n("Start Audio Call"));
+    addAction(QLatin1String("start-video-call"), QIcon::fromTheme(QLatin1String("camera-web")), i18n("Start Video Call"));
+    addAction(QLatin1String("start-file-transfer"), QIcon::fromTheme(QLatin1String("mail-attachment")), i18n("Send file(s)"));
+    addAction(QLatin1String("start-desktop-sharing"), QIcon::fromTheme(QLatin1String("krfb")), i18n("Share My Desktop"));
+
+    if (!m_loggerDisabled) {
+        addAction(QLatin1String("show-log-viewer"), QIcon::fromTheme(QLatin1String("view-pim-journal")), i18n("Open the log viewer"));
+    }
 
     Tp::registerTypes();
     Tp::AccountFactoryPtr  accountFactory = Tp::AccountFactory::create(
@@ -111,7 +130,7 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
 
 ContactRunner::~ContactRunner()
 {
-    delete m_accountsModel;
+
 }
 
 void ContactRunner::accountManagerReady(Tp::PendingOperation *operation)
@@ -123,15 +142,15 @@ void ContactRunner::accountManagerReady(Tp::PendingOperation *operation)
 
     kDebug() << "Accounts manager is ready!";
 
-    m_accountsModel = new AccountsModel(this);
     m_accountsModel->setAccountManager(m_accountManager);
+    m_globalPresence->setAccountManager(m_accountManager);
 }
 
 QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch &match)
 {
     QList< QAction* > actions;
 
-    ContactInfo data = match.data().value< ContactInfo >();
+    MatchInfo data = match.data().value< MatchInfo >();
     if (!data.contact) {
         return actions;
     }
@@ -139,26 +158,27 @@ QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch &match
     Tp::ContactCapabilities capabilities = data.contact->capabilities();
 
     if (capabilities.textChats()) {
-        actions.append(action("start-text-chat"));
+        actions.append(action(QLatin1String("start-text-chat")));
 
-        if (!m_loggerDisabled)
-            actions.append(action("show-log-viewer"));
+        if (!m_loggerDisabled) {
+            actions.append(action(QLatin1String("show-log-viewer")));
+        }
     }
 
     if (capabilities.audioCalls()) {
-        actions.append(action("start-audio-call"));
+        actions.append(action(QLatin1String("start-audio-call")));
     }
 
     if (capabilities.videoCallsWithAudio()) {
-        actions.append(action("start-video-call"));
+        actions.append(action(QLatin1String("start-video-call")));
     }
 
     if (capabilities.fileTransfers()) {
-        actions.append(action("start-file-transfer"));
+        actions.append(action(QLatin1String("start-file-transfer")));
     }
 
-    if (capabilities.streamTubes("rfb")) {
-        actions.append(action("start-desktop-sharing"));
+    if (capabilities.streamTubes(QLatin1String("rfb"))) {
+        actions.append(action(QLatin1String("start-desktop-sharing")));
     }
 
     return actions;
@@ -174,156 +194,53 @@ void ContactRunner::match(Plasma::RunnerContext &context)
         return;
     }
 
-    if (!m_accountsModel || !m_accountManager->isReady()) {
+    if (!m_accountManager->isReady()) {
         return;
     }
 
-    QAction *defaultAction;
-    QString contactQuery;
-    AccountsFilterModel::CapabilityFilterFlag filterFlag;
-    if (term.startsWith(QLatin1String("chat "), Qt::CaseInsensitive)) {
-        defaultAction = action("start-text-chat");
-        filterFlag = AccountsFilterModel::FilterByTextChatCapability;
-        contactQuery = term.mid(5).trimmed();
-    } else if (term.startsWith(QLatin1String("audiocall "), Qt::CaseInsensitive)) {
-        defaultAction = action("start-audio-call");
-        filterFlag = AccountsFilterModel::FilterByAudioCallCapability;
-        contactQuery = term.mid(10).trimmed();
-    } else if (term.startsWith(QLatin1String("videocall "), Qt::CaseInsensitive)) {
-        defaultAction = action("start-video-call");
-        filterFlag = AccountsFilterModel::FilterByVideoCallCapability;
-        contactQuery = term.mid(10).trimmed();
-    } else if (term.startsWith(QLatin1String("sendfile "), Qt::CaseInsensitive)) {
-        defaultAction = action("start-file-transfer");
-        filterFlag = AccountsFilterModel::FilterByFileTransferCapability;
-        contactQuery = term.mid(9).trimmed();
-    } else if (term.startsWith(QLatin1String("sharedesktop "), Qt::CaseInsensitive)) {
-        defaultAction = action("start-desktop-sharing");
-        filterFlag = AccountsFilterModel::FilterByDesktopSharingCapability;
-        contactQuery = term.mid(13).trimmed();
-    } else if (term.startsWith(QLatin1String("log "), Qt::CaseInsensitive)) {
-        defaultAction = action("show-log-viewer");
-        filterFlag = AccountsFilterModel::DoNotFilterByCapability;
-        contactQuery = term.mid(4).trimmed();
-    } else {
-        defaultAction = action("start-text-chat");
-        filterFlag = AccountsFilterModel::DoNotFilterByCapability;
-        contactQuery = term;
-    }
+    /* First check for "im" or "status" keywords */
+    matchPresence(context);
 
-    int accountsCnt = m_accountsModel->rowCount();
-    for (int i = 0; (i < accountsCnt) && context.isValid(); i++) {
-
-        QModelIndex accountIndex = m_accountsModel->index(i, 0);
-
-        int contactsCount = m_accountsModel->rowCount(accountIndex);
-        for (int j = 0; (j < contactsCount) && context.isValid(); j++) {
-
-            Plasma::QueryMatch match(this);
-            qreal relevance = 0.1;
-
-            QModelIndex contactIndex = m_accountsModel->index(j, 0, accountIndex);
-
-            if (!hasCapability(contactIndex, filterFlag)) {
-                continue;
-            }
-
-            QString name = contactIndex.data(AccountsModel::AliasRole).toString();
-            if (!name.contains(contactQuery, Qt::CaseInsensitive)) {
-                continue;
-            }
-
-            AccountsModelItem *accountItem = accountIndex.data(AccountsModel::ItemRole).value< AccountsModelItem* >();
-            ContactModelItem *contactItem = contactIndex.data(AccountsModel::ItemRole).value< ContactModelItem* >();
-            if (!accountItem || !contactItem) {
-                continue;
-            }
-
-            /* Store AccountsModelItem and ContactsModelItem as the data of match so that it can
-             * be retrieved quickly later */
-            ContactInfo data;
-            data.account = accountIndex.data(AccountsModel::ItemRole).value< AccountsModelItem* >()->account();
-            data.contact = contactIndex.data(AccountsModel::ItemRole).value< ContactModelItem* >()->contact();
-            match.setData(qVariantFromValue(data));
-
-            match.setText(name.append(" (%1)").arg(accountIndex.data(AccountsModel::DisplayNameRole).toString()));
-            match.setType(Plasma::QueryMatch::ExactMatch);
-
-            QString iconName;
-            KTp::Presence presence = contactIndex.data(AccountsModel::PresenceRole).value< KTp::Presence >();
-            switch (presence.type()) {
-            case Tp::ConnectionPresenceTypeAvailable:
-                iconName = "im-user";
-                relevance *= 10;
-                break;
-            case Tp::ConnectionPresenceTypeBusy:
-                iconName = "im-user-busy";
-                relevance *= 8;
-                break;
-            case Tp::ConnectionPresenceTypeAway:
-            case Tp::ConnectionPresenceTypeExtendedAway:
-                iconName = "im-user-away";
-                relevance *= 6;
-                break;
-            case Tp::ConnectionPresenceTypeHidden:
-                iconName = "im-invisible-user";
-                relevance *= 4;
-                break;
-            case Tp::ConnectionPresenceTypeOffline:
-                iconName = "im-user-offline";
-                relevance *= 1;
-                break;
-            default:
-                iconName = "im-user-offline";
-                relevance *= 1;
-                break;
-            }
-
-            QString iconFile = contactIndex.data(AccountsModel::AvatarRole).toString();
-            if (!iconFile.isEmpty() && QFile::exists(iconFile)) {
-                match.setIcon(QIcon(iconFile));
-            } else {
-                match.setIcon(QIcon::fromTheme(iconName));
-            }
-
-            if (!presence.statusMessage().isEmpty()) {
-                match.setSubtext(presence.displayString() + " | " + presence.statusMessage());
-            } else {
-                match.setSubtext(presence.displayString());
-            }
-
-            match.setSelectedAction(defaultAction);
-            match.setRelevance(relevance);
-
-            context.addMatch(term, match);
-        }
-    }
+    /* But always try to match contacts too (in case somebody had a contact
+     * names "im..." */
+    matchContacts(context);
 }
+
 
 void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::QueryMatch &match)
 {
     Q_UNUSED(context)
 
-    ContactInfo data = match.data().value< ContactInfo >();
+    MatchInfo data = match.data().value< MatchInfo >();
+    if (data.presence.isValid()) {
+        data.presence.setStatus(data.presence.type(), data.presence.status(), data.presence.statusMessage());
+        m_globalPresence->setPresence(data.presence);
+
+        return;
+    }
+
     if (!data.account || !data.contact) {
         kWarning() << "Running invalid contact info";
         return;
     }
 
+    /* Open chat/call/whaterver with contact */
     Tp::AccountPtr account = data.account;
     Tp::ContactPtr contact = data.contact;
 
     Tp::ChannelRequestHints hints;
-    hints.setHint("org.freedesktop.Telepathy.ChannelRequest", "DelegateToPreferredHandler", QVariant(true));
+    hints.setHint(QLatin1String("org.freedesktop.Telepathy.ChannelRequest"),
+                  QLatin1String("DelegateToPreferredHandler"),
+                  QVariant(true));
 
-    if (match.selectedAction() == action("start-text-chat")) {
+    if (match.selectedAction() == action(QLatin1String("start-text-chat"))) {
 
         account->ensureTextChat(contact,
                                 QDateTime::currentDateTime(),
-                                "org.freedesktop.Telepathy.Client.KTp.TextUi",
+                                QLatin1String("org.freedesktop.Telepathy.Client.KTp.TextUi"),
                                 hints);
 
-    } else if (match.selectedAction() == action("start-audio-call")) {
+    } else if (match.selectedAction() == action(QLatin1String("start-audio-call"))) {
 
         account->ensureAudioCall(contact,
                 QLatin1String("audio"),
@@ -356,7 +273,7 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
             account->createFileTransfer(contact,
                                         properties,
                                         QDateTime::currentDateTime(),
-                                        "org.freedesktop.Telepathy.Client.KTp.FileTransfer");
+                                        QLatin1String("org.freedesktop.Telepathy.Client.KTp.FileTransfer"));
         }
 
     } else if (match.selectedAction() == action("start-desktop-sharing")) {
@@ -364,9 +281,9 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
         account->createStreamTube(contact,
                                   QLatin1String("rfb"),
                                   QDateTime::currentDateTime(),
-                                  "org.freedesktop.Telepathy.Client.krfb_rfb_handler");
+                                  QLatin1String("org.freedesktop.Telepathy.Client.krfb_rfb_handler"));
 
-    } else if (match.selectedAction() == action("show-log-viewer")) {
+    } else if (match.selectedAction() == action(QLatin1String("show-log-viewer"))) {
 
         KToolInvocation::kdeinitExec(QLatin1String("ktp-log-viewer"),
                                      QStringList() << account->uniqueIdentifier() << contact->id());
@@ -408,5 +325,224 @@ bool ContactRunner::hasCapability(const QModelIndex &contact, AccountsFilterMode
     return false;
 }
 
+void ContactRunner::matchContacts(Plasma::RunnerContext &context)
+{
+    QString term = context.query();
+
+    QAction *defaultAction;
+    QString contactQuery;
+    AccountsFilterModel::CapabilityFilterFlag filterFlag;
+    if (term.startsWith(QLatin1String("chat "), Qt::CaseInsensitive)) {
+        defaultAction = action(QLatin1String("start-text-chat"));
+        filterFlag = AccountsFilterModel::FilterByTextChatCapability;
+        contactQuery = term.mid(QString("chat").length()).trimmed();
+    } else if (term.startsWith(QLatin1String("audiocall "), Qt::CaseInsensitive)) {
+        defaultAction = action(QLatin1String("start-audio-call"));
+        filterFlag = AccountsFilterModel::FilterByAudioCallCapability;
+        contactQuery = term.mid(QString("audiocall").length()).trimmed();
+    } else if (term.startsWith(QLatin1String("videocall "), Qt::CaseInsensitive)) {
+        defaultAction = action(QLatin1String("start-video-call"));
+        filterFlag = AccountsFilterModel::FilterByVideoCallCapability;
+        contactQuery = term.mid(QString("videocall").length()).trimmed();
+    } else if (term.startsWith(QLatin1String("sendfile "), Qt::CaseInsensitive)) {
+        defaultAction = action(QLatin1String("start-file-transfer"));
+        filterFlag = AccountsFilterModel::FilterByFileTransferCapability;
+        contactQuery = term.mid(QString("sendfile").length()).trimmed();
+    } else if (term.startsWith(QLatin1String("sharedesktop "), Qt::CaseInsensitive)) {
+        defaultAction = action(QLatin1String("start-desktop-sharing"));
+        filterFlag = AccountsFilterModel::FilterByDesktopSharingCapability;
+        contactQuery = term.mid(QString("sharedesktop").length()).trimmed();
+    } else if (term.startsWith(QLatin1String("log "), Qt::CaseInsensitive)) {
+        defaultAction = action(QLatin1String("show-log-viewer"));
+        filterFlag = AccountsFilterModel::DoNotFilterByCapability;
+        contactQuery = term.mid(QString("log").length()).trimmed();
+    } else {
+        defaultAction = action(QLatin1String("start-text-chat"));
+        filterFlag = AccountsFilterModel::DoNotFilterByCapability;
+        contactQuery = term;
+    }
+
+    int accountsCnt = m_accountsModel->rowCount();
+    for (int i = 0; (i < accountsCnt) && context.isValid(); i++) {
+
+        QModelIndex accountIndex = m_accountsModel->index(i, 0);
+
+        int contactsCount = m_accountsModel->rowCount(accountIndex);
+        for (int j = 0; (j < contactsCount) && context.isValid(); j++) {
+
+            Plasma::QueryMatch match(this);
+            qreal relevance = 0.1;
+
+            QModelIndex contactIndex = m_accountsModel->index(j, 0, accountIndex);
+
+            if (!hasCapability(contactIndex, filterFlag)) {
+                continue;
+            }
+
+            QString name = contactIndex.data(AccountsModel::AliasRole).toString();
+            if (!name.contains(contactQuery, Qt::CaseInsensitive)) {
+                continue;
+            }
+
+            AccountsModelItem *accountItem = accountIndex.data(AccountsModel::ItemRole).value< AccountsModelItem* >();
+            ContactModelItem *contactItem = contactIndex.data(AccountsModel::ItemRole).value< ContactModelItem* >();
+            if (!accountItem || !contactItem) {
+                continue;
+            }
+
+            /* Store AccountsModelItem and ContactsModelItem as the data of match so that it can
+             * be retrieved quickly later */
+            MatchInfo data;
+            data.account = accountIndex.data(AccountsModel::ItemRole).value< AccountsModelItem* >()->account();
+            data.contact = contactIndex.data(AccountsModel::ItemRole).value< ContactModelItem* >()->contact();
+            match.setData(qVariantFromValue(data));
+
+            match.setText(name + QLatin1String(" (") +  accountIndex.data(AccountsModel::DisplayNameRole).toString() + ')');
+            match.setType(Plasma::QueryMatch::ExactMatch);
+
+            KTp::Presence presence = contactIndex.data(AccountsModel::PresenceRole).value< KTp::Presence >();
+            switch (presence.type()) {
+            case Tp::ConnectionPresenceTypeAvailable:
+                relevance *= 10;
+                break;
+            case Tp::ConnectionPresenceTypeBusy:
+                relevance *= 8;
+                break;
+            case Tp::ConnectionPresenceTypeAway:
+            case Tp::ConnectionPresenceTypeExtendedAway:
+                relevance *= 6;
+                break;
+            case Tp::ConnectionPresenceTypeHidden:
+                relevance *= 4;
+                break;
+            case Tp::ConnectionPresenceTypeOffline:
+                relevance *= 1;
+                break;
+            default:
+                relevance *= 1;
+                break;
+            }
+
+            QString iconFile = contactIndex.data(AccountsModel::AvatarRole).toString();
+            if (!iconFile.isEmpty() && QFile::exists(iconFile)) {
+                match.setIcon(QIcon(iconFile));
+            } else {
+                match.setIcon(presence.icon());
+            }
+
+            if (!presence.statusMessage().isEmpty()) {
+                match.setSubtext(presence.displayString() + QLatin1String(" | ") + presence.statusMessage());
+            } else {
+                match.setSubtext(presence.displayString());
+            }
+
+            match.setSelectedAction(defaultAction);
+            match.setRelevance(relevance);
+
+            context.addMatch(term, match);
+        }
+    }
+}
+
+void ContactRunner::matchPresence(Plasma::RunnerContext &context)
+{
+    const QString imKeyword = i18nc("A keyword to change IM status", "im");
+    const QString statusKeyword = i18nc("A keyword to change IM status", "status");
+    const QString connectCommand = i18nc("A command to connect all IM accounts", "connect");
+    const QString disconnectCommand = i18nc("A command to disconnect all IM accounts", "disconnect");
+
+    QString term = context.query().trimmed();
+
+    if (!term.startsWith(imKeyword) && !term.startsWith(statusKeyword) &&
+        (term != connectCommand) && (term != disconnectCommand)) {
+        return;
+    }
+
+    /* Display all available presences? */
+    bool all = ((term == imKeyword) || (term == statusKeyword));
+    QString presenceString;
+    QString statusMessage;
+
+    if (!all) {
+        /* Get string after the keyword */
+        QString cmd = term.mid(term.indexOf(' ')).trimmed();
+
+        int pos = cmd.indexOf(' ');
+        if (pos > 0) {
+            presenceString = cmd.mid(0, pos);
+            statusMessage = cmd.mid(pos + 1);
+        } else {
+            presenceString = cmd;
+        }
+    }
+
+    if (all || i18nc("IM presence", "online").contains(presenceString, Qt::CaseInsensitive) ||  (term == connectCommand)) {
+        addPresenceMatch(context, Tp::ConnectionPresenceTypeAvailable, statusMessage);
+    }
+
+    if (all || i18nc("IM presence", "away").contains(presenceString, Qt::CaseInsensitive)) {
+        addPresenceMatch(context, Tp::ConnectionPresenceTypeAway, statusMessage);
+    }
+
+    if (all || i18nc("IM presence","busy").contains(presenceString, Qt::CaseInsensitive)) {
+        addPresenceMatch(context, Tp::ConnectionPresenceTypeBusy, statusMessage);
+    }
+
+    if (all || i18nc("IM presence","hidden").contains(presenceString, Qt::CaseInsensitive)) {
+        addPresenceMatch(context, Tp::ConnectionPresenceTypeHidden, statusMessage);
+    }
+
+    if (all || i18nc("IM presence","offline").contains(presenceString, Qt::CaseInsensitive) || (term == disconnectCommand)) {
+        addPresenceMatch(context, Tp::ConnectionPresenceTypeOffline, statusMessage);
+    }
+}
+
+void ContactRunner::addPresenceMatch(Plasma::RunnerContext &context, Tp::ConnectionPresenceType presence,
+                                     const QString &statusMessage)
+{
+    Plasma::QueryMatch match(this);
+    match.setType(Plasma::QueryMatch::ExactMatch);
+
+    MatchInfo data;
+
+    switch (presence) {
+        case Tp::ConnectionPresenceTypeAvailable:
+            data.presence = KTp::Presence(Tp::Presence::available());
+            match.setIcon(data.presence.icon());
+            match.setText(i18nc("Description of runner action", "Set IM status to online"));
+            break;
+        case Tp::ConnectionPresenceTypeAway:
+            data.presence = KTp::Presence(Tp::Presence::away());
+            match.setIcon(data.presence.icon());
+            match.setText(i18nc("Description of runner action", "Set IM status to away"));
+            break;
+        case Tp::ConnectionPresenceTypeBusy:
+            data.presence = KTp::Presence(Tp::Presence::busy());
+            match.setIcon(data.presence.icon());
+            match.setText(i18nc("Description of runner action", "Set IM status to busy"));
+            break;
+        case Tp::ConnectionPresenceTypeHidden:
+            data.presence = KTp::Presence(Tp::Presence::hidden());
+            match.setIcon(data.presence.icon());
+            match.setText(i18nc("Description of runner action", "Set IM status to hidden"));
+            break;
+        case Tp::ConnectionPresenceTypeOffline:
+            data.presence = KTp::Presence(Tp::Presence::offline());
+            match.setIcon(data.presence.icon());
+            match.setText(i18nc("Description of runner action", "Set IM status to offline"));
+            break;
+        default:
+            return;
+    }
+
+    if (!statusMessage.isEmpty()) {
+        match.setSubtext(i18n("Status message: %1", statusMessage));
+        data.presence.setStatusMessage(statusMessage);
+    }
+
+    match.setData(qVariantFromValue(data));
+
+    context.addMatch(context.query(), match);
+}
 
 #include "contactrunner.moc"
