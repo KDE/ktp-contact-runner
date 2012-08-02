@@ -31,16 +31,11 @@
 
 #include <TelepathyQt/AccountManager>
 
-namespace KTp
-{
-    class GlobalPresence;
-}
+class QAction;
 
 namespace Tp {
     class PendingOperation;
 }
-
-class QAction;
 
 class ContactRunner : public Plasma::AbstractRunner
 {
@@ -62,14 +57,7 @@ class ContactRunner : public Plasma::AbstractRunner
   private:
     bool hasCapability(const QModelIndex &contact, AccountsFilterModel::CapabilityFilterFlag capability) const;
 
-    void matchPresence(Plasma::RunnerContext &context);
-    void matchContacts(Plasma::RunnerContext &context);
-
-    void addPresenceMatch(Plasma::RunnerContext &context, Tp::ConnectionPresenceType presence,
-                          const QString &statusMessage);
-
     AccountsModel *m_accountsModel;
-    KTp::GlobalPresence *m_globalPresence;
     Tp::AccountManagerPtr m_accountManager;
 
     bool m_loggerDisabled;
