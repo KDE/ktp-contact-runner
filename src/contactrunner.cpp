@@ -91,7 +91,7 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     addSyntax(Plasma::RunnerSyntax(i18nc("A command to connect all IM accounts", "connect"),
                                    i18n("Connect all IM accounts")));
     addSyntax(Plasma::RunnerSyntax(i18nc("A command to disconnect all IM accounts", "disconnect"),
-                                   i18n("Disconnect al IM accounts")));;
+                                   i18n("Disconnect all IM accounts")));;
 
     addAction(QLatin1String("start-text-chat"), QIcon::fromTheme(QLatin1String("text-x-generic")), i18n("Start Chat"));
     addAction(QLatin1String("start-audio-call"), QIcon::fromTheme(QLatin1String("audio-headset")), i18n("Start Audio Call"));
