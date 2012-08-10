@@ -76,7 +76,7 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     }
 
     QString imKeyword = i18nc("A keyword to change IM status", "im") + QLatin1String(" :q:");
-    QString statusKeyword = i18n("A keyword to change IM status", "status") + QLatin1String(" :q:");
+    QString statusKeyword = i18nc("A keyword to change IM status", "status") + QLatin1String(" :q:");
     Plasma::RunnerSyntax presenceSyntax(imKeyword, i18n("Change IM status"));
     presenceSyntax.addExampleQuery(statusKeyword);
     presenceSyntax.setSearchTermDescription(i18nc("Search term description", "status"));
