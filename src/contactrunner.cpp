@@ -285,8 +285,9 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
 
     } else if (match.selectedAction() == action(QLatin1String("show-log-viewer"))) {
 
+	/* Use "--" so that KCmdLineArgs does not try to parse UIDs starting with "-" as arguments */
         KToolInvocation::kdeinitExec(QLatin1String("ktp-log-viewer"),
-                                     QStringList() << account->uniqueIdentifier() << contact->id());
+                                     QStringList() << QLatin1String("--") << account->uniqueIdentifier() << contact->id());
 
     }
 }
