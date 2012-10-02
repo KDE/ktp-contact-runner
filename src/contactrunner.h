@@ -60,7 +60,7 @@ class ContactRunner : public Plasma::AbstractRunner
     void accountManagerReady(Tp::PendingOperation *operation);
 
   private:
-    bool hasCapability(const QModelIndex &contact, AccountsFilterModel::CapabilityFilterFlag capability) const;
+    bool hasCapability(const Tp::ContactPtr &contact, AccountsFilterModel::CapabilityFilterFlag capability) const;
 
     void matchPresence(Plasma::RunnerContext &context);
     void matchContacts(Plasma::RunnerContext &context);
@@ -68,7 +68,6 @@ class ContactRunner : public Plasma::AbstractRunner
     void addPresenceMatch(Plasma::RunnerContext &context, Tp::ConnectionPresenceType presence,
                           const QString &statusMessage);
 
-    AccountsModel *m_accountsModel;
     KTp::GlobalPresence *m_globalPresence;
     Tp::AccountManagerPtr m_accountManager;
 

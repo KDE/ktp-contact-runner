@@ -55,7 +55,6 @@ Q_DECLARE_METATYPE(MatchInfo);
 
 ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     Plasma::AbstractRunner(parent, args),
-    m_accountsModel(new AccountsModel(this)),
     m_globalPresence(new KTp::GlobalPresence(this))
 {
     Q_UNUSED(args);
@@ -142,7 +141,6 @@ void ContactRunner::accountManagerReady(Tp::PendingOperation *operation)
 
     kDebug() << "Accounts manager is ready!";
 
-    m_accountsModel->setAccountManager(m_accountManager);
     m_globalPresence->setAccountManager(m_accountManager);
 }
 
@@ -266,7 +264,7 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
             return;
         }
 
-        foreach (const QString &filename, filenames) {
+        Q_FOREACH (const QString &filename, filenames) {
             Tp::FileTransferChannelCreationProperties properties(
                 filename, KMimeType::findByFileContent(filename)->name());
 
@@ -292,34 +290,34 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
     }
 }
 
-bool ContactRunner::hasCapability(const QModelIndex &contact, AccountsFilterModel::CapabilityFilterFlag capability) const
+bool ContactRunner::hasCapability(const Tp::ContactPtr &contact, AccountsFilterModel::CapabilityFilterFlag capability) const
 {
     if (capability == AccountsFilterModel::DoNotFilterByCapability) {
         return true;
     }
 
     if ((capability == AccountsFilterModel::FilterByTextChatCapability) &&
-        contact.data(AccountsModel::TextChatCapabilityRole).toBool()) {
+        contact->capabilities().textChats()) {
         return true;
     }
 
     if ((capability == AccountsFilterModel::FilterByAudioCallCapability) &&
-        contact.data(AccountsModel::AudioCallCapabilityRole).toBool()) {
+        contact->capabilities().audioCalls()) {
         return true;
     }
 
     if ((capability == AccountsFilterModel::FilterByVideoCallCapability) &&
-        contact.data(AccountsModel::VideoCallCapabilityRole).toBool()) {
+        contact->capabilities().videoCalls()) {
         return true;
     }
 
     if ((capability == AccountsFilterModel::FilterByFileTransferCapability) &&
-        contact.data(AccountsModel::FileTransferCapabilityRole).toBool()) {
+        contact->capabilities().fileTransfers()) {
         return true;
     }
 
     if ((capability == AccountsFilterModel::FilterByDesktopSharingCapability) &&
-        contact.data(AccountsModel::DesktopSharingCapabilityRole).toBool()) {
+        contact->capabilities().streamTubes(QLatin1String("org.freedesktop.Telepathy.Client.krfb_rfb_handler"))) {
         return true;
     }
 
@@ -363,45 +361,35 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
         contactQuery = term;
     }
 
-    int accountsCnt = m_accountsModel->rowCount();
-    for (int i = 0; (i < accountsCnt) && context.isValid(); i++) {
+    Q_FOREACH (const Tp::AccountPtr &account, m_accountManager->allAccounts()) {
 
-        QModelIndex accountIndex = m_accountsModel->index(i, 0);
+        if (account->connection().isNull() || account->connection()->contactManager()->state() != Tp::ContactListStateSuccess) {
+            continue;
+        }
 
-        int contactsCount = m_accountsModel->rowCount(accountIndex);
-        for (int j = 0; (j < contactsCount) && context.isValid(); j++) {
+        Q_FOREACH (const Tp::ContactPtr &contact, account->connection()->contactManager()->allKnownContacts()) {
 
             Plasma::QueryMatch match(this);
             qreal relevance = 0.1;
 
-            QModelIndex contactIndex = m_accountsModel->index(j, 0, accountIndex);
-
-            if (!hasCapability(contactIndex, filterFlag)) {
+            if (!hasCapability(contact, filterFlag)) {
                 continue;
             }
 
-            QString name = contactIndex.data(AccountsModel::AliasRole).toString();
+            const QString &name = contact->alias();
             if (!name.contains(contactQuery, Qt::CaseInsensitive)) {
                 continue;
             }
 
-            AccountsModelItem *accountItem = accountIndex.data(AccountsModel::ItemRole).value< AccountsModelItem* >();
-            ContactModelItem *contactItem = contactIndex.data(AccountsModel::ItemRole).value< ContactModelItem* >();
-            if (!accountItem || !contactItem) {
-                continue;
-            }
-
-            /* Store AccountsModelItem and ContactsModelItem as the data of match so that it can
-             * be retrieved quickly later */
             MatchInfo data;
-            data.account = accountIndex.data(AccountsModel::ItemRole).value< AccountsModelItem* >()->account();
-            data.contact = contactIndex.data(AccountsModel::ItemRole).value< ContactModelItem* >()->contact();
+            data.account = account;
+            data.contact = contact;
             match.setData(qVariantFromValue(data));
 
-            match.setText(name + QLatin1String(" (") +  accountIndex.data(AccountsModel::DisplayNameRole).toString() + ')');
+            match.setText(name + QLatin1String(" (") +  account->displayName() + ')');
             match.setType(Plasma::QueryMatch::ExactMatch);
 
-            KTp::Presence presence = contactIndex.data(AccountsModel::PresenceRole).value< KTp::Presence >();
+            KTp::Presence presence(contact->presence());
             switch (presence.type()) {
             case Tp::ConnectionPresenceTypeAvailable:
                 relevance *= 10;
@@ -424,7 +412,7 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
                 break;
             }
 
-            QString iconFile = contactIndex.data(AccountsModel::AvatarRole).toString();
+            QString iconFile = contact->avatarData().fileName;
             if (!iconFile.isEmpty() && QFile::exists(iconFile)) {
                 match.setIcon(QIcon(iconFile));
             } else {
