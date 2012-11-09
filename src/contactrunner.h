@@ -25,8 +25,6 @@
 #include <Plasma/AbstractRunner>
 #include <KIcon>
 
-#include <KTp/Models/accounts-model.h>
-#include <KTp/Models/groups-model.h>
 #include <KTp/Models/accounts-filter-model.h>
 
 #include <TelepathyQt/AccountManager>
