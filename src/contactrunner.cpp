@@ -43,6 +43,7 @@
 #include <KTp/Models/contact-model-item.h>
 #include <KTp/presence.h>
 #include <KTp/global-presence.h>
+#include <KTp/actions.h>
 
 struct MatchInfo {
     Tp::AccountPtr account;
@@ -226,35 +227,15 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
     Tp::AccountPtr account = data.account;
     Tp::ContactPtr contact = data.contact;
 
-    Tp::ChannelRequestHints hints;
-    hints.setHint(QLatin1String("org.freedesktop.Telepathy.ChannelRequest"),
-                  QLatin1String("DelegateToPreferredHandler"),
-                  QVariant(true));
-
     if (match.selectedAction() == action(QLatin1String("start-text-chat"))) {
-
-        account->ensureTextChat(contact,
-                                QDateTime::currentDateTime(),
-                                QLatin1String("org.freedesktop.Telepathy.Client.KTp.TextUi"),
-                                hints);
-
+	KTp::Actions::startChat(account, contact);
     } else if (match.selectedAction() == action(QLatin1String("start-audio-call"))) {
-
-        account->ensureAudioCall(contact,
-                QLatin1String("audio"),
-                QDateTime::currentDateTime(),
-                QLatin1String("org.freedesktop.Telepathy.Client.KTp.CallUi"));
-
+	KTp::Actions::startAudioCall(account, contact);
     } else if (match.selectedAction() == action("start-video-call")) {
-
-        account->ensureAudioVideoCall(contact,
-                QLatin1String("audio"), QLatin1String("video"),
-                QDateTime::currentDateTime(),
-                QLatin1String("org.freedesktop.Telepathy.Client.KTp.CallUi"));
-
+	KTp::Actions::startAudioVideoCall(account, contact);
     } else if (match.selectedAction() == action("start-file-transfer")) {
 
-        QStringList filenames = KFileDialog::getOpenFileNames(
+      QStringList filenames = KFileDialog::getOpenFileNames(
                                     KUrl("kfiledialog:///FileTransferLastDirectory"),
                                     QString(),
                                     0,
@@ -265,28 +246,13 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
         }
 
         Q_FOREACH (const QString &filename, filenames) {
-            Tp::FileTransferChannelCreationProperties properties(
-                filename, KMimeType::findByFileContent(filename)->name());
-
-            account->createFileTransfer(contact,
-                                        properties,
-                                        QDateTime::currentDateTime(),
-                                        QLatin1String("org.freedesktop.Telepathy.Client.KTp.FileTransfer"));
+	    KTp::Actions::startFileTransfer(account, contact, filename);
         }
 
     } else if (match.selectedAction() == action("start-desktop-sharing")) {
-
-        account->createStreamTube(contact,
-                                  QLatin1String("rfb"),
-                                  QDateTime::currentDateTime(),
-                                  QLatin1String("org.freedesktop.Telepathy.Client.krfb_rfb_handler"));
-
+	KTp::Actions::startDesktopSharing(account, contact);
     } else if (match.selectedAction() == action(QLatin1String("show-log-viewer"))) {
-
-	/* Use "--" so that KCmdLineArgs does not try to parse UIDs starting with "-" as arguments */
-        KToolInvocation::kdeinitExec(QLatin1String("ktp-log-viewer"),
-                                     QStringList() << QLatin1String("--") << account->uniqueIdentifier() << contact->id());
-
+	KTp::Actions::openLogViewer(account, contact);
     }
 }
 
