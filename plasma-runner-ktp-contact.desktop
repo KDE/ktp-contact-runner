@@ -2,6 +2,7 @@
 Name=Instant Messaging Contacts
 Name[bs]=Brze poruke
 Name[ca]=Contactes de missatgeria instantània
+Name[ca@valencia]=Contactes de missatgeria instantània
 Name[cs]=Kontakty komunikátoru
 Name[da]=Instant messaging-kontakter
 Name[de]=Instant-Messenger-Kontakte
@@ -38,6 +39,7 @@ Name[zh_TW]=即時訊息聯絡人
 Comment=Start chat with any of your IM contacts
 Comment[bs]=Počnite ćaskanje s nekim od IM kontakta
 Comment[ca]=Inicia un xat amb qualsevol dels vostres contactes de MI
+Comment[ca@valencia]=Inicia un xat amb qualsevol dels vostres contactes de MI
 Comment[cs]=Začít rozhovor s kterýmkoliv Vaším kontaktem v IM
 Comment[da]=Start chat med en af dine IM-kontakter
 Comment[de]=Chats mit ihren Kontakten starten
