@@ -38,12 +38,11 @@
 #include <TelepathyQt/Constants>
 #include <TelepathyQt/ContactCapabilities>
 
-#include <KTp/Models/accounts-model-item.h>
-#include <KTp/Models/accounts-filter-model.h>
-#include <KTp/Models/contact-model-item.h>
 #include <KTp/presence.h>
 #include <KTp/global-presence.h>
 #include <KTp/actions.h>
+#include <KTp/contact-factory.h>
+#include <KTp/contact.h>
 
 struct MatchInfo {
     Tp::AccountPtr account;
@@ -114,7 +113,7 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
                                                     << Tp::Connection::FeatureSelfContact
                                                     << Tp::Connection::FeatureRoster);
 
-    Tp::ContactFactoryPtr contactFactory = Tp::ContactFactory::create(
+    Tp::ContactFactoryPtr contactFactory = KTp::ContactFactory::create(
                                                 Tp::Features()  << Tp::Contact::FeatureAlias
                                                     << Tp::Contact::FeatureAvatarData
                                                     << Tp::Contact::FeatureSimplePresence
@@ -256,33 +255,33 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
     }
 }
 
-bool ContactRunner::hasCapability(const Tp::ContactPtr &contact, AccountsFilterModel::CapabilityFilterFlag capability) const
+bool ContactRunner::hasCapability(const Tp::ContactPtr &contact, Capability capability) const
 {
-    if (capability == AccountsFilterModel::DoNotFilterByCapability) {
+    if (capability == AllCapabilitites) {
         return true;
     }
 
-    if ((capability == AccountsFilterModel::FilterByTextChatCapability) &&
+    if ((capability == TextChatCapability) &&
         contact->capabilities().textChats()) {
         return true;
     }
 
-    if ((capability == AccountsFilterModel::FilterByAudioCallCapability) &&
+    if ((capability == AudioCallCapability) &&
         contact->capabilities().audioCalls()) {
         return true;
     }
 
-    if ((capability == AccountsFilterModel::FilterByVideoCallCapability) &&
+    if ((capability == VideoCallCapability) &&
         contact->capabilities().videoCalls()) {
         return true;
     }
 
-    if ((capability == AccountsFilterModel::FilterByFileTransferCapability) &&
+    if ((capability == FileTransferCapability) &&
         contact->capabilities().fileTransfers()) {
         return true;
     }
 
-    if ((capability == AccountsFilterModel::FilterByDesktopSharingCapability) &&
+    if ((capability == DesktopSharingCapability) &&
         contact->capabilities().streamTubes(QLatin1String("org.freedesktop.Telepathy.Client.krfb_rfb_handler"))) {
         return true;
     }
@@ -296,34 +295,34 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
 
     QAction *defaultAction;
     QString contactQuery;
-    AccountsFilterModel::CapabilityFilterFlag filterFlag;
+    Capability capability;
     if (term.startsWith(QLatin1String("chat "), Qt::CaseInsensitive)) {
         defaultAction = action(QLatin1String("start-text-chat"));
-        filterFlag = AccountsFilterModel::FilterByTextChatCapability;
+        capability = TextChatCapability;
         contactQuery = term.mid(QString("chat").length()).trimmed();
     } else if (term.startsWith(QLatin1String("audiocall "), Qt::CaseInsensitive)) {
         defaultAction = action(QLatin1String("start-audio-call"));
-        filterFlag = AccountsFilterModel::FilterByAudioCallCapability;
+        capability = AudioCallCapability;
         contactQuery = term.mid(QString("audiocall").length()).trimmed();
     } else if (term.startsWith(QLatin1String("videocall "), Qt::CaseInsensitive)) {
         defaultAction = action(QLatin1String("start-video-call"));
-        filterFlag = AccountsFilterModel::FilterByVideoCallCapability;
+        capability = VideoCallCapability;
         contactQuery = term.mid(QString("videocall").length()).trimmed();
     } else if (term.startsWith(QLatin1String("sendfile "), Qt::CaseInsensitive)) {
         defaultAction = action(QLatin1String("start-file-transfer"));
-        filterFlag = AccountsFilterModel::FilterByFileTransferCapability;
+        capability = FileTransferCapability;
         contactQuery = term.mid(QString("sendfile").length()).trimmed();
     } else if (term.startsWith(QLatin1String("sharedesktop "), Qt::CaseInsensitive)) {
         defaultAction = action(QLatin1String("start-desktop-sharing"));
-        filterFlag = AccountsFilterModel::FilterByDesktopSharingCapability;
+        capability = DesktopSharingCapability;
         contactQuery = term.mid(QString("sharedesktop").length()).trimmed();
     } else if (term.startsWith(QLatin1String("log "), Qt::CaseInsensitive)) {
         defaultAction = action(QLatin1String("show-log-viewer"));
-        filterFlag = AccountsFilterModel::DoNotFilterByCapability;
+        capability = AllCapabilitites;
         contactQuery = term.mid(QString("log").length()).trimmed();
     } else {
         defaultAction = action(QLatin1String("start-text-chat"));
-        filterFlag = AccountsFilterModel::DoNotFilterByCapability;
+        capability = AllCapabilitites;
         contactQuery = term;
     }
 
@@ -338,7 +337,7 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
             Plasma::QueryMatch match(this);
             qreal relevance = 0.1;
 
-            if (!hasCapability(contact, filterFlag)) {
+            if (!hasCapability(contact, capability)) {
                 continue;
             }
 

@@ -25,8 +25,6 @@
 #include <Plasma/AbstractRunner>
 #include <KIcon>
 
-#include <KTp/Models/accounts-filter-model.h>
-
 #include <TelepathyQt/AccountManager>
 
 namespace KTp
@@ -45,6 +43,15 @@ class ContactRunner : public Plasma::AbstractRunner
     Q_OBJECT
 
   public:
+    enum Capability {
+        AllCapabilitites = 0,
+        TextChatCapability,
+        AudioCallCapability,
+        VideoCallCapability,
+        DesktopSharingCapability,
+        FileTransferCapability
+    };
+
     ContactRunner( QObject *parent, const QVariantList& args );
     ~ContactRunner();
 
@@ -58,7 +65,7 @@ class ContactRunner : public Plasma::AbstractRunner
     void accountManagerReady(Tp::PendingOperation *operation);
 
   private:
-    bool hasCapability(const Tp::ContactPtr &contact, AccountsFilterModel::CapabilityFilterFlag capability) const;
+    bool hasCapability(const Tp::ContactPtr &contact, Capability capability) const;
 
     void matchPresence(Plasma::RunnerContext &context);
     void matchContacts(Plasma::RunnerContext &context);
