@@ -87,6 +87,6 @@ X-KDE-Library=krunner_ktp_contacts
 X-KDE-PluginInfo-Author=Dan Vratil
 X-KDE-PluginInfo-Email=dan@progdan.cz
 X-KDE-PluginInfo-Name=ktp_contacts
-X-KDE-PluginInfo-Version=0.5.1
+X-KDE-PluginInfo-Version=@KTP_CONTACT_RUNNER_VERSION@
 X-KDE-PluginInfo-License=GPL
 X-KDE-PluginInfo-EnabledByDefault=true

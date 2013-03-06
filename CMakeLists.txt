@@ -1,5 +1,6 @@
 project(KTPContactRunner)
 
+set(KTP_CONTACT_RUNNER_VERSION "0.5.3")
 set(IS_KTP_INTERNAL_MODULE TRUE)
 
 set(CMAKE_MODULE_PATH
@@ -36,6 +37,11 @@ target_link_libraries(krunner_ktp_contacts
 install(TARGETS krunner_ktp_contacts
         DESTINATION ${PLUGIN_INSTALL_DIR})
 
-install(FILES plasma-runner-ktp-contact.desktop
-        DESTINATION ${SERVICES_INSTALL_DIR})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/plasma-runner-ktp-contact.desktop.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/plasma-runner-ktp-contact.desktop
+               @ONLY)
+
+install (FILES ${CMAKE_CURRENT_BINARY_DIR}/plasma-runner-ktp-contact.desktop
+         DESTINATION ${SERVICES_INSTALL_DIR}
+)
 
