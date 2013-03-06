@@ -227,11 +227,11 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
     Tp::ContactPtr contact = data.contact;
 
     if (match.selectedAction() == action(QLatin1String("start-text-chat"))) {
-	KTp::Actions::startChat(account, contact);
+        KTp::Actions::startChat(account, contact);
     } else if (match.selectedAction() == action(QLatin1String("start-audio-call"))) {
-	KTp::Actions::startAudioCall(account, contact);
+        KTp::Actions::startAudioCall(account, contact);
     } else if (match.selectedAction() == action("start-video-call")) {
-	KTp::Actions::startAudioVideoCall(account, contact);
+        KTp::Actions::startAudioVideoCall(account, contact);
     } else if (match.selectedAction() == action("start-file-transfer")) {
 
       QStringList filenames = KFileDialog::getOpenFileNames(
@@ -245,13 +245,13 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
         }
 
         Q_FOREACH (const QString &filename, filenames) {
-	    KTp::Actions::startFileTransfer(account, contact, filename);
+            KTp::Actions::startFileTransfer(account, contact, filename);
         }
 
     } else if (match.selectedAction() == action("start-desktop-sharing")) {
-	KTp::Actions::startDesktopSharing(account, contact);
+        KTp::Actions::startDesktopSharing(account, contact);
     } else if (match.selectedAction() == action(QLatin1String("show-log-viewer"))) {
-	KTp::Actions::openLogViewer(account, contact);
+        KTp::Actions::openLogViewer(account, contact);
     }
 }
 
