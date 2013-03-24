@@ -6,6 +6,7 @@ set(IS_KTP_INTERNAL_MODULE TRUE)
 set(CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules
     ${CMAKE_MODULE_PATH})
+cmake_policy(SET CMP0002 OLD)
 
 # Find the required Libaries
 find_package(KDE4 REQUIRED)
