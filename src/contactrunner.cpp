@@ -153,9 +153,7 @@ QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch &match
         return actions;
     }
 
-    Tp::ContactCapabilities capabilities = data.contact->capabilities();
-
-    if (capabilities.textChats()) {
+    if (hasCapability(data.contact, ContactRunner::TextChatCapability)) {
         actions.append(action(QLatin1String("start-text-chat")));
 
         if (!m_loggerDisabled) {
@@ -163,19 +161,19 @@ QList< QAction* > ContactRunner::actionsForMatch(const Plasma::QueryMatch &match
         }
     }
 
-    if (capabilities.audioCalls()) {
+    if (hasCapability(data.contact, ContactRunner::AudioCallCapability)) {
         actions.append(action(QLatin1String("start-audio-call")));
     }
 
-    if (capabilities.videoCallsWithAudio()) {
+    if (hasCapability(data.contact, ContactRunner::VideoCallCapability)) {
         actions.append(action(QLatin1String("start-video-call")));
     }
 
-    if (capabilities.fileTransfers()) {
+    if (hasCapability(data.contact, ContactRunner::FileTransferCapability)) {
         actions.append(action(QLatin1String("start-file-transfer")));
     }
 
-    if (capabilities.streamTubes(QLatin1String("rfb"))) {
+    if (hasCapability(data.contact, ContactRunner::DesktopSharingCapability)) {
         actions.append(action(QLatin1String("start-desktop-sharing")));
     }
 
@@ -222,7 +220,7 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
         return;
     }
 
-    /* Open chat/call/whaterver with contact */
+    /* Open chat/call/whatever with contact */
     Tp::AccountPtr account = data.account;
     Tp::ContactPtr contact = data.contact;
 
@@ -261,23 +259,21 @@ bool ContactRunner::hasCapability(const Tp::ContactPtr &contact, Capability capa
         return true;
     }
 
-    if ((capability == TextChatCapability) &&
-        contact->capabilities().textChats()) {
+    if ((capability == TextChatCapability) && contact->capabilities().textChats()) {
         return true;
     }
 
-    if ((capability == AudioCallCapability) &&
-        contact->capabilities().audioCalls()) {
+    const KTp::ContactPtr ktpContact = KTp::ContactPtr::dynamicCast(contact);
+
+    if ((capability == AudioCallCapability) && ktpContact->audioCallCapability()) {
         return true;
     }
 
-    if ((capability == VideoCallCapability) &&
-        contact->capabilities().videoCalls()) {
+    if ((capability == VideoCallCapability) && ktpContact->videoCallCapability()) {
         return true;
     }
 
-    if ((capability == FileTransferCapability) &&
-        contact->capabilities().fileTransfers()) {
+    if ((capability == FileTransferCapability) && ktpContact->fileTransferCapability()) {
         return true;
     }
 
