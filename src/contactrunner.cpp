@@ -339,7 +339,10 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
 
             const QString &name = contact->alias();
             if (!name.contains(contactQuery, Qt::CaseInsensitive)) {
-                continue;
+                const QString &id = contact->id();
+                if (!id.contains(contactQuery, Qt::CaseInsensitive)) {
+                    continue;
+                }
             }
 
             MatchInfo data;
