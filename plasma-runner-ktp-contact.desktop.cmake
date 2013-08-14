@@ -36,6 +36,7 @@ Name[sr@ijekavianlatin]=Brzoglasnički kontakti
 Name[sr@latin]=Brzoglasnički kontakti
 Name[sv]=Direktmeddelandekontakter
 Name[tr]=Anında Mesajlaşma Kişileri
+Name[ug]=مۇڭداشقۇ ئالاقەداشلىرى
 Name[uk]=Контакти миттєвого обміну повідомленнями
 Name[wa]=Soçons del messaedjreye sol moumint
 Name[x-test]=xxInstant Messaging Contactsxx
