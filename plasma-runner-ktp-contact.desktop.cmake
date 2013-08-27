@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Instant Messaging Contacts
+Name=Instant Messaging
 Name[bs]=Brze poruke
 Name[ca]=Contactes de missatgeria instantània
 Name[ca@valencia]=Contactes de missatgeria instantània
@@ -42,7 +42,7 @@ Name[wa]=Soçons del messaedjreye sol moumint
 Name[x-test]=xxInstant Messaging Contactsxx
 Name[zh_CN]=即时通讯联系人
 Name[zh_TW]=即時訊息聯絡人
-Comment=Start chat with any of your IM contacts
+Comment=Start a chat with any of your IM contacts or change your IM status
 Comment[bs]=Počnite ćaskanje s nekim od IM kontakta
 Comment[ca]=Inicia un xat amb qualsevol dels vostres contactes de MI
 Comment[ca@valencia]=Inicia un xat amb qualsevol dels vostres contactes de MI
