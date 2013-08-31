@@ -1,8 +1,10 @@
 [Desktop Entry]
 Name=Instant Messaging
 Name[cs]=Instant Messaging
+Name[fi]=Pikaviestintä
 Name[it]=Messaggistica istantanea
 Name[nl]=Instant Messaging
+Name[pt]=Mensagens Instantâneas
 Name[pt_BR]=Mensagens instantâneas
 Name[sl]=Hipno sporočanje
 Name[sv]=Direktmeddelandekontakter
@@ -10,8 +12,10 @@ Name[uk]=Миттєвий обмін повідомленнями
 Name[x-test]=xxInstant Messagingxx
 Comment=Start a chat with any of your IM contacts or change your IM status
 Comment[cs]=Začít rozhovor s kterýmkoliv vaším kontaktem v IM nebo změnit stav na IM
+Comment[fi]=Aloita keskustelu muun pikaviestinkäyttäjän kanssa tai vaihda pikaviestintilaasi
 Comment[it]=Avvia una chat con un tuo contatto di MI oppure cambia il tuo stato di MI
 Comment[nl]=Begin een chat met een van uw IM-contactpersonen of wijzig uw IM-status
+Comment[pt]=Iniciar uma conversa com qualquer um dos seus contactos MI ou mudar o seu estado
 Comment[pt_BR]=Inicia um bate-papo com um dos seus contatos de MI ou altera o seu status
 Comment[sl]=Začnite klepet s katerimkoli izmed vaših stikov hipnega sporočanja ali spremenite vaše stanje
 Comment[sv]=Börja chatta med någon direktmeddelandekontakt eller ändra din direktmeddelandestatus
