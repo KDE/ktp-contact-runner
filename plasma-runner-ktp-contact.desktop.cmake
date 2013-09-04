@@ -2,6 +2,7 @@
 Name=Instant Messaging
 Name[cs]=Instant Messaging
 Name[da]=Instant messaging
+Name[es]=Mensajería instantánea
 Name[fi]=Pikaviestintä
 Name[fr]=Messagerie instantanée
 Name[it]=Messaggistica istantanea
@@ -19,6 +20,7 @@ Name[x-test]=xxInstant Messagingxx
 Comment=Start a chat with any of your IM contacts or change your IM status
 Comment[cs]=Začít rozhovor s kterýmkoliv vaším kontaktem v IM nebo změnit stav na IM
 Comment[da]=Start chat med en af dine IM-kontakter eller skift din IM-status
+Comment[es]=Iniciar una conversación con cualquiera de sus contactos de MI o cambiar su estado de MI
 Comment[fi]=Aloita keskustelu muun pikaviestinkäyttäjän kanssa tai vaihda pikaviestintilaasi
 Comment[fr]=Démarre une discussion avec n'importe lequel de vos contacts de messagerie instantanée ou change l'état de celle-ci
 Comment[it]=Avvia una chat con un tuo contatto di MI oppure cambia il tuo stato di MI
