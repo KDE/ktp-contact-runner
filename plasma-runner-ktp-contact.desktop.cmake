@@ -15,6 +15,7 @@ Name[sr@ijekavian]=Брзо гласништво
 Name[sr@ijekavianlatin]=Brzo glasništvo
 Name[sr@latin]=Brzo glasništvo
 Name[sv]=Direktmeddelandekontakter
+Name[ug]=مۇڭداشقۇ
 Name[uk]=Миттєвий обмін повідомленнями
 Name[x-test]=xxInstant Messagingxx
 Comment=Start a chat with any of your IM contacts or change your IM status
