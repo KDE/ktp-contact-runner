@@ -390,7 +390,7 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
             if (!iconFile.isEmpty() && QFile::exists(iconFile)) {
                 match.setIcon(QIcon(iconFile));
             } else {
-                match.setIcon(presence.icon());
+                match.setIcon(QIcon::fromTheme(QLatin1String("im-user")));
             }
 
             if (!presence.statusMessage().isEmpty()) {
