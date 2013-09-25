@@ -1,6 +1,26 @@
 [Desktop Entry]
 Name=Instant Messaging
+Name[bs]=Brze poruke
+Name[ca]=Missatgeria instantània
+Name[de]=Instant-Messaging
+Name[fr]=Messagerie instantanée
+Name[it]=Messaggistica istantanea
+Name[kk]=Лезде хабарласу
+Name[nl]=Instant Messaging
+Name[sv]=Direktmeddelanden
+Name[uk]=Миттєвий обмін повідомленнями
+Name[x-test]=xxInstant Messagingxx
 Comment=Start a chat with any of your IM contacts or change your IM status
+Comment[bs]=Počnite ćaskanje s nekim od IM kontakta ili promijenite vaš IM status
+Comment[ca]=Inicia un xat amb qualsevol dels vostres contactes de MI o canvia el vostre estat de MI
+Comment[de]=Chats mit ihren Kontakten starten oder Ihren IM-Status ändern
+Comment[fr]=Démarre une discussion avec n'importe lequel de vos contacts de messagerie instantanée ou change l'état de celle-ci
+Comment[it]=Avvia una chat con un tuo contatto di MI oppure cambia il tuo stato di MI
+Comment[kk]=Кез-келген лезде хабарласу контактыңызбен чат-әңгімені бастау не күй-жайын өзгерту
+Comment[nl]=Begin een chat met een van uw IM-contactpersonen of wijzig uw IM-status
+Comment[sv]=Börja chatta med någon direktmeddelandekontakt eller ändra din direktmeddelandestatus
+Comment[uk]=Почати спілкування з будь-яким з ваших контактів або змінити ваш запис стану у системах обміну повідомленнями
+Comment[x-test]=xxStart a chat with any of your IM contacts or change your IM statusxx
 Icon=user-online
 
 X-KDE-ServiceTypes=Plasma/Runner
