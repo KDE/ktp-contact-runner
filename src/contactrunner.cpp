@@ -349,7 +349,10 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
             }
 
             if (!t.contains(contactQuery, Qt::CaseInsensitive)) {
-                const QString &id = contact->id();
+                //strip everything after the @, this is too avoid matching all '@facebook' addresses
+                //when typing the word 'book'
+                //if no @ symbol the entire string is searched
+                const QString &id = contact->id().left(contact->id().indexOf(QLatin1Char('@')));
                 if (!id.contains(contactQuery, Qt::CaseInsensitive)) {
                     continue;
                 }
