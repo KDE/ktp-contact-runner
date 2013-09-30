@@ -14,6 +14,7 @@ Name[sk]=Priama komunikácia
 Name[sv]=Direktmeddelanden
 Name[uk]=Миттєвий обмін повідомленнями
 Name[x-test]=xxInstant Messagingxx
+Name[zh_CN]=即时通讯
 Comment=Start a chat with any of your IM contacts or change your IM status
 Comment[bs]=Počnite ćaskanje s nekim od IM kontakta ili promijenite vaš IM status
 Comment[ca]=Inicia un xat amb qualsevol dels vostres contactes de MI o canvia el vostre estat de MI
@@ -29,6 +30,7 @@ Comment[sk]=Spustiť rozhovor s nejakým z vašich IM kontaktov alebo zmeniť v�
 Comment[sv]=Börja chatta med någon direktmeddelandekontakt eller ändra din direktmeddelandestatus
 Comment[uk]=Почати спілкування з будь-яким з ваших контактів або змінити ваш запис стану у системах обміну повідомленнями
 Comment[x-test]=xxStart a chat with any of your IM contacts or change your IM statusxx
+Comment[zh_CN]=与任意您的即时通讯联系人开始聊天或修改您的状态
 Icon=user-online
 
 X-KDE-ServiceTypes=Plasma/Runner
