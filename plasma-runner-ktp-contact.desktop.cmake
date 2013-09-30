@@ -24,6 +24,7 @@ Name[sv]=Direktmeddelandekontakter
 Name[ug]=مۇڭداشقۇ
 Name[uk]=Миттєвий обмін повідомленнями
 Name[x-test]=xxInstant Messagingxx
+Name[zh_CN]=即时通讯
 Name[zh_TW]=即時訊息
 Comment=Start a chat with any of your IM contacts or change your IM status
 Comment[ca]=Inicia un xat amb qualsevol dels vostres contactes de MI o canvia el vostre estat de MI
@@ -49,6 +50,7 @@ Comment[sr@latin]=Započnite ćaskanje preko IM kontakta ili izmenite svoje IM s
 Comment[sv]=Börja chatta med någon direktmeddelandekontakt eller ändra din direktmeddelandestatus
 Comment[uk]=Почати спілкування з будь-яким з ваших контактів або змінити ваш запис стану у системах обміну повідомленнями
 Comment[x-test]=xxStart a chat with any of your IM contacts or change your IM statusxx
+Comment[zh_CN]=与任意您的即时通讯联系人开始聊天或修改您的状态
 Comment[zh_TW]=與您的即時訊息聯絡人開始聊天，或是變更您的即時訊息狀態
 Icon=user-online
 
