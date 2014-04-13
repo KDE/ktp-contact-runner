@@ -24,6 +24,7 @@
 #include <KMimeType>
 #include <KToolInvocation>
 #include <KStandardDirs>
+#include <KLocale>
 
 #include <TelepathyQt/ContactManager>
 #include <TelepathyQt/Contact>
@@ -405,7 +406,7 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
             match.setSelectedAction(defaultAction);
             match.setRelevance(relevance);
 
-            context.addMatch(term, match);
+            context.addMatch(match);
         }
     }
 }
@@ -508,7 +509,9 @@ void ContactRunner::addPresenceMatch(Plasma::RunnerContext &context, Tp::Connect
 
     match.setData(qVariantFromValue(data));
 
-    context.addMatch(context.query(), match);
+    context.addMatch(match);
 }
+
+K_EXPORT_PLASMA_RUNNER(ktp_contacts, ContactRunner)
 
 #include "contactrunner.moc"
