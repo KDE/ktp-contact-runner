@@ -9,6 +9,7 @@ Name[de]=Instant-Messaging
 Name[el]=Στιγμιαία μηνύματα
 Name[es]=Mensajería instantánea
 Name[et]=Kiirsuhtlus
+Name[fa]=پیام‌رسانی فوری
 Name[fi]=Pikaviestintä
 Name[fr]=Messagerie instantanée
 Name[gl]=Mensaxería instantánea
