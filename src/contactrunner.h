@@ -22,7 +22,7 @@
 
 #include <QtCore/QModelIndex>
 
-#include <Plasma/AbstractRunner>
+#include <KRunner/AbstractRunner>
 #include <KIcon>
 
 #include <TelepathyQt/AccountManager>
@@ -78,7 +78,5 @@ class ContactRunner : public Plasma::AbstractRunner
 
     bool m_loggerDisabled;
 };
-
-K_EXPORT_PLASMA_RUNNER(ktp_contacts, ContactRunner)
 
 #endif /* KTPCONTACTRUNNER_H */
