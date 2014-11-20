@@ -234,7 +234,7 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
     } else if (match.selectedAction() == action("start-file-transfer")) {
 
       QStringList filenames = KFileDialog::getOpenFileNames(
-                                    KUrl("kfiledialog:///FileTransferLastDirectory"),
+                                    QUrl("kfiledialog:///FileTransferLastDirectory"),
                                     QString(),
                                     0,
                                     i18n("Choose files to send to %1", contact->alias()));
