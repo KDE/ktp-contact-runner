@@ -20,12 +20,14 @@
 #ifndef KTPCONTACTRUNNER_H
 #define KTPCONTACTRUNNER_H
 
-#include <QtCore/QModelIndex>
+#include <QModelIndex>
+#include <QLoggingCategory>
 
 #include <KRunner/AbstractRunner>
-#include <KIcon>
 
 #include <TelepathyQt/AccountManager>
+
+Q_DECLARE_LOGGING_CATEGORY(KTP_CONTACT_RUNNER)
 
 namespace KTp
 {

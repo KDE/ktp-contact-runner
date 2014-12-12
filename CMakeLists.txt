@@ -1,5 +1,7 @@
 project(KTPContactRunner)
 
+cmake_minimum_required(VERSION 2.8.12)
+
 set(KTP_CONTACT_RUNNER_VERSION "0.8.80")
 set(IS_KTP_INTERNAL_MODULE TRUE)
 
@@ -11,7 +13,7 @@ cmake_policy(SET CMP0002 OLD)
 
 # Find the required Libaries
 find_package (Qt5 REQUIRED CONFIG COMPONENTS Core DBus Network)
-find_package (KF5 REQUIRED COMPONENTS I18n Service Runner KDELibs4Support)
+find_package (KF5 REQUIRED COMPONENTS I18n Service Runner)
 find_package (KTp REQUIRED)
 
 include(KDEInstallDirs)
@@ -32,7 +34,6 @@ target_link_libraries(krunner_ktp_contacts
                       KF5::I18n
                       KF5::Service
                       KF5::Runner
-                      KF5::KDELibs4Support
                       KTp::Models
                       KTp::CommonInternals)
 
