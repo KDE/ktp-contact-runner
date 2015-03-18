@@ -2,7 +2,7 @@ project(KTPContactRunner)
 
 cmake_minimum_required(VERSION 2.8.12)
 
-set(KTP_CONTACT_RUNNER_VERSION "0.9.80")
+set(KTP_CONTACT_RUNNER_VERSION "15.03.95")
 set(IS_KTP_INTERNAL_MODULE TRUE)
 
 find_package(ECM 1.0.0 REQUIRED NO_MODULE)
