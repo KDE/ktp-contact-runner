@@ -12,7 +12,7 @@ set (CMAKE_MODULE_PATH
 cmake_policy(SET CMP0002 OLD)
 
 # Find the required Libaries
-find_package (Qt5 REQUIRED CONFIG COMPONENTS Core DBus Network)
+find_package (Qt5 REQUIRED CONFIG COMPONENTS Widgets Core DBus Network)
 find_package (KF5 REQUIRED COMPONENTS I18n Service Runner)
 find_package (KTp REQUIRED)
 
@@ -31,6 +31,7 @@ set(runner_SRCS src/contactrunner.cpp)
 
 add_library(krunner_ktp_contacts MODULE ${runner_SRCS})
 target_link_libraries(krunner_ktp_contacts
+                      Qt5::Widgets
                       KF5::I18n
                       KF5::Service
                       KF5::Runner
