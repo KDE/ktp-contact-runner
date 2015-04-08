@@ -1,6 +1,5 @@
 [Desktop Entry]
 Name=Instant Messaging
-Name[ast]=Mensaxería nel intre
 Name[bs]=Brze poruke
 Name[ca]=Missatgeria instantània
 Name[ca@valencia]=Missatgeria instantània
