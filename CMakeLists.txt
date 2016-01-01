@@ -2,6 +2,8 @@ project(KTPContactRunner)
 
 cmake_minimum_required(VERSION 2.8.12)
 
+include(FeatureSummary)
+
 # KDE Application Version, managed by release script
 set(KDE_APPLICATIONS_VERSION_MAJOR "15")
 set(KDE_APPLICATIONS_VERSION_MINOR "07")
@@ -52,4 +54,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/plasma-runner-ktp-contact.desktop.cma
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/plasma-runner-ktp-contact.desktop
          DESTINATION ${SERVICES_INSTALL_DIR}
 )
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
