@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Instant Messaging
 Name[ar]=التّراسل المباشر
+Name[ast]=Mensaxería nel intre
 Name[bs]=Brze poruke
 Name[ca]=Missatgeria instantània
 Name[ca@valencia]=Missatgeria instantània
@@ -45,6 +46,7 @@ Name[zh_CN]=即时通讯
 Name[zh_TW]=即時訊息
 Comment=Start a chat with any of your IM contacts or change your IM status
 Comment[ar]=ابدأ محادثة بأيّ من متراسلي ت‌م أو غيّر حالة ت‌م
+Comment[ast]=Entama a charrar con cualesquier contautu MI de to o camuda la to presencia
 Comment[bs]=Pokrenite ćaskanje s bilo kojim od vaših IM kontakta ili promijenite svoj IM status
 Comment[ca]=Inicia un xat amb qualsevol dels vostres contactes de MI o canvia el vostre estat a la MI
 Comment[ca@valencia]=Inicia un xat amb qualsevol dels vostres contactes de MI o canvia el vostre estat a la MI
