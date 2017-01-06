@@ -24,6 +24,7 @@
 #include <QLoggingCategory>
 
 #include <KRunner/AbstractRunner>
+#include <KTp/Models/presence-model.h>
 
 #include <TelepathyQt/AccountManager>
 
@@ -65,6 +66,8 @@ class ContactRunner : public Plasma::AbstractRunner
 
   private Q_SLOTS:
     void accountManagerReady(Tp::PendingOperation *operation);
+    void prepare();
+    void teardown();
 
   private:
     bool hasCapability(const Tp::ContactPtr &contact, Capability capability) const;
@@ -76,8 +79,10 @@ class ContactRunner : public Plasma::AbstractRunner
                           const QString &statusMessage);
 
     KTp::GlobalPresence *m_globalPresence;
+    KTp::PresenceModel *m_model;
     Tp::AccountManagerPtr m_accountManager;
 
+    QList<KTp::Presence> m_modelCustomPresences;
     bool m_loggerDisabled;
 };
 

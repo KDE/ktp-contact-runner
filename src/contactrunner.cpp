@@ -40,6 +40,7 @@
 
 #include <KTp/presence.h>
 #include <KTp/global-presence.h>
+#include <KTp/Models/presence-model.h>
 #include <KTp/actions.h>
 #include <KTp/contact-factory.h>
 #include <KTp/contact.h>
@@ -57,7 +58,8 @@ Q_DECLARE_METATYPE(MatchInfo);
 
 ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     Plasma::AbstractRunner(parent, args),
-    m_globalPresence(new KTp::GlobalPresence(this))
+    m_globalPresence(new KTp::GlobalPresence(this)),
+    m_model(new KTp::PresenceModel(this))
 {
     Q_UNUSED(args);
 
@@ -127,11 +129,28 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     connect(m_accountManager->becomeReady(Tp::AccountManager::FeatureCore),
             SIGNAL(finished(Tp::PendingOperation*)),
             this, SLOT(accountManagerReady(Tp::PendingOperation*)));
+    connect(this, SIGNAL(prepare()), SLOT(prepare()));
+    connect(this, SIGNAL(teardown()), SLOT(teardown()));
 }
 
 ContactRunner::~ContactRunner()
 {
 
+}
+
+void ContactRunner::prepare()
+{
+    for (int i = 0; i < m_model->rowCount() ; i++) {
+        KTp::Presence presence = m_model->data(i).value<KTp::Presence>();
+        if (!presence.statusMessage().isEmpty()) {
+            m_modelCustomPresences.prepend(presence);
+        }
+    }
+}
+
+void ContactRunner::teardown()
+{
+    m_modelCustomPresences.clear();
 }
 
 void ContactRunner::accountManagerReady(Tp::PendingOperation *operation)
@@ -438,6 +457,19 @@ void ContactRunner::matchPresence(Plasma::RunnerContext &context)
         } else {
             presenceString = cmd;
         }
+    }
+
+    /* Presence model custom presence matches */
+    bool exactModelMatch = false;
+    Q_FOREACH(const KTp::Presence &presence, m_modelCustomPresences) {
+        if (presence.statusMessage().contains(statusMessage, Qt::CaseInsensitive) && presence.displayString().contains(presenceString, Qt::CaseInsensitive)) {
+            addPresenceMatch(context, presence.type(), presence.statusMessage());
+            exactModelMatch = (presence.statusMessage().compare(statusMessage, Qt::CaseInsensitive) == 0);
+        }
+    }
+
+    if (exactModelMatch) {
+        return;
     }
 
     if (all || i18nc("IM presence", "online").contains(presenceString, Qt::CaseInsensitive) ||  (term == connectCommand)) {
