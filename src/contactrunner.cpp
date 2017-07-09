@@ -32,8 +32,6 @@
 #include <TelepathyQt/ConnectionManager>
 #include <TelepathyQt/AccountManager>
 #include <TelepathyQt/AccountFactory>
-#include <TelepathyQt/PendingOperation>
-#include <TelepathyQt/PendingReady>
 #include <TelepathyQt/Types>
 #include <TelepathyQt/Constants>
 #include <TelepathyQt/ContactCapabilities>
@@ -41,6 +39,7 @@
 #include <KTp/presence.h>
 #include <KTp/global-presence.h>
 #include <KTp/Models/presence-model.h>
+#include <KTp/Models/accounts-list-model.h>
 #include <KTp/actions.h>
 #include <KTp/contact-factory.h>
 #include <KTp/contact.h>
@@ -48,7 +47,7 @@
 Q_LOGGING_CATEGORY(KTP_CONTACT_RUNNER, "ktp-contact-runner")
 
 struct MatchInfo {
-    Tp::AccountPtr account;
+    QModelIndex accountsModelIndex;
     Tp::ContactPtr contact;
     KTp::Presence presence;
 };
@@ -59,7 +58,8 @@ Q_DECLARE_METATYPE(MatchInfo);
 ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     Plasma::AbstractRunner(parent, args),
     m_globalPresence(new KTp::GlobalPresence(this)),
-    m_model(new KTp::PresenceModel(this))
+    m_presenceModel(new KTp::PresenceModel()),
+    m_accountsModel(new KTp::AccountsListModel())
 {
     Q_UNUSED(args);
 
@@ -91,10 +91,10 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     presenceMsgSyntax.setSearchTermDescription(i18nc("Search term description", "status"));
     addSyntax(presenceMsgSyntax);
 
-    addSyntax(Plasma::RunnerSyntax(i18nc("A command to connect all IM accounts", "connect"),
-                                   i18n("Connect all IM accounts")));
-    addSyntax(Plasma::RunnerSyntax(i18nc("A command to disconnect all IM accounts", "disconnect"),
-                                   i18n("Disconnect all IM accounts")));;
+    addSyntax(Plasma::RunnerSyntax(i18nc("A command to connect IM accounts", "connect"),
+                                   i18n("Connect IM accounts")));
+    addSyntax(Plasma::RunnerSyntax(i18nc("A command to disconnect IM accounts", "disconnect"),
+                                   i18n("Disconnect IM accounts")));
 
     addAction(QLatin1String("start-text-chat"), QIcon::fromTheme(QLatin1String("text-x-generic")), i18n("Start Chat"));
     addAction(QLatin1String("start-audio-call"), QIcon::fromTheme(QLatin1String("audio-headset")), i18n("Start Audio Call"));
@@ -106,8 +106,18 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
         addAction(QLatin1String("show-log-viewer"), QIcon::fromTheme(QLatin1String("view-pim-journal")), i18n("Open the log viewer"));
     }
 
-    Tp::registerTypes();
-    Tp::AccountFactoryPtr  accountFactory = Tp::AccountFactory::create(
+    /* Suspend matching until the account manager is ready */
+    suspendMatching(true);
+}
+
+ContactRunner::~ContactRunner()
+{
+
+}
+
+void ContactRunner::init()
+{
+    Tp::AccountFactoryPtr accountFactory = Tp::AccountFactory::create(
                                                 QDBusConnection::sessionBus(),
                                                 Tp::Features() << Tp::Account::FeatureCore);
 
@@ -125,42 +135,13 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
 
     Tp::ChannelFactoryPtr channelFactory = Tp::ChannelFactory::create(QDBusConnection::sessionBus());
 
-    m_accountManager = Tp::AccountManager::create(accountFactory, connectionFactory, channelFactory, contactFactory);
-    connect(m_accountManager->becomeReady(Tp::AccountManager::FeatureCore),
-            SIGNAL(finished(Tp::PendingOperation*)),
-            this, SLOT(accountManagerReady(Tp::PendingOperation*)));
-    connect(this, SIGNAL(prepare()), SLOT(prepare()));
-    connect(this, SIGNAL(teardown()), SLOT(teardown()));
-}
+    Tp::AccountManagerPtr accountManager = Tp::AccountManager::create(accountFactory, connectionFactory, channelFactory, contactFactory);
+    m_globalPresence->addAccountManager(accountManager);
 
-ContactRunner::~ContactRunner()
-{
-
-}
-
-void ContactRunner::prepare()
-{
-    for (int i = 0; i < m_model->rowCount() ; i++) {
-        KTp::Presence presence = m_model->data(i).value<KTp::Presence>();
-        if (!presence.statusMessage().isEmpty()) {
-            m_modelCustomPresences.prepend(presence);
-        }
-    }
-}
-
-void ContactRunner::teardown()
-{
-    m_modelCustomPresences.clear();
-}
-
-void ContactRunner::accountManagerReady(Tp::PendingOperation *operation)
-{
-    if (operation->isError()) {
-        qCWarning(KTP_CONTACT_RUNNER) << operation->errorMessage();
-        return;
-    }
-
-    m_globalPresence->setAccountManager(m_accountManager);
+    connect(m_globalPresence, &KTp::GlobalPresence::accountManagerReady, [this] {
+        m_accountsModel->setAccountSet(m_globalPresence->enabledAccounts());
+        suspendMatching(false);
+    });
 }
 
 QList<QAction*> ContactRunner::actionsForMatch(const Plasma::QueryMatch &match)
@@ -199,17 +180,11 @@ QList<QAction*> ContactRunner::actionsForMatch(const Plasma::QueryMatch &match)
     return actions;
 }
 
-
-
 void ContactRunner::match(Plasma::RunnerContext &context)
 {
     const QString term = context.query();
 
     if ((term.length() < 3) || !context.isValid()) {
-        return;
-    }
-
-    if (!m_accountManager->isReady()) {
         return;
     }
 
@@ -221,26 +196,30 @@ void ContactRunner::match(Plasma::RunnerContext &context)
     matchContacts(context);
 }
 
-
 void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::QueryMatch &match)
 {
     Q_UNUSED(context)
 
     MatchInfo data = match.data().value< MatchInfo >();
     if (data.presence.isValid()) {
-        data.presence.setStatus(data.presence.type(), data.presence.status(), data.presence.statusMessage());
-        m_globalPresence->setPresence(data.presence);
+        if (data.accountsModelIndex.isValid()) {
+            m_accountsModel->setData(data.accountsModelIndex, QVariant::fromValue<KTp::Presence>(data.presence), KTp::AccountsListModel::StatusHandlerPresenceRole);
 
-        return;
+            return;
+        } else {
+            m_globalPresence->setPresence(data.presence);
+
+           return;
+        }
     }
 
-    if (!data.account || !data.contact) {
+    if (!data.accountsModelIndex.isValid() || !data.contact) {
         qCWarning(KTP_CONTACT_RUNNER) << "Running invalid contact info";
         return;
     }
 
     /* Open chat/call/whatever with contact */
-    Tp::AccountPtr account = data.account;
+    Tp::AccountPtr account = m_accountsModel->data(data.accountsModelIndex, KTp::AccountsListModel::AccountRole).value<Tp::AccountPtr>();
     Tp::ContactPtr contact = data.contact;
 
     if (match.selectedAction() == action(QLatin1String("start-text-chat"))) {
@@ -259,7 +238,7 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
             return;
         }
 
-        Q_FOREACH (const QString &filename, filenames) {
+        for (const QString &filename : filenames) {
             KTp::Actions::startFileTransfer(account, contact, filename);
         }
 
@@ -339,13 +318,15 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
         contactQuery = term;
     }
 
-    Q_FOREACH (const Tp::AccountPtr &account, m_accountManager->allAccounts()) {
+    for (int i = 0; i < m_accountsModel->rowCount(); i++) {
+        const QModelIndex &index = m_accountsModel->index(i, 0);
+        Tp::AccountPtr account = m_accountsModel->data(index, KTp::AccountsListModel::AccountRole).value<Tp::AccountPtr>();
 
         if (account->connection().isNull() || account->connection()->contactManager()->state() != Tp::ContactListStateSuccess) {
             continue;
         }
 
-        Q_FOREACH (const Tp::ContactPtr &contact, account->connection()->contactManager()->allKnownContacts()) {
+        for (const Tp::ContactPtr &contact : account->connection()->contactManager()->allKnownContacts()) {
 
             Plasma::QueryMatch match(this);
             qreal relevance = 0.1;
@@ -357,7 +338,7 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
             const QString &normalized = contact->alias().normalized(QString::NormalizationForm_D);
             QString t;
             // Strip diacritics, umlauts etc
-            Q_FOREACH (const QChar &c, normalized) {
+            for (const QChar &c : normalized) {
                 if (c.category() != QChar::Mark_NonSpacing
                         && c.category() != QChar::Mark_SpacingCombining
                         && c.category() != QChar::Mark_Enclosing) {
@@ -376,7 +357,7 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
             }
 
             MatchInfo data;
-            data.account = account;
+            data.accountsModelIndex = index;
             data.contact = contact;
             match.setData(qVariantFromValue(data));
 
@@ -459,10 +440,82 @@ void ContactRunner::matchPresence(Plasma::RunnerContext &context)
         }
     }
 
+    auto addMatch = [this] (Plasma::RunnerContext &context, Tp::ConnectionPresenceType presence, const QString &statusMessage, const QModelIndex &accountsModelIndex = QModelIndex()) {
+        Plasma::QueryMatch match(this);
+        match.setType(Plasma::QueryMatch::ExactMatch);
+
+        MatchInfo data;
+        data.accountsModelIndex = accountsModelIndex;
+
+        switch (presence) {
+            case Tp::ConnectionPresenceTypeAvailable:
+                data.presence = KTp::Presence(Tp::Presence::available());
+                match.setText(i18nc("Description of runner action", "Set IM status to online"));
+                match.setSubtext(i18nc("Description of runner subaction", "Set global IM status to online"));
+
+                break;
+            case Tp::ConnectionPresenceTypeBusy:
+                data.presence = KTp::Presence(Tp::Presence::busy());
+                match.setText(i18nc("Description of runner action", "Set IM status to busy"));
+                match.setSubtext(i18nc("Description of runner subaction", "Set global IM status to busy"));
+
+                break;
+            case Tp::ConnectionPresenceTypeAway:
+                data.presence = KTp::Presence(Tp::Presence::away());
+                match.setText(i18nc("Description of runner action", "Set IM status to away"));
+                match.setSubtext(i18nc("Description of runner subaction", "Set global IM status to away"));
+
+                break;
+            case Tp::ConnectionPresenceTypeHidden:
+                data.presence = KTp::Presence(Tp::Presence::hidden());
+                match.setText(i18nc("Description of runner action", "Set IM status to hidden"));
+                match.setSubtext(i18nc("Description of runner subaction", "Set global IM status to hidden"));
+
+                break;
+            case Tp::ConnectionPresenceTypeOffline:
+                data.presence = KTp::Presence(Tp::Presence::offline());
+                match.setText(i18nc("Description of runner action", "Set IM status to offline"));
+                match.setSubtext(i18nc("Description of runner subaction", "Set global IM status to offline"));
+
+                break;
+            default:
+                return;
+        }
+
+        if (data.accountsModelIndex.isValid()) {
+            match.setIcon(m_accountsModel->data(accountsModelIndex, Qt::DecorationRole).value<QIcon>());
+            match.setSubtext(m_accountsModel->data(accountsModelIndex, Qt::DisplayRole).value<QString>());
+        } else {
+            match.setIcon(data.presence.icon());
+            match.setRelevance(1.0);
+        }
+
+        if (!statusMessage.isEmpty()) {
+            match.setSubtext(i18n("Status message: %1", statusMessage));
+            data.presence.setStatusMessage(statusMessage);
+        }
+
+        match.setData(qVariantFromValue(data));
+
+        context.addMatch(match);
+    };
+
+    auto addPresenceMatch = [=] (Plasma::RunnerContext &context, Tp::ConnectionPresenceType presence, const QString &statusMessage) {
+        addMatch(context, presence, statusMessage);
+
+        for (int i = 0; i < m_accountsModel->rowCount(); i++) {
+            addMatch(context, presence, statusMessage, m_accountsModel->index(i, 0));
+        }
+    };
+
     /* Presence model custom presence matches */
     bool exactModelMatch = false;
-    Q_FOREACH(const KTp::Presence &presence, m_modelCustomPresences) {
-        if (presence.statusMessage().contains(statusMessage, Qt::CaseInsensitive) && presence.displayString().contains(presenceString, Qt::CaseInsensitive)) {
+    for (int i = 0; i < m_presenceModel->rowCount() ; i++) {
+        const QModelIndex &index = m_presenceModel->index(i, 0);
+        const KTp::Presence &presence = m_presenceModel->data(index, KTp::PresenceModel::PresenceRole).value<KTp::Presence>();
+        if (presence.statusMessage().contains(statusMessage, Qt::CaseInsensitive)
+          && presence.displayString().contains(presenceString, Qt::CaseInsensitive)
+          && !presence.statusMessage().isEmpty()) {
             addPresenceMatch(context, presence.type(), presence.statusMessage());
             exactModelMatch = (presence.statusMessage().compare(statusMessage, Qt::CaseInsensitive) == 0);
         }
@@ -472,16 +525,16 @@ void ContactRunner::matchPresence(Plasma::RunnerContext &context)
         return;
     }
 
-    if (all || i18nc("IM presence", "online").contains(presenceString, Qt::CaseInsensitive) ||  (term == connectCommand)) {
+    if (all || i18nc("IM presence", "online").contains(presenceString, Qt::CaseInsensitive) || i18nc("IM presence", "available").contains(presenceString, Qt::CaseInsensitive) ||  (term == connectCommand)) {
         addPresenceMatch(context, Tp::ConnectionPresenceTypeAvailable, statusMessage);
-    }
-
-    if (all || i18nc("IM presence", "away").contains(presenceString, Qt::CaseInsensitive)) {
-        addPresenceMatch(context, Tp::ConnectionPresenceTypeAway, statusMessage);
     }
 
     if (all || i18nc("IM presence","busy").contains(presenceString, Qt::CaseInsensitive)) {
         addPresenceMatch(context, Tp::ConnectionPresenceTypeBusy, statusMessage);
+    }
+
+    if (all || i18nc("IM presence", "away").contains(presenceString, Qt::CaseInsensitive)) {
+        addPresenceMatch(context, Tp::ConnectionPresenceTypeAway, statusMessage);
     }
 
     if (all || i18nc("IM presence","hidden").contains(presenceString, Qt::CaseInsensitive)) {
@@ -493,53 +546,6 @@ void ContactRunner::matchPresence(Plasma::RunnerContext &context)
     }
 }
 
-void ContactRunner::addPresenceMatch(Plasma::RunnerContext &context, Tp::ConnectionPresenceType presence,
-                                     const QString &statusMessage)
-{
-    Plasma::QueryMatch match(this);
-    match.setType(Plasma::QueryMatch::ExactMatch);
-
-    MatchInfo data;
-
-    switch (presence) {
-        case Tp::ConnectionPresenceTypeAvailable:
-            data.presence = KTp::Presence(Tp::Presence::available());
-            match.setIcon(data.presence.icon());
-            match.setText(i18nc("Description of runner action", "Set IM status to online"));
-            break;
-        case Tp::ConnectionPresenceTypeAway:
-            data.presence = KTp::Presence(Tp::Presence::away());
-            match.setIcon(data.presence.icon());
-            match.setText(i18nc("Description of runner action", "Set IM status to away"));
-            break;
-        case Tp::ConnectionPresenceTypeBusy:
-            data.presence = KTp::Presence(Tp::Presence::busy());
-            match.setIcon(data.presence.icon());
-            match.setText(i18nc("Description of runner action", "Set IM status to busy"));
-            break;
-        case Tp::ConnectionPresenceTypeHidden:
-            data.presence = KTp::Presence(Tp::Presence::hidden());
-            match.setIcon(data.presence.icon());
-            match.setText(i18nc("Description of runner action", "Set IM status to hidden"));
-            break;
-        case Tp::ConnectionPresenceTypeOffline:
-            data.presence = KTp::Presence(Tp::Presence::offline());
-            match.setIcon(data.presence.icon());
-            match.setText(i18nc("Description of runner action", "Set IM status to offline"));
-            break;
-        default:
-            return;
-    }
-
-    if (!statusMessage.isEmpty()) {
-        match.setSubtext(i18n("Status message: %1", statusMessage));
-        data.presence.setStatusMessage(statusMessage);
-    }
-
-    match.setData(qVariantFromValue(data));
-
-    context.addMatch(match);
-}
 
 K_EXPORT_PLASMA_RUNNER(ktp_contacts, ContactRunner)
 

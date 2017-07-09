@@ -24,15 +24,16 @@
 #include <QLoggingCategory>
 
 #include <KRunner/AbstractRunner>
-#include <KTp/Models/presence-model.h>
 
-#include <TelepathyQt/AccountManager>
+#include <TelepathyQt/Contact>
 
 Q_DECLARE_LOGGING_CATEGORY(KTP_CONTACT_RUNNER)
 
 namespace KTp
 {
     class GlobalPresence;
+    class PresenceModel;
+    class AccountsListModel;
 }
 
 namespace Tp {
@@ -62,12 +63,8 @@ class ContactRunner : public Plasma::AbstractRunner
     void run(const Plasma::RunnerContext &context, const Plasma::QueryMatch &match);
 
   protected:
+    virtual void init();
     QList< QAction* > actionsForMatch(const Plasma::QueryMatch &match);
-
-  private Q_SLOTS:
-    void accountManagerReady(Tp::PendingOperation *operation);
-    void prepare();
-    void teardown();
 
   private:
     bool hasCapability(const Tp::ContactPtr &contact, Capability capability) const;
@@ -75,14 +72,10 @@ class ContactRunner : public Plasma::AbstractRunner
     void matchPresence(Plasma::RunnerContext &context);
     void matchContacts(Plasma::RunnerContext &context);
 
-    void addPresenceMatch(Plasma::RunnerContext &context, Tp::ConnectionPresenceType presence,
-                          const QString &statusMessage);
-
     KTp::GlobalPresence *m_globalPresence;
-    KTp::PresenceModel *m_model;
-    Tp::AccountManagerPtr m_accountManager;
+    KTp::PresenceModel *m_presenceModel;
+    KTp::AccountsListModel *m_accountsModel;
 
-    QList<KTp::Presence> m_modelCustomPresences;
     bool m_loggerDisabled;
 };
 
