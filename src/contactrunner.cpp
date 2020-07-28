@@ -117,21 +117,26 @@ ContactRunner::~ContactRunner()
 
 void ContactRunner::init()
 {
+    QTimer::singleShot(0, this, &ContactRunner::initAsync);
+}
+
+void ContactRunner::initAsync()
+{
     Tp::AccountFactoryPtr accountFactory = Tp::AccountFactory::create(
-                                                QDBusConnection::sessionBus(),
-                                                Tp::Features() << Tp::Account::FeatureCore);
+        QDBusConnection::sessionBus(),
+        Tp::Features() << Tp::Account::FeatureCore);
 
     Tp::ConnectionFactoryPtr connectionFactory = Tp::ConnectionFactory::create(
-                                                QDBusConnection::sessionBus(),
-                                                Tp::Features() << Tp::Connection::FeatureCore
-                                                    << Tp::Connection::FeatureSelfContact
-                                                    << Tp::Connection::FeatureRoster);
+        QDBusConnection::sessionBus(),
+        Tp::Features() << Tp::Connection::FeatureCore
+                       << Tp::Connection::FeatureSelfContact
+                       << Tp::Connection::FeatureRoster);
 
     Tp::ContactFactoryPtr contactFactory = KTp::ContactFactory::create(
-                                                Tp::Features()  << Tp::Contact::FeatureAlias
-                                                    << Tp::Contact::FeatureAvatarData
-                                                    << Tp::Contact::FeatureSimplePresence
-                                                    << Tp::Contact::FeatureCapabilities);
+        Tp::Features()  << Tp::Contact::FeatureAlias
+                        << Tp::Contact::FeatureAvatarData
+                        << Tp::Contact::FeatureSimplePresence
+                        << Tp::Contact::FeatureCapabilities);
 
     Tp::ChannelFactoryPtr channelFactory = Tp::ChannelFactory::create(QDBusConnection::sessionBus());
 

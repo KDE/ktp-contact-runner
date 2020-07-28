@@ -67,6 +67,7 @@ class ContactRunner : public Plasma::AbstractRunner
     QList< QAction* > actionsForMatch(const Plasma::QueryMatch &match);
 
   private:
+    void initAsync();
     bool hasCapability(const Tp::ContactPtr &contact, Capability capability) const;
 
     void matchPresence(Plasma::RunnerContext &context);
