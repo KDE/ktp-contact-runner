@@ -61,8 +61,6 @@ ContactRunner::ContactRunner(QObject *parent, const QVariantList &args):
     m_presenceModel(new KTp::PresenceModel()),
     m_accountsModel(new KTp::AccountsListModel())
 {
-    Q_UNUSED(args);
-
     setObjectName(QLatin1String("IM Contacts Runner"));
 
     m_loggerDisabled = QStandardPaths::findExecutable(QLatin1String("ktp-log-viewer")).isEmpty();
@@ -138,7 +136,7 @@ void ContactRunner::init()
     Tp::AccountManagerPtr accountManager = Tp::AccountManager::create(accountFactory, connectionFactory, channelFactory, contactFactory);
     m_globalPresence->addAccountManager(accountManager);
 
-    connect(m_globalPresence, &KTp::GlobalPresence::accountManagerReady, [this] {
+    connect(m_globalPresence, &KTp::GlobalPresence::accountManagerReady, this, [this] {
         m_accountsModel->setAccountSet(m_globalPresence->enabledAccounts());
         suspendMatching(false);
     });
@@ -230,7 +228,7 @@ void ContactRunner::run(const Plasma::RunnerContext &context, const Plasma::Quer
         KTp::Actions::startAudioVideoCall(account, contact);
     } else if (match.selectedAction() == action("start-file-transfer")) {
 
-        QStringList filenames = QFileDialog::getOpenFileNames(0,
+        const QStringList filenames = QFileDialog::getOpenFileNames(0,
                                                               i18n("Choose files to send to %1", contact->alias()),
                                                               QStringLiteral("kfiledialog:///FileTransferLastDirectory"));
 
@@ -326,8 +324,8 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
             continue;
         }
 
-        for (const Tp::ContactPtr &contact : account->connection()->contactManager()->allKnownContacts()) {
-
+        const auto contects = account->connection()->contactManager()->allKnownContacts();
+        for (const Tp::ContactPtr &contact : contects) {
             Plasma::QueryMatch match(this);
             qreal relevance = 0.1;
 
@@ -359,7 +357,7 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
             MatchInfo data;
             data.accountsModelIndex = index;
             data.contact = contact;
-            match.setData(qVariantFromValue(data));
+            match.setData(QVariant::fromValue(data));
 
             match.setText(contact->alias() + QLatin1String(" (") +  account->displayName() + ')');
             match.setType(Plasma::QueryMatch::ExactMatch);
@@ -495,7 +493,7 @@ void ContactRunner::matchPresence(Plasma::RunnerContext &context)
             data.presence.setStatusMessage(statusMessage);
         }
 
-        match.setData(qVariantFromValue(data));
+        match.setData(QVariant::fromValue(data));
 
         context.addMatch(match);
     };
