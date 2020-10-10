@@ -324,8 +324,8 @@ void ContactRunner::matchContacts(Plasma::RunnerContext &context)
             continue;
         }
 
-        const auto contects = account->connection()->contactManager()->allKnownContacts();
-        for (const Tp::ContactPtr &contact : contects) {
+        const auto allKnownContacts = account->connection()->contactManager()->allKnownContacts();
+        for (const Tp::ContactPtr &contact : allKnownContacts) {
             Plasma::QueryMatch match(this);
             qreal relevance = 0.1;
 
