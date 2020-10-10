@@ -545,6 +545,6 @@ void ContactRunner::matchPresence(Plasma::RunnerContext &context)
 }
 
 
-K_EXPORT_PLASMA_RUNNER(ktp_contacts, ContactRunner)
+K_EXPORT_PLASMA_RUNNER_WITH_JSON(ContactRunner, "plasma-runner-ktp-contact.json")
 
 #include "contactrunner.moc"

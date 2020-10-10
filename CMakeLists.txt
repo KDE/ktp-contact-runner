@@ -36,6 +36,10 @@ include_directories(
 set(runner_SRCS src/contactrunner.cpp)
 
 add_library(krunner_ktp_contacts MODULE ${runner_SRCS})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/plasma-runner-ktp-contact.desktop.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/plasma-runner-ktp-contact.desktop
+               @ONLY)
+kcoreaddons_desktop_to_json(krunner_ktp_contacts ${CMAKE_CURRENT_BINARY_DIR}/plasma-runner-ktp-contact.desktop)
 target_link_libraries(krunner_ktp_contacts
                       Qt5::Widgets
                       KF5::I18n
@@ -44,16 +48,7 @@ target_link_libraries(krunner_ktp_contacts
                       KTp::Models
                       KTp::CommonInternals)
 
-install(TARGETS krunner_ktp_contacts
-        DESTINATION ${PLUGIN_INSTALL_DIR})
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/plasma-runner-ktp-contact.desktop.cmake
-               ${CMAKE_CURRENT_BINARY_DIR}/plasma-runner-ktp-contact.desktop
-               @ONLY)
-
-install (FILES ${CMAKE_CURRENT_BINARY_DIR}/plasma-runner-ktp-contact.desktop
-         DESTINATION ${SERVICES_INSTALL_DIR}
-)
+install(TARGETS krunner_ktp_contacts DESTINATION "${KDE_INSTALL_PLUGINDIR}/kf5/krunner")
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
