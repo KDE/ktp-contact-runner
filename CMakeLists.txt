@@ -1,21 +1,19 @@
-project(KTPContactRunner)
-
-cmake_minimum_required(VERSION 2.8.12)
-
-include(FeatureSummary)
+cmake_minimum_required(VERSION 3.16)
 
 # KDE Application Version, managed by release script
 set(RELEASE_SERVICE_VERSION_MAJOR "22")
 set(RELEASE_SERVICE_VERSION_MINOR "03")
 set(RELEASE_SERVICE_VERSION_MICRO "70")
 set(KTP_CONTACT_RUNNER_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
+
+project(KTPContactRunner VERSION ${KTP_CONTACT_RUNNER_VERSION})
+
 set(IS_KTP_INTERNAL_MODULE TRUE)
 
 find_package(ECM 1.0.0 REQUIRED NO_MODULE)
 set (CMAKE_MODULE_PATH
      ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_MODULE_PATH}
 )
-cmake_policy(SET CMP0002 OLD)
 
 # Find the required Libaries
 find_package (Qt5 REQUIRED CONFIG COMPONENTS Widgets Core DBus Network)
