@@ -46,5 +46,7 @@ target_link_libraries(krunner_ktp_contacts
 
 install(TARGETS krunner_ktp_contacts DESTINATION "${KDE_INSTALL_PLUGINDIR}/kf5/krunner")
 
+ki18n_install(po)
+
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
