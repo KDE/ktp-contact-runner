@@ -1,0 +1,276 @@
+# translation of plasma_runner_ktp_contacts.po to Slovak
+# Roman Paholik <wizzardsk@gmail.com>, 2012.
+# Matej Mrenica <matejm98mthw@gmail.com>, 2019.
+msgid ""
+msgstr ""
+"Project-Id-Version: plasma_runner_ktp_contacts\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-10-11 02:24+0200\n"
+"PO-Revision-Date: 2019-08-06 15:54+0200\n"
+"Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
+"Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 19.07.90\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: src/contactrunner.cpp:68
+#, kde-format
+msgid "Finds all IM contacts matching :q:."
+msgstr "Nájde všetky IM kontakty vyhovujúce :q:."
+
+#: src/contactrunner.cpp:69
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of text chats (default "
+"behavior)"
+msgstr ""
+"Nájde všetky IM kontakty vyhovujúce :q: ktoré umožujú textový rozhovor "
+"(predvolené správanie)"
+
+#: src/contactrunner.cpp:70
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of audio call and uses "
+"audio calls as default action."
+msgstr ""
+"Nájde všetky IM kontakty vyhovujúce :q: ktoré umožňujú zvukový hovor a "
+"používajú zvukové hovory ako predvolenú akciu."
+
+#: src/contactrunner.cpp:71
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of video call and uses "
+"video calls as default action."
+msgstr ""
+"Nájde všetky IM kontakty vyhovujúce :q: ktoré umožňujú video hovor a "
+"používajú video hovory ako predvolenú akciu."
+
+#: src/contactrunner.cpp:72
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of receiving files and "
+"sends file as default action."
+msgstr ""
+"Nájde všetky IM kontakty vyhovujúce :q: ktoré umožňujú prijímanie súborov a "
+"posielajú súbory ako predvolenú akciu."
+
+#: src/contactrunner.cpp:73
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of sharing desktop and sets "
+"desktop sharing as default action."
+msgstr ""
+"Nájde všetky IM kontakty vyhovujúce :q: ktoré umožňujú zdieľať plochu a "
+"nastavia zdieľanie plochy ako predvolenú akciu."
+
+#: src/contactrunner.cpp:76
+#, kde-format
+msgid "Open the log viewer for :q:"
+msgstr "Otvoriť prehliadač záznamov pre :q:"
+
+#: src/contactrunner.cpp:79 src/contactrunner.cpp:411
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "im"
+msgstr "im"
+
+#: src/contactrunner.cpp:80 src/contactrunner.cpp:412
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "status"
+msgstr "stav"
+
+#: src/contactrunner.cpp:81
+#, kde-format
+msgid "Change IM status"
+msgstr "Zmeniť stav IM"
+
+#: src/contactrunner.cpp:83 src/contactrunner.cpp:89
+#, kde-format
+msgctxt "Search term description"
+msgid "status"
+msgstr "stav"
+
+#: src/contactrunner.cpp:86 src/contactrunner.cpp:88
+#, kde-format
+msgctxt "Description of a search term, please keep the brackets"
+msgid "<status message>"
+msgstr "<stavová správa>"
+
+#: src/contactrunner.cpp:87
+#, kde-format
+msgid "Change IM status and set status message."
+msgstr "Zmeniť stav IM a nastaviť stavovú správu."
+
+#: src/contactrunner.cpp:92
+#, kde-format
+msgctxt "A command to connect IM accounts"
+msgid "connect"
+msgstr "pripojiť"
+
+#: src/contactrunner.cpp:93
+#, kde-format
+msgid "Connect IM accounts"
+msgstr "Pripojiť IM účty"
+
+#: src/contactrunner.cpp:94
+#, kde-format
+msgctxt "A command to disconnect IM accounts"
+msgid "disconnect"
+msgstr "odpojiť"
+
+#: src/contactrunner.cpp:95
+#, kde-format
+msgid "Disconnect IM accounts"
+msgstr "Odpojiť IM účty"
+
+#: src/contactrunner.cpp:97
+#, kde-format
+msgid "Start Chat"
+msgstr "Začať rozhovor"
+
+#: src/contactrunner.cpp:98
+#, kde-format
+msgid "Start Audio Call"
+msgstr "Spustiť zvukový hovor"
+
+#: src/contactrunner.cpp:99
+#, kde-format
+msgid "Start Video Call"
+msgstr "Spustiť video hovor"
+
+#: src/contactrunner.cpp:100
+#, kde-format
+msgid "Send file(s)"
+msgstr "Odoslať súbor(y)"
+
+#: src/contactrunner.cpp:101
+#, kde-format
+msgid "Share My Desktop"
+msgstr "Zdieľať moju plochu"
+
+#: src/contactrunner.cpp:104
+#, kde-format
+msgid "Open the log viewer"
+msgstr "Otvoriť prehliadať záznamov"
+
+#: src/contactrunner.cpp:232
+#, kde-format
+msgid "Choose files to send to %1"
+msgstr "Vybrať súbory na odoslanie do %1"
+
+#: src/contactrunner.cpp:413
+#, kde-format
+msgctxt "A command to connect all IM accounts"
+msgid "connect"
+msgstr "pripojiť"
+
+#: src/contactrunner.cpp:414
+#, kde-format
+msgctxt "A command to disconnect all IM accounts"
+msgid "disconnect"
+msgstr "odpojiť"
+
+#: src/contactrunner.cpp:451
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to online"
+msgstr "Nastaviť stav IM na pripojený"
+
+#: src/contactrunner.cpp:452
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to online"
+msgstr "Nastaviť globálny stav IM na pripojený"
+
+#: src/contactrunner.cpp:457
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to busy"
+msgstr "Nastaviť stav IM na zaneprázdnený"
+
+#: src/contactrunner.cpp:458
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to busy"
+msgstr "Nastaviť globálny stav IM na zaneprázdnený"
+
+#: src/contactrunner.cpp:463
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to away"
+msgstr "Nastaviť stav IM na preč"
+
+#: src/contactrunner.cpp:464
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to away"
+msgstr "Nastaviť globálny stav IM na preč"
+
+#: src/contactrunner.cpp:469
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to hidden"
+msgstr "Nastaviť stav IM na skrytý"
+
+#: src/contactrunner.cpp:470
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to hidden"
+msgstr "Nastaviť globálny stav IM na skrytý"
+
+#: src/contactrunner.cpp:475
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to offline"
+msgstr "Nastaviť stav IM na nepripojený"
+
+#: src/contactrunner.cpp:476
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to offline"
+msgstr "Nastaviť globálny stav IM na nepripojený"
+
+#: src/contactrunner.cpp:492
+#, kde-format
+msgid "Status message: %1"
+msgstr "Stavová správa: %1"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "online"
+msgstr "pripojený"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "available"
+msgstr "dostupný"
+
+#: src/contactrunner.cpp:530
+#, kde-format
+msgctxt "IM presence"
+msgid "busy"
+msgstr "zaneprázdnený"
+
+#: src/contactrunner.cpp:534
+#, kde-format
+msgctxt "IM presence"
+msgid "away"
+msgstr "neprítomný"
+
+#: src/contactrunner.cpp:538
+#, kde-format
+msgctxt "IM presence"
+msgid "hidden"
+msgstr "skryté"
+
+#: src/contactrunner.cpp:542
+#, kde-format
+msgctxt "IM presence"
+msgid "offline"
+msgstr "nepripojený"

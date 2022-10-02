@@ -1,0 +1,281 @@
+# ktp-contactrunner.po translation el
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Stelios <sstavra@gmail.com>, 2012, 2019.
+# Dimitrios Glentadakis <dglent@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ktp-contactrunner\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-10-11 02:24+0200\n"
+"PO-Revision-Date: 2019-08-23 12:27+0300\n"
+"Last-Translator: Stelios <sstavra@gmail.com>\n"
+"Language-Team: Greek <kde-i18n-el@kde.org>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 18.12.3\n"
+
+#: src/contactrunner.cpp:68
+#, kde-format
+msgid "Finds all IM contacts matching :q:."
+msgstr "Βρίσκει όλες τις επαφές στιγμιαίων μηνυμάτων που ταιριάζουν με :q:."
+
+#: src/contactrunner.cpp:69
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of text chats (default "
+"behavior)"
+msgstr ""
+"Βρίσκει όλες τις επαφές που ταιριάζουν με :q: και που έχουν δυνατότητα "
+"συνομιλίας με κείμενο (προκαθορισμένη συμπεριφορά)"
+
+#: src/contactrunner.cpp:70
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of audio call and uses "
+"audio calls as default action."
+msgstr ""
+"Βρίσκει όλες τις επαφές που ταιριάζουν με :q: και που έχουν δυνατότητα "
+"ηχητικών κλήσεων και χρησιμοποιούν ηχητικές κλήσεις ως προκαθορισμένη "
+"ενέργεια."
+
+#: src/contactrunner.cpp:71
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of video call and uses "
+"video calls as default action."
+msgstr ""
+"Βρίσκει όλες τις επαφές που ταιριάζουν με :q: και που έχουν δυνατότητα "
+"οπτικών κλήσεων και χρησιμοποιούν οπτικές κλήσεις ως προκαθορισμένη ενέργεια."
+
+#: src/contactrunner.cpp:72
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of receiving files and "
+"sends file as default action."
+msgstr ""
+"Βρίσκει όλες τις επαφές που ταιριάζουν με :q: και που έχουν δυνατότητα λήψης "
+"αρχείων και στέλνουν αρχεία ως προκαθορισμένη ενέργεια."
+
+#: src/contactrunner.cpp:73
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of sharing desktop and sets "
+"desktop sharing as default action."
+msgstr ""
+"Βρίσκει όλες τις επαφές που ταιριάζουν με :q: και που έχουν δυνατότητα "
+"διαμοιρασμού της επιφάνειας εργασίας και ρυθμίζουν την κοινή χρήση της "
+"επιφάνειας εργασίας ως προκαθορισμένη ενέργεια."
+
+#: src/contactrunner.cpp:76
+#, kde-format
+msgid "Open the log viewer for :q:"
+msgstr "Άνοιγμα της προβολής καταγραφών για :q:"
+
+#: src/contactrunner.cpp:79 src/contactrunner.cpp:411
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "im"
+msgstr "im"
+
+#: src/contactrunner.cpp:80 src/contactrunner.cpp:412
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "status"
+msgstr "status"
+
+#: src/contactrunner.cpp:81
+#, kde-format
+msgid "Change IM status"
+msgstr "Αλλαγή IM κατάστασης"
+
+#: src/contactrunner.cpp:83 src/contactrunner.cpp:89
+#, kde-format
+msgctxt "Search term description"
+msgid "status"
+msgstr "κατάσταση"
+
+#: src/contactrunner.cpp:86 src/contactrunner.cpp:88
+#, kde-format
+msgctxt "Description of a search term, please keep the brackets"
+msgid "<status message>"
+msgstr "<μήνυμα κατάστασης>"
+
+#: src/contactrunner.cpp:87
+#, kde-format
+msgid "Change IM status and set status message."
+msgstr "Αλλαγή IM κατάστασης και ορισμός μηνύματος κατάστασης."
+
+#: src/contactrunner.cpp:92
+#, kde-format
+msgctxt "A command to connect IM accounts"
+msgid "connect"
+msgstr "connect"
+
+#: src/contactrunner.cpp:93
+#, kde-format
+msgid "Connect IM accounts"
+msgstr "Σύνδεση με IM λογαριασμούς"
+
+#: src/contactrunner.cpp:94
+#, kde-format
+msgctxt "A command to disconnect IM accounts"
+msgid "disconnect"
+msgstr "disconnect"
+
+#: src/contactrunner.cpp:95
+#, kde-format
+msgid "Disconnect IM accounts"
+msgstr "Αποσύνδεση από IM λογαριασμούς"
+
+#: src/contactrunner.cpp:97
+#, kde-format
+msgid "Start Chat"
+msgstr "Έναρξη συνομιλίας"
+
+#: src/contactrunner.cpp:98
+#, kde-format
+msgid "Start Audio Call"
+msgstr "Έναρξη ηχητικής κλήσης"
+
+#: src/contactrunner.cpp:99
+#, kde-format
+msgid "Start Video Call"
+msgstr "Έναρξη οπτικής κλήσης"
+
+#: src/contactrunner.cpp:100
+#, kde-format
+msgid "Send file(s)"
+msgstr "Αποστολή αρχείων"
+
+#: src/contactrunner.cpp:101
+#, kde-format
+msgid "Share My Desktop"
+msgstr "Κοινή χρήση της επιφάνειας εργασίας μου"
+
+#: src/contactrunner.cpp:104
+#, kde-format
+msgid "Open the log viewer"
+msgstr "Άνοιγμα της προβολής καταγραφών"
+
+#: src/contactrunner.cpp:232
+#, kde-format
+msgid "Choose files to send to %1"
+msgstr "Επιλογή αρχείων για αποστολή στο %1"
+
+#: src/contactrunner.cpp:413
+#, kde-format
+msgctxt "A command to connect all IM accounts"
+msgid "connect"
+msgstr "σύνδεση"
+
+#: src/contactrunner.cpp:414
+#, kde-format
+msgctxt "A command to disconnect all IM accounts"
+msgid "disconnect"
+msgstr "αποσύνδεση"
+
+#: src/contactrunner.cpp:451
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to online"
+msgstr "Ρύθμιση IM κατάστασης σε σύνδεση"
+
+#: src/contactrunner.cpp:452
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to online"
+msgstr "Ρύθμιση καθολικής IM κατάστασης σε σύνδεση"
+
+#: src/contactrunner.cpp:457
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to busy"
+msgstr "Ρύθμιση IM κατάστασης σε απασχολημένος"
+
+#: src/contactrunner.cpp:458
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to busy"
+msgstr "Ρύθμιση καθολικής IM κατάστασης σε απασχολημένος"
+
+#: src/contactrunner.cpp:463
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to away"
+msgstr "Ρύθμιση IM κατάστασης σε αλλού"
+
+#: src/contactrunner.cpp:464
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to away"
+msgstr "Ρύθμιση καθολικής IM κατάστασης σε αλλού"
+
+#: src/contactrunner.cpp:469
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to hidden"
+msgstr "Ρύθμιση IM κατάστασης σε απόκρυψη"
+
+#: src/contactrunner.cpp:470
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to hidden"
+msgstr "Ρύθμιση καθολικής IM κατάστασης σε απόκρυψη"
+
+#: src/contactrunner.cpp:475
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to offline"
+msgstr "Ρύθμιση IM κατάστασης σε εκτός σύνδεσης"
+
+#: src/contactrunner.cpp:476
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to offline"
+msgstr "Ρύθμιση καθολικής IM κατάστασης σε εκτός σύνδεσης"
+
+#: src/contactrunner.cpp:492
+#, kde-format
+msgid "Status message: %1"
+msgstr "Μήνυμα κατάστασης: %1"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "online"
+msgstr "σε σύνδεση"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "available"
+msgstr "διαθέσιμος"
+
+#: src/contactrunner.cpp:530
+#, kde-format
+msgctxt "IM presence"
+msgid "busy"
+msgstr "απασχολημένος"
+
+#: src/contactrunner.cpp:534
+#, kde-format
+msgctxt "IM presence"
+msgid "away"
+msgstr "αλλού"
+
+#: src/contactrunner.cpp:538
+#, kde-format
+msgctxt "IM presence"
+msgid "hidden"
+msgstr "απόκρυψη"
+
+#: src/contactrunner.cpp:542
+#, kde-format
+msgctxt "IM presence"
+msgid "offline"
+msgstr "εκτός σύνδεσης"

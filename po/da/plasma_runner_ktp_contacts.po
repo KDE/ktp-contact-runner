@@ -1,0 +1,280 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# Martin Schlander <mschlander@opensuse.org>, 2012.
+# scootergrisen, 2019.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-10-11 02:24+0200\n"
+"PO-Revision-Date: 2019-03-02 13:29+0200\n"
+"Last-Translator: scootergrisen\n"
+"Language-Team: Danish\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Project-Style: kde\n"
+
+#: src/contactrunner.cpp:68
+#, kde-format
+msgid "Finds all IM contacts matching :q:."
+msgstr "Finder alle IM-kontakter som matcher :q:."
+
+#: src/contactrunner.cpp:69
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of text chats (default "
+"behavior)"
+msgstr ""
+"Finder alle kontakter som matcher :q:, som kan føre tekst-chat "
+"(standardopførsel)"
+
+#: src/contactrunner.cpp:70
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of audio call and uses "
+"audio calls as default action."
+msgstr ""
+"Finder alle kontakter som matcher :q:, som kan udføre lydopkald og bruger "
+"lydopkald som standardhandling."
+
+#: src/contactrunner.cpp:71
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of video call and uses "
+"video calls as default action."
+msgstr ""
+"Finder alle kontakter som matcher :q:, som kan udføre videoopkald og bruger "
+"videoopkald som standardhandling."
+
+#: src/contactrunner.cpp:72
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of receiving files and "
+"sends file as default action."
+msgstr ""
+"Finder alle kontakter som matcher :q:, som kan modtage filer og sender fil "
+"som standardhandling."
+
+#: src/contactrunner.cpp:73
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of sharing desktop and sets "
+"desktop sharing as default action."
+msgstr ""
+"Finder alle kontakter som matcher :q:, som kan dele skrivebordet og sætter "
+"deling af skrivebord som standardhandling."
+
+#: src/contactrunner.cpp:76
+#, kde-format
+msgid "Open the log viewer for :q:"
+msgstr "Åbn logfremviseren for :q:"
+
+#: src/contactrunner.cpp:79 src/contactrunner.cpp:411
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "im"
+msgstr "im"
+
+#: src/contactrunner.cpp:80 src/contactrunner.cpp:412
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "status"
+msgstr "status"
+
+#: src/contactrunner.cpp:81
+#, kde-format
+msgid "Change IM status"
+msgstr "Skift IM-status"
+
+#: src/contactrunner.cpp:83 src/contactrunner.cpp:89
+#, kde-format
+msgctxt "Search term description"
+msgid "status"
+msgstr "status"
+
+#: src/contactrunner.cpp:86 src/contactrunner.cpp:88
+#, kde-format
+msgctxt "Description of a search term, please keep the brackets"
+msgid "<status message>"
+msgstr "<statusbesked>"
+
+#: src/contactrunner.cpp:87
+#, kde-format
+msgid "Change IM status and set status message."
+msgstr "Skift IM-status og angiv en statusbesked."
+
+#: src/contactrunner.cpp:92
+#, kde-format
+msgctxt "A command to connect IM accounts"
+msgid "connect"
+msgstr "forbind"
+
+#: src/contactrunner.cpp:93
+#, kde-format
+msgid "Connect IM accounts"
+msgstr "Forbind IM-konti"
+
+#: src/contactrunner.cpp:94
+#, kde-format
+msgctxt "A command to disconnect IM accounts"
+msgid "disconnect"
+msgstr "afbryd"
+
+#: src/contactrunner.cpp:95
+#, kde-format
+msgid "Disconnect IM accounts"
+msgstr "Afbryd IM-konti"
+
+#: src/contactrunner.cpp:97
+#, kde-format
+msgid "Start Chat"
+msgstr "Start chat"
+
+#: src/contactrunner.cpp:98
+#, kde-format
+msgid "Start Audio Call"
+msgstr "Start lydopkald"
+
+#: src/contactrunner.cpp:99
+#, kde-format
+msgid "Start Video Call"
+msgstr "Start videoopkald"
+
+#: src/contactrunner.cpp:100
+#, kde-format
+msgid "Send file(s)"
+msgstr "Send filer"
+
+#: src/contactrunner.cpp:101
+#, kde-format
+msgid "Share My Desktop"
+msgstr "Del mit skrivebord"
+
+#: src/contactrunner.cpp:104
+#, kde-format
+msgid "Open the log viewer"
+msgstr "Åbn logfremviseren"
+
+#: src/contactrunner.cpp:232
+#, kde-format
+msgid "Choose files to send to %1"
+msgstr "Vælg filer der skal sendes til %1"
+
+#: src/contactrunner.cpp:413
+#, kde-format
+msgctxt "A command to connect all IM accounts"
+msgid "connect"
+msgstr "forbind"
+
+#: src/contactrunner.cpp:414
+#, kde-format
+msgctxt "A command to disconnect all IM accounts"
+msgid "disconnect"
+msgstr "afbryd"
+
+#: src/contactrunner.cpp:451
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to online"
+msgstr "Sæt IM-status til online"
+
+#: src/contactrunner.cpp:452
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to online"
+msgstr "Sæt global IM-status til online"
+
+#: src/contactrunner.cpp:457
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to busy"
+msgstr "Sæt IM-status til optaget"
+
+#: src/contactrunner.cpp:458
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to busy"
+msgstr "Sæt global IM-status til optaget"
+
+#: src/contactrunner.cpp:463
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to away"
+msgstr "Sæt IM-status til borte"
+
+#: src/contactrunner.cpp:464
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to away"
+msgstr "Sæt global IM-status til borte"
+
+#: src/contactrunner.cpp:469
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to hidden"
+msgstr "Sæt IM-status til skjult"
+
+#: src/contactrunner.cpp:470
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to hidden"
+msgstr "Sæt global IM-status til skjult"
+
+#: src/contactrunner.cpp:475
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to offline"
+msgstr "Sæt IM-status til offline"
+
+#: src/contactrunner.cpp:476
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to offline"
+msgstr "Sæt global IM-status til offline"
+
+#: src/contactrunner.cpp:492
+#, kde-format
+msgid "Status message: %1"
+msgstr "Statusbesked: %1"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "online"
+msgstr "online"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "available"
+msgstr "tilgængelig"
+
+#: src/contactrunner.cpp:530
+#, kde-format
+msgctxt "IM presence"
+msgid "busy"
+msgstr "optaget"
+
+#: src/contactrunner.cpp:534
+#, kde-format
+msgctxt "IM presence"
+msgid "away"
+msgstr "borte"
+
+#: src/contactrunner.cpp:538
+#, kde-format
+msgctxt "IM presence"
+msgid "hidden"
+msgstr "skjult"
+
+#: src/contactrunner.cpp:542
+#, kde-format
+msgctxt "IM presence"
+msgid "offline"
+msgstr "offline"
+
+#~ msgid "A keyword to change IM status"
+#~ msgstr "Et nøgleord til at ændre IM-status"

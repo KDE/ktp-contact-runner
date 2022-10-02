@@ -1,0 +1,279 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Volkan Gezer <volkangezer@gmail.com>, 2013, 2021.
+# Emir SARI <emir_sari@icloud.com>, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: extragear-network-kde4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-10-11 02:24+0200\n"
+"PO-Revision-Date: 2022-06-23 10:29+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 22.04.2\n"
+
+#: src/contactrunner.cpp:68
+#, kde-format
+msgid "Finds all IM contacts matching :q:."
+msgstr ":q: ile eşleşen tüm anlık iletileşme kişilerini bulur."
+
+#: src/contactrunner.cpp:69
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of text chats (default "
+"behavior)"
+msgstr ""
+"Metin sohbetleri yapma özelliği olan :q: ile eşleşen tüm kişileri bulur (ön "
+"tanımlı davranış)"
+
+#: src/contactrunner.cpp:70
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of audio call and uses "
+"audio calls as default action."
+msgstr ""
+"Sesli arama yapma özelliği olan :q: ile eşleşen tüm kişileri bulur ve "
+"öntanımlı eylem olarak sesli arama kullanır."
+
+#: src/contactrunner.cpp:71
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of video call and uses "
+"video calls as default action."
+msgstr ""
+"Görüntülü arama yapma özelliği olan :q: ile eşleşen tüm kişileri bulur ve "
+"öntanımlı eylem olarak görüntülü arama kullanır."
+
+#: src/contactrunner.cpp:72
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of receiving files and "
+"sends file as default action."
+msgstr ""
+"Dosya alma özelliği olan :q: ile eşleşen tüm kişileri bulur ve öntanımlı "
+"eylem olarak dosya gönderme kullanır."
+
+#: src/contactrunner.cpp:73
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of sharing desktop and sets "
+"desktop sharing as default action."
+msgstr ""
+"Masaüstü paylaşma özelliği olan :q: ile eşleşen tüm kişileri bulur ve "
+"öntanımlı eylem olarak masaüstünü paylaşma kullanır."
+
+#: src/contactrunner.cpp:76
+#, kde-format
+msgid "Open the log viewer for :q:"
+msgstr ":q: için günlük görüntüleyiciyi aç"
+
+#: src/contactrunner.cpp:79 src/contactrunner.cpp:411
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "im"
+msgstr "im"
+
+#: src/contactrunner.cpp:80 src/contactrunner.cpp:412
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "status"
+msgstr "durum"
+
+#: src/contactrunner.cpp:81
+#, kde-format
+msgid "Change IM status"
+msgstr "İletileşme durumunu değiştir"
+
+#: src/contactrunner.cpp:83 src/contactrunner.cpp:89
+#, kde-format
+msgctxt "Search term description"
+msgid "status"
+msgstr "durum"
+
+#: src/contactrunner.cpp:86 src/contactrunner.cpp:88
+#, kde-format
+msgctxt "Description of a search term, please keep the brackets"
+msgid "<status message>"
+msgstr "<durum iletisi>"
+
+#: src/contactrunner.cpp:87
+#, kde-format
+msgid "Change IM status and set status message."
+msgstr "Durumu değiştirir ve durum iletisi belirler."
+
+#: src/contactrunner.cpp:92
+#, kde-format
+msgctxt "A command to connect IM accounts"
+msgid "connect"
+msgstr "bağlan"
+
+#: src/contactrunner.cpp:93
+#, kde-format
+msgid "Connect IM accounts"
+msgstr "IM hesaplarını bağla"
+
+#: src/contactrunner.cpp:94
+#, kde-format
+msgctxt "A command to disconnect IM accounts"
+msgid "disconnect"
+msgstr "bağlantıyı kes"
+
+#: src/contactrunner.cpp:95
+#, kde-format
+msgid "Disconnect IM accounts"
+msgstr "IM hesaplarının bağlantısını kes"
+
+#: src/contactrunner.cpp:97
+#, kde-format
+msgid "Start Chat"
+msgstr "Sohbeti Başlat"
+
+#: src/contactrunner.cpp:98
+#, kde-format
+msgid "Start Audio Call"
+msgstr "Sesli Arama Başlat"
+
+#: src/contactrunner.cpp:99
+#, kde-format
+msgid "Start Video Call"
+msgstr "Görüntülü Arama Başlat"
+
+#: src/contactrunner.cpp:100
+#, kde-format
+msgid "Send file(s)"
+msgstr "Dosya gönder"
+
+#: src/contactrunner.cpp:101
+#, kde-format
+msgid "Share My Desktop"
+msgstr "Masaüstümü Paylaş"
+
+#: src/contactrunner.cpp:104
+#, kde-format
+msgid "Open the log viewer"
+msgstr "Günlük görüntüleyiciyi aç"
+
+#: src/contactrunner.cpp:232
+#, kde-format
+msgid "Choose files to send to %1"
+msgstr "%1 kişisine gönderilecek dosyaları seçin"
+
+#: src/contactrunner.cpp:413
+#, kde-format
+msgctxt "A command to connect all IM accounts"
+msgid "connect"
+msgstr "bağlan"
+
+#: src/contactrunner.cpp:414
+#, kde-format
+msgctxt "A command to disconnect all IM accounts"
+msgid "disconnect"
+msgstr "bağlantıyı kes"
+
+#: src/contactrunner.cpp:451
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to online"
+msgstr "Durumu çevrimiçi belirle"
+
+#: src/contactrunner.cpp:452
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to online"
+msgstr "Genel IM durumunu çevrimiçi olarak ayarla"
+
+#: src/contactrunner.cpp:457
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to busy"
+msgstr "Durumu meşgul belirle"
+
+#: src/contactrunner.cpp:458
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to busy"
+msgstr "Genel IM durumunu meşgul olarak ayarla"
+
+#: src/contactrunner.cpp:463
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to away"
+msgstr "Durumu uzakta belirle"
+
+#: src/contactrunner.cpp:464
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to away"
+msgstr "Genel IM durumunu uzakta olarak ayarla"
+
+#: src/contactrunner.cpp:469
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to hidden"
+msgstr "Durumu gizli belirle"
+
+#: src/contactrunner.cpp:470
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to hidden"
+msgstr "Genel IM durumunu gizli olarak ayarla"
+
+#: src/contactrunner.cpp:475
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to offline"
+msgstr "Durumu çevrimdışı belirle"
+
+#: src/contactrunner.cpp:476
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to offline"
+msgstr "Genel IM durumunu çevrimdışı olarak ayarla"
+
+#: src/contactrunner.cpp:492
+#, kde-format
+msgid "Status message: %1"
+msgstr "Durum iletisi: %1"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "online"
+msgstr "çevrimiçi"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "available"
+msgstr "uygun"
+
+#: src/contactrunner.cpp:530
+#, kde-format
+msgctxt "IM presence"
+msgid "busy"
+msgstr "meşgul"
+
+#: src/contactrunner.cpp:534
+#, kde-format
+msgctxt "IM presence"
+msgid "away"
+msgstr "uzakta"
+
+#: src/contactrunner.cpp:538
+#, kde-format
+msgctxt "IM presence"
+msgid "hidden"
+msgstr "gizli"
+
+#: src/contactrunner.cpp:542
+#, kde-format
+msgctxt "IM presence"
+msgid "offline"
+msgstr "çevrimdışı"

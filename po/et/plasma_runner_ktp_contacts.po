@@ -1,0 +1,277 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Marek Laane <bald@smail.ee>, 2012, 2019.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-10-11 02:24+0200\n"
+"PO-Revision-Date: 2019-11-09 15:02+0200\n"
+"Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
+"Language-Team: Estonian <kde-et@lists.linux.ee>\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 19.08.1\n"
+
+#: src/contactrunner.cpp:68
+#, kde-format
+msgid "Finds all IM contacts matching :q:."
+msgstr "Kõigi kiirsuhtluskontaktide leidmine :q: järgi."
+
+#: src/contactrunner.cpp:69
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of text chats (default "
+"behavior)"
+msgstr ""
+"Kõigi kontaktide leidmine :q: järgi, kes suudavad pidada tekstivestlust "
+"(vaikimisi käitumine)"
+
+#: src/contactrunner.cpp:70
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of audio call and uses "
+"audio calls as default action."
+msgstr ""
+"Kõigi kontaktide leidmine :q: järgi, kes suudavad pidada helikõnesid ja "
+"kellel on helikõne vaikimisi toiming."
+
+#: src/contactrunner.cpp:71
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of video call and uses "
+"video calls as default action."
+msgstr ""
+"Kõigi kontaktide leidmine :q: järgi, kes suudavad pidada videokõnesid ja "
+"kellel on videokõne vaikimisi toiming."
+
+#: src/contactrunner.cpp:72
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of receiving files and "
+"sends file as default action."
+msgstr ""
+"Kõigi kontaktide leidmine :q: järgi, kes suudavad vastu võtta faile ja kel "
+"on faili saatmine vaikimisi toiming."
+
+#: src/contactrunner.cpp:73
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of sharing desktop and sets "
+"desktop sharing as default action."
+msgstr ""
+"Kõigi kontaktide leidmine :q: järgi, kes suudavad jagada töölauda ja kel on "
+"töölaua jagamine vaikimisi toiming."
+
+#: src/contactrunner.cpp:76
+#, kde-format
+msgid "Open the log viewer for :q:"
+msgstr ":q: loginäitaja avamine"
+
+#: src/contactrunner.cpp:79 src/contactrunner.cpp:411
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "im"
+msgstr "im"
+
+#: src/contactrunner.cpp:80 src/contactrunner.cpp:412
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "status"
+msgstr "olek"
+
+#: src/contactrunner.cpp:81
+#, kde-format
+msgid "Change IM status"
+msgstr "Kiirsuhtlusoleku muutmine"
+
+#: src/contactrunner.cpp:83 src/contactrunner.cpp:89
+#, kde-format
+msgctxt "Search term description"
+msgid "status"
+msgstr "olek"
+
+#: src/contactrunner.cpp:86 src/contactrunner.cpp:88
+#, kde-format
+msgctxt "Description of a search term, please keep the brackets"
+msgid "<status message>"
+msgstr "<olekusõnum>"
+
+#: src/contactrunner.cpp:87
+#, kde-format
+msgid "Change IM status and set status message."
+msgstr "Kiirsuhtlusoleku muutmine ja olekusõnumi määramine."
+
+#: src/contactrunner.cpp:92
+#, kde-format
+msgctxt "A command to connect IM accounts"
+msgid "connect"
+msgstr "ühenda"
+
+#: src/contactrunner.cpp:93
+#, kde-format
+msgid "Connect IM accounts"
+msgstr "Kõigi kiirsuhtluskontode ühendamine"
+
+#: src/contactrunner.cpp:94
+#, kde-format
+msgctxt "A command to disconnect IM accounts"
+msgid "disconnect"
+msgstr "lahuta"
+
+#: src/contactrunner.cpp:95
+#, kde-format
+msgid "Disconnect IM accounts"
+msgstr "Kõigi kiirsuhtluskontode lahutamine"
+
+#: src/contactrunner.cpp:97
+#, kde-format
+msgid "Start Chat"
+msgstr "Alusta vestlust"
+
+#: src/contactrunner.cpp:98
+#, kde-format
+msgid "Start Audio Call"
+msgstr "Alusta häälkõnet"
+
+#: src/contactrunner.cpp:99
+#, kde-format
+msgid "Start Video Call"
+msgstr "Alusta videokõnet"
+
+#: src/contactrunner.cpp:100
+#, kde-format
+msgid "Send file(s)"
+msgstr "Saada fail(e)"
+
+#: src/contactrunner.cpp:101
+#, kde-format
+msgid "Share My Desktop"
+msgstr "Jaga mu töölauda"
+
+#: src/contactrunner.cpp:104
+#, kde-format
+msgid "Open the log viewer"
+msgstr "Ava loginäitaja"
+
+#: src/contactrunner.cpp:232
+#, kde-format
+msgid "Choose files to send to %1"
+msgstr "Kasutajale %1 saadetavate failide valimine"
+
+#: src/contactrunner.cpp:413
+#, kde-format
+msgctxt "A command to connect all IM accounts"
+msgid "connect"
+msgstr "ühenda"
+
+#: src/contactrunner.cpp:414
+#, kde-format
+msgctxt "A command to disconnect all IM accounts"
+msgid "disconnect"
+msgstr "lahuta"
+
+#: src/contactrunner.cpp:451
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to online"
+msgstr "Kiirsuhtlusolekuks määratakse võrgus"
+
+#: src/contactrunner.cpp:452
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to online"
+msgstr "Globaalseks kiirsuhtlusolekuks määratakse võrgus"
+
+#: src/contactrunner.cpp:457
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to busy"
+msgstr "Kiirsuhtlusolekuks määratakse hõivatud"
+
+#: src/contactrunner.cpp:458
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to busy"
+msgstr "Globaalseks kiirsuhtlusolekuks määratakse hõivatud"
+
+#: src/contactrunner.cpp:463
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to away"
+msgstr "Kiirsuhtlusolekuks määratakse eemal"
+
+#: src/contactrunner.cpp:464
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to away"
+msgstr "Globaalseks kiirsuhtlusolekuks määratakse eemal"
+
+#: src/contactrunner.cpp:469
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to hidden"
+msgstr "Kiirsuhtlusolekuks määratakse peidetud"
+
+#: src/contactrunner.cpp:470
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to hidden"
+msgstr "Globaalseks kiirsuhtlusolekuks määratakse peidetud"
+
+#: src/contactrunner.cpp:475
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to offline"
+msgstr "Kiirsuhtlusolekuks määratakse võrgust väljas"
+
+#: src/contactrunner.cpp:476
+#, kde-format
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to offline"
+msgstr "Globaalseks kiirsuhtlusolekuks määratakse võrgust väljas"
+
+#: src/contactrunner.cpp:492
+#, kde-format
+msgid "Status message: %1"
+msgstr "Olekusõnum: %1"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "online"
+msgstr "võrgus"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "available"
+msgstr "saadaval"
+
+#: src/contactrunner.cpp:530
+#, kde-format
+msgctxt "IM presence"
+msgid "busy"
+msgstr "hõivatud"
+
+#: src/contactrunner.cpp:534
+#, kde-format
+msgctxt "IM presence"
+msgid "away"
+msgstr "eemal"
+
+#: src/contactrunner.cpp:538
+#, kde-format
+msgctxt "IM presence"
+msgid "hidden"
+msgstr "peidetud"
+
+#: src/contactrunner.cpp:542
+#, kde-format
+msgctxt "IM presence"
+msgid "offline"
+msgstr "võrgust väljas"

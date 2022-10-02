@@ -1,0 +1,294 @@
+# Lithuanian translations for l package.
+# Copyright (C) 2012 This_file_is_part_of_KDE
+# This file is distributed under the same license as the l package.
+#
+# Automatically generated, 2012.
+# Liudas Ališauskas <liudas@akmc.lt>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: l 10n\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-10-11 02:24+0200\n"
+"PO-Revision-Date: 2013-01-03 20:01+0200\n"
+"Last-Translator: Liudas Ališauskas <liudas@akmc.lt>\n"
+"Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
+"Language: lt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
+"%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: src/contactrunner.cpp:68
+#, kde-format
+msgid "Finds all IM contacts matching :q:."
+msgstr "Randa TP kontaktus, atitinkančius :q:."
+
+#: src/contactrunner.cpp:69
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of text chats (default "
+"behavior)"
+msgstr "Randa TP kontaktus, atitinkančius :q:)"
+
+#: src/contactrunner.cpp:70
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of audio call and uses "
+"audio calls as default action."
+msgstr ""
+"Randa visus kontaktus, atitinkančius :q: kurie gali naudoti garso skambučius "
+"ir tai naudoja kaip numatytą veiksmą."
+
+#: src/contactrunner.cpp:71
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of video call and uses "
+"video calls as default action."
+msgstr ""
+"Randa visus kontaktus, atitinkančius :q: kurie gali naudoti vaizdo "
+"skambučius ir tai naudoja kaip numatytą veiksmą."
+
+#: src/contactrunner.cpp:72
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of receiving files and "
+"sends file as default action."
+msgstr ""
+"Randa visus kontaktus, atitinkančius :q: kurie gali priimti failus ir failų "
+"siuntimą naudoja kaip numatytą veiksmą."
+
+#: src/contactrunner.cpp:73
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of sharing desktop and sets "
+"desktop sharing as default action."
+msgstr ""
+"Randa visus kontaktus, atitinkančius :q: kurie gali dalintis darbalaukiu ir "
+"nustato darbalaukio dalinimąsi kaip numatytą veiksmą."
+
+#: src/contactrunner.cpp:76
+#, kde-format
+msgid "Open the log viewer for :q:"
+msgstr "Atverti žurnalo žiūryklę užklausai :q:"
+
+#: src/contactrunner.cpp:79 src/contactrunner.cpp:411
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "im"
+msgstr "TP"
+
+#: src/contactrunner.cpp:80 src/contactrunner.cpp:412
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "status"
+msgstr "būsena"
+
+#: src/contactrunner.cpp:81
+#, kde-format
+msgid "Change IM status"
+msgstr "Keisti TP būseną"
+
+#: src/contactrunner.cpp:83 src/contactrunner.cpp:89
+#, kde-format
+msgctxt "Search term description"
+msgid "status"
+msgstr "būsena"
+
+#: src/contactrunner.cpp:86 src/contactrunner.cpp:88
+#, kde-format
+msgctxt "Description of a search term, please keep the brackets"
+msgid "<status message>"
+msgstr "<būsenos žinutė>"
+
+#: src/contactrunner.cpp:87
+#, kde-format
+msgid "Change IM status and set status message."
+msgstr "Keisti TP būseną ir būsenos žinutę."
+
+#: src/contactrunner.cpp:92
+#, fuzzy, kde-format
+#| msgctxt "A command to connect all IM accounts"
+#| msgid "connect"
+msgctxt "A command to connect IM accounts"
+msgid "connect"
+msgstr "prisijungti"
+
+#: src/contactrunner.cpp:93
+#, fuzzy, kde-format
+#| msgid "Connect all IM accounts"
+msgid "Connect IM accounts"
+msgstr "Prijungti visas TP paskyras"
+
+#: src/contactrunner.cpp:94
+#, fuzzy, kde-format
+#| msgctxt "A command to disconnect all IM accounts"
+#| msgid "disconnect"
+msgctxt "A command to disconnect IM accounts"
+msgid "disconnect"
+msgstr "atsijungti"
+
+#: src/contactrunner.cpp:95
+#, fuzzy, kde-format
+#| msgid "Disconnect all IM accounts"
+msgid "Disconnect IM accounts"
+msgstr "Atjungti visas TP paskyras"
+
+#: src/contactrunner.cpp:97
+#, kde-format
+msgid "Start Chat"
+msgstr "Pradėti pokalbį"
+
+#: src/contactrunner.cpp:98
+#, kde-format
+msgid "Start Audio Call"
+msgstr "Pradėti garso skambutį"
+
+#: src/contactrunner.cpp:99
+#, kde-format
+msgid "Start Video Call"
+msgstr "Pradėti vaizdo skambutį"
+
+#: src/contactrunner.cpp:100
+#, kde-format
+msgid "Send file(s)"
+msgstr "Siųsti failą(us)"
+
+#: src/contactrunner.cpp:101
+#, kde-format
+msgid "Share My Desktop"
+msgstr "Dalintis mano darbalaukiu"
+
+#: src/contactrunner.cpp:104
+#, kde-format
+msgid "Open the log viewer"
+msgstr "Atverti žurnalo žiūryklę"
+
+#: src/contactrunner.cpp:232
+#, kde-format
+msgid "Choose files to send to %1"
+msgstr "Pasirinkite, kuriuos failus siųsti %1"
+
+#: src/contactrunner.cpp:413
+#, kde-format
+msgctxt "A command to connect all IM accounts"
+msgid "connect"
+msgstr "prisijungti"
+
+#: src/contactrunner.cpp:414
+#, kde-format
+msgctxt "A command to disconnect all IM accounts"
+msgid "disconnect"
+msgstr "atsijungti"
+
+#: src/contactrunner.cpp:451
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to online"
+msgstr "Nustatyti būseną „prisijungęs“"
+
+#: src/contactrunner.cpp:452
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to online"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to online"
+msgstr "Nustatyti būseną „prisijungęs“"
+
+#: src/contactrunner.cpp:457
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to busy"
+msgstr "Nustatyti būseną į „užimtas“"
+
+#: src/contactrunner.cpp:458
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to busy"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to busy"
+msgstr "Nustatyti būseną į „užimtas“"
+
+#: src/contactrunner.cpp:463
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to away"
+msgstr "Nustatyti būseną į „pasišalinęs“"
+
+#: src/contactrunner.cpp:464
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to away"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to away"
+msgstr "Nustatyti būseną į „pasišalinęs“"
+
+#: src/contactrunner.cpp:469
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to hidden"
+msgstr "Nustatyti būseną į „nematomas“"
+
+#: src/contactrunner.cpp:470
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to hidden"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to hidden"
+msgstr "Nustatyti būseną į „nematomas“"
+
+#: src/contactrunner.cpp:475
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to offline"
+msgstr "Nustatyti būseną į „atsijungęs“"
+
+#: src/contactrunner.cpp:476
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to offline"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to offline"
+msgstr "Nustatyti būseną į „atsijungęs“"
+
+#: src/contactrunner.cpp:492
+#, kde-format
+msgid "Status message: %1"
+msgstr "Būsenos žinutė: %1"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "online"
+msgstr "prisijungęs"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "available"
+msgstr ""
+
+#: src/contactrunner.cpp:530
+#, kde-format
+msgctxt "IM presence"
+msgid "busy"
+msgstr "užimtas"
+
+#: src/contactrunner.cpp:534
+#, kde-format
+msgctxt "IM presence"
+msgid "away"
+msgstr "pasitraukęs (-usi)"
+
+#: src/contactrunner.cpp:538
+#, kde-format
+msgctxt "IM presence"
+msgid "hidden"
+msgstr "slepiama"
+
+#: src/contactrunner.cpp:542
+#, kde-format
+msgctxt "IM presence"
+msgid "offline"
+msgstr "neprisijungęs"

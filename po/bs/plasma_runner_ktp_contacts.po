@@ -1,0 +1,296 @@
+# Bosnian translation for bosnianuniversetranslation
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
+# This file is distributed under the same license as the bosnianuniversetranslation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bosnianuniversetranslation\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-10-11 02:24+0200\n"
+"PO-Revision-Date: 2012-12-09 14:36+0000\n"
+"Last-Translator: Samir Ribić <Unknown>\n"
+"Language-Team: Bosnian <bs@li.org>\n"
+"Language: bs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-10-19 05:22+0000\n"
+"X-Generator: Launchpad (build 16807)\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: src/contactrunner.cpp:68
+#, kde-format
+msgid "Finds all IM contacts matching :q:."
+msgstr "Nalazi sve IM kontakte koji se slažu s :q:."
+
+#: src/contactrunner.cpp:69
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of text chats (default "
+"behavior)"
+msgstr ""
+"Nalazi sve kontakte koji se slažu s :q: , a sposobni su za tekstualno "
+"ćaskanje (podrazumijevano ponašanje)"
+
+#: src/contactrunner.cpp:70
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of audio call and uses "
+"audio calls as default action."
+msgstr ""
+"Nalazi sve kontakte koji se slažu s :q: , a sposobni su za zvučne pozive i "
+"koriste zvučne pozive kao podrazumijevanu akciju."
+
+#: src/contactrunner.cpp:71
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of video call and uses "
+"video calls as default action."
+msgstr ""
+"Nalazi sve kontakte koji se slažu s :q: , a sposobni su za video pozive i "
+"koriste video pozive kao podrazumijevanu akciju."
+
+#: src/contactrunner.cpp:72
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of receiving files and "
+"sends file as default action."
+msgstr ""
+"Nalazi sve kontakte koji se slažu s :q: , a sposobni su za slanje datoteka i "
+"koriste slanje datoteka kao podrazumijevanu akciju."
+
+#: src/contactrunner.cpp:73
+#, kde-format
+msgid ""
+"Finds all contacts matching :q: that are capable of sharing desktop and sets "
+"desktop sharing as default action."
+msgstr ""
+"Nalazi sve kontakte koji se slažu s :q: , a sposobni su za dijeljenje radne "
+"površine i koriste dijeljenje radne površine kao podrazumijevanu akciju."
+
+#: src/contactrunner.cpp:76
+#, kde-format
+msgid "Open the log viewer for :q:"
+msgstr "Otvori preglednik dnevnika za :q:"
+
+#: src/contactrunner.cpp:79 src/contactrunner.cpp:411
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "im"
+msgstr "im"
+
+#: src/contactrunner.cpp:80 src/contactrunner.cpp:412
+#, kde-format
+msgctxt "A keyword to change IM status"
+msgid "status"
+msgstr "status"
+
+#: src/contactrunner.cpp:81
+#, kde-format
+msgid "Change IM status"
+msgstr "Promijeni IM status"
+
+#: src/contactrunner.cpp:83 src/contactrunner.cpp:89
+#, kde-format
+msgctxt "Search term description"
+msgid "status"
+msgstr "status"
+
+#: src/contactrunner.cpp:86 src/contactrunner.cpp:88
+#, kde-format
+msgctxt "Description of a search term, please keep the brackets"
+msgid "<status message>"
+msgstr "<statusn a poruka>"
+
+#: src/contactrunner.cpp:87
+#, kde-format
+msgid "Change IM status and set status message."
+msgstr "Promijeni IM status i postavi statusnu poruku."
+
+#: src/contactrunner.cpp:92
+#, fuzzy, kde-format
+#| msgctxt "A command to connect all IM accounts"
+#| msgid "connect"
+msgctxt "A command to connect IM accounts"
+msgid "connect"
+msgstr "connect"
+
+#: src/contactrunner.cpp:93
+#, fuzzy, kde-format
+#| msgid "Connect all IM accounts"
+msgid "Connect IM accounts"
+msgstr "Poveži sve IM naloge"
+
+#: src/contactrunner.cpp:94
+#, fuzzy, kde-format
+#| msgctxt "A command to disconnect all IM accounts"
+#| msgid "disconnect"
+msgctxt "A command to disconnect IM accounts"
+msgid "disconnect"
+msgstr "disconnect"
+
+#: src/contactrunner.cpp:95
+#, fuzzy, kde-format
+#| msgid "Disconnect all IM accounts"
+msgid "Disconnect IM accounts"
+msgstr "Odspoji sve IM naloge"
+
+#: src/contactrunner.cpp:97
+#, kde-format
+msgid "Start Chat"
+msgstr "Započni tekstualni razgovor"
+
+#: src/contactrunner.cpp:98
+#, kde-format
+msgid "Start Audio Call"
+msgstr "Započni audio poziv"
+
+#: src/contactrunner.cpp:99
+#, kde-format
+msgid "Start Video Call"
+msgstr "Započni video poziv"
+
+#: src/contactrunner.cpp:100
+#, kde-format
+msgid "Send file(s)"
+msgstr "Šalji datoteke"
+
+#: src/contactrunner.cpp:101
+#, kde-format
+msgid "Share My Desktop"
+msgstr "Podjeli moju radnu površinu"
+
+#: src/contactrunner.cpp:104
+#, kde-format
+msgid "Open the log viewer"
+msgstr "Otcori preglednik dnevnika"
+
+#: src/contactrunner.cpp:232
+#, kde-format
+msgid "Choose files to send to %1"
+msgstr "Izaberite datoteke za slanje ka %1"
+
+#: src/contactrunner.cpp:413
+#, kde-format
+msgctxt "A command to connect all IM accounts"
+msgid "connect"
+msgstr "connect"
+
+#: src/contactrunner.cpp:414
+#, kde-format
+msgctxt "A command to disconnect all IM accounts"
+msgid "disconnect"
+msgstr "disconnect"
+
+#: src/contactrunner.cpp:451
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to online"
+msgstr "Postavi IM status na prisutan"
+
+#: src/contactrunner.cpp:452
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to online"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to online"
+msgstr "Postavi IM status na prisutan"
+
+#: src/contactrunner.cpp:457
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to busy"
+msgstr "Postavi IM status na zauzet"
+
+#: src/contactrunner.cpp:458
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to busy"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to busy"
+msgstr "Postavi IM status na zauzet"
+
+#: src/contactrunner.cpp:463
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to away"
+msgstr "Postavi IM status na otsutan"
+
+#: src/contactrunner.cpp:464
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to away"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to away"
+msgstr "Postavi IM status na otsutan"
+
+#: src/contactrunner.cpp:469
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to hidden"
+msgstr "Postavi IM status na skriven"
+
+#: src/contactrunner.cpp:470
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to hidden"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to hidden"
+msgstr "Postavi IM status na skriven"
+
+#: src/contactrunner.cpp:475
+#, kde-format
+msgctxt "Description of runner action"
+msgid "Set IM status to offline"
+msgstr "Postavi IM status na odspojen"
+
+#: src/contactrunner.cpp:476
+#, fuzzy, kde-format
+#| msgctxt "Description of runner action"
+#| msgid "Set IM status to offline"
+msgctxt "Description of runner subaction"
+msgid "Set global IM status to offline"
+msgstr "Postavi IM status na odspojen"
+
+#: src/contactrunner.cpp:492
+#, kde-format
+msgid "Status message: %1"
+msgstr "Statusna poruka: %1"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "online"
+msgstr "na vezi"
+
+#: src/contactrunner.cpp:526
+#, kde-format
+msgctxt "IM presence"
+msgid "available"
+msgstr ""
+
+#: src/contactrunner.cpp:530
+#, kde-format
+msgctxt "IM presence"
+msgid "busy"
+msgstr "zauzet"
+
+#: src/contactrunner.cpp:534
+#, kde-format
+msgctxt "IM presence"
+msgid "away"
+msgstr "odsutan"
+
+#: src/contactrunner.cpp:538
+#, kde-format
+msgctxt "IM presence"
+msgid "hidden"
+msgstr "skriven"
+
+#: src/contactrunner.cpp:542
+#, kde-format
+msgctxt "IM presence"
+msgid "offline"
+msgstr "van veze"
