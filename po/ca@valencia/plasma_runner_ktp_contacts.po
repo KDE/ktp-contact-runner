@@ -166,7 +166,7 @@ msgstr "Obri el visor del registre"
 #: src/contactrunner.cpp:232
 #, kde-format
 msgid "Choose files to send to %1"
-msgstr "Seleccioneu els fitxers que s'enviaran a %1"
+msgstr "Seleccioneu els fitxers que s'han d'enviar a %1"
 
 #: src/contactrunner.cpp:413
 #, kde-format
