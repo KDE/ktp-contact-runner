@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ktp-contact-runner\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2020-10-11 02:24+0200\n"
-"PO-Revision-Date: 2022-09-27 16:50+0200\n"
+"PO-Revision-Date: 2022-11-25 12:19+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 
 #: src/contactrunner.cpp:68
 #, kde-format
 msgid "Finds all IM contacts matching :q:."
-msgstr ""
+msgstr "ყველა IM კონტაქტის მოძებნა, რომლებიც ემთხვევა :q:."
 
 #: src/contactrunner.cpp:69
 #, kde-format
@@ -29,6 +29,8 @@ msgid ""
 "Finds all contacts matching :q: that are capable of text chats (default "
 "behavior)"
 msgstr ""
+"ყველა კონტაქტის მოძებნა, რომლებიც ემთხვევა :q:, რომლებსაც ტექსტური "
+"შეტყობინებების გაგზავნა შეუძლიათ (ნაგულისხმები)"
 
 #: src/contactrunner.cpp:70
 #, kde-format
@@ -36,6 +38,8 @@ msgid ""
 "Finds all contacts matching :q: that are capable of audio call and uses "
 "audio calls as default action."
 msgstr ""
+"ყველა კონტაქტის მოძებნა, რომლებიც ემთხვევა :q:, რომლებსაც ხმოვანი ზარის "
+"გაგზავნა შეუძლიათ და ეს ნაგულისხმევ ქმედებად აქვთ დაყენებული."
 
 #: src/contactrunner.cpp:71
 #, kde-format
@@ -43,6 +47,8 @@ msgid ""
 "Finds all contacts matching :q: that are capable of video call and uses "
 "video calls as default action."
 msgstr ""
+"ყველა კონტაქტის მოძებნა, რომლებიც ემთხვევა :q:, რომლებსაც ვიდეო ზარის "
+"გაგზავნა შეუძლიათ და ეს ნაგულისხმევ ქმედებად აქვთ დაყენებული."
 
 #: src/contactrunner.cpp:72
 #, kde-format
@@ -50,6 +56,8 @@ msgid ""
 "Finds all contacts matching :q: that are capable of receiving files and "
 "sends file as default action."
 msgstr ""
+"ყველა კონტაქტის მოძებნა, რომლებიც ემთხვევა :q:, რომლებსაც ფაილების გაგზავნა "
+"და მიღება შეუძლიათ და ეს ნაგულისხმევ ქმედებად უყენიათ."
 
 #: src/contactrunner.cpp:73
 #, kde-format
@@ -57,17 +65,19 @@ msgid ""
 "Finds all contacts matching :q: that are capable of sharing desktop and sets "
 "desktop sharing as default action."
 msgstr ""
+"ყველა კონტაქტის მოძებნა, რომლებიც ემთხვევა :q:, რომლებსაც აქვთ საშუალება, "
+"გააზიარონ სამუშაო მაგიდა და ეს ნაგულისხმევ ქმედებად უყენიათ."
 
 #: src/contactrunner.cpp:76
 #, kde-format
 msgid "Open the log viewer for :q:"
-msgstr ""
+msgstr ":q:-სთვის ჟურნალის გახსნა:"
 
 #: src/contactrunner.cpp:79 src/contactrunner.cpp:411
 #, kde-format
 msgctxt "A keyword to change IM status"
 msgid "im"
-msgstr ""
+msgstr "მოკ-შე"
 
 #: src/contactrunner.cpp:80 src/contactrunner.cpp:412
 #, kde-format
@@ -95,7 +105,7 @@ msgstr "<status message>"
 #: src/contactrunner.cpp:87
 #, kde-format
 msgid "Change IM status and set status message."
-msgstr ""
+msgstr "IM-ის სტატუსის შეცვლა და შეტყობინების დაყენება."
 
 #: src/contactrunner.cpp:92
 #, kde-format
