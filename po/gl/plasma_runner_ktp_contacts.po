@@ -40,7 +40,7 @@ msgid ""
 "audio calls as default action."
 msgstr ""
 "Atopa todos os contactos que coincidan con :q: que sexan capaces de realizar "
-"chamadas con son e que as empreguen como acción predeterminada."
+"chamadas con son e que as usen como acción predeterminada."
 
 #: src/contactrunner.cpp:71
 #, kde-format
@@ -49,7 +49,7 @@ msgid ""
 "video calls as default action."
 msgstr ""
 "Atopa todos os contactos que coincidan con :q: que sexan capaces de realizar "
-"chamadas con vídeo e que as empreguen como acción predeterminada."
+"chamadas con vídeo e que as usen como acción predeterminada."
 
 #: src/contactrunner.cpp:72
 #, kde-format
